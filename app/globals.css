@@ -1,0 +1,258 @@
+/* ==========================================================
+   Design tokens: change a value here and it changes everywhere.
+   Source: CLAUDE.md (colors, fonts, radii) + design/ mockups
+   (spacing, widths).
+   ========================================================== */
+:root {
+  /* Colors */
+  --color-bg: #0e1024;
+  --color-surface: #181b36;
+  --color-surface-2: #22264a;
+  --color-border: #3a3f6e;
+  --color-text: #f5f0e6;
+  --color-muted: #b3b0c7;
+  --color-sun: #ffc23a;
+  --color-sun-light: #ffd873;
+  --color-red: #e8452c;
+  --color-ink: #1a1410;
+  --color-moon: #e9e4d6;
+  --color-planet-1: #7fb2ff;
+  --color-planet-2: #ff8f6b;
+  --color-planet-3: #9be3b8;
+  --color-planet-4: #c9a7ff;
+
+  /* Fonts (the --font-bricolage and --font-dm-sans variables
+     are created by next/font in app/layout.tsx) */
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-body: var(--font-dm-sans), system-ui, sans-serif;
+
+  /* Corner radii */
+  --radius-card: 22px;
+  --radius-field: 14px;
+  --radius-chip: 18px;
+  --radius-pill: 28px;
+
+  /* Spacing scale (the gaps that repeat across the mockups) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 56px;
+
+  /* Layout */
+  --gutter: 22px; /* side padding on phones (mobile mockups) */
+  --sidebar-width: 220px; /* desktop mockups' left nav, used from Milestone 2 */
+  --content-max: 1120px; /* desktop mockups' content width */
+  --touch-min: 44px; /* smallest tap target */
+}
+
+/* Wider screens get more breathing room at the sides. */
+@media (min-width: 768px) {
+  :root {
+    --gutter: 40px;
+  }
+}
+
+/* ==========================================================
+   Base
+   ========================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  line-height: 1.05;
+}
+
+a {
+  color: var(--color-sun);
+}
+
+a:hover {
+  color: var(--color-sun-light);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-sun-light);
+  outline-offset: 2px;
+}
+
+/* Hidden until a keyboard user presses Tab. */
+.skip-link {
+  position: absolute;
+  left: var(--space-3);
+  top: -100px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-min);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--color-sun);
+  color: var(--color-ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: var(--space-3);
+}
+
+/* ==========================================================
+   App shell
+   ========================================================== */
+
+/* Centers content, caps it at --content-max, keeps side gutters. */
+.shell {
+  width: 100%;
+  max-width: calc(var(--content-max) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.site-header {
+  border-bottom: 1px solid var(--color-surface-2);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-min);
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--color-text);
+}
+
+/* ==========================================================
+   Home page
+   ========================================================== */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding-block: var(--space-9) var(--space-8);
+  text-align: center;
+}
+
+.eyebrow {
+  margin: var(--space-6) 0 0;
+  color: var(--color-muted);
+  font-size: 15px;
+  letter-spacing: 0.04em;
+}
+
+.hero h1 {
+  font-size: clamp(36px, 7vw, 44px);
+  font-weight: 800;
+}
+
+.lede {
+  max-width: 36ch;
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.tokens {
+  padding-block: var(--space-7) var(--space-9);
+}
+
+.tokens h2 {
+  margin-bottom: var(--space-4);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.swatch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.swatch-chip {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-field);
+}
+
+.swatch-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-size: 14px;
+}
+
+.swatch-text strong {
+  font-weight: 700;
+}
+
+.swatch-text code {
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+/* ==========================================================
+   Respect "reduce motion" (no animations yet; ready for later)
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

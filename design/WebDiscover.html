@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Solcraft web discover</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;display=swap">
+<style>
+body{margin:0;background:#0E1024}
+a{color:#FFC23A}a:hover{color:#FFD873}
+button:focus-visible,a:focus-visible{outline:3px solid #FFD873;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height: 100vh; box-sizing: border-box; background: #0E1024; color: #F5F0E6; font-family: 'DM Sans', sans-serif; display: flex; flex-wrap: wrap">
+<aside style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; padding: 32px 24px; border-right: 1px solid #22264A; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg viewBox="0 0 100 100" width="36" height="36" aria-hidden="true"><polygon points="50.0,3.9 57.6,21.7 73.9,8.6 70.4,29.6 90.9,26.4 79.3,42.2 94.8,50.0 80.0,58.0 88.7,72.3 71.7,71.7 72.4,88.8 57.5,78.0 50.0,96.6 41.6,81.5 27.4,89.1 29.1,70.9 8.7,73.8 17.9,58.6 2.6,50.0 20.6,42.1 7.2,25.3 29.7,29.7 25.6,7.7 42.2,21.1" fill="#FFC23A" stroke="#1A1410" stroke-width="4" stroke-linejoin="round"></polygon><circle cx="42" cy="44" r="3.5" fill="#1A1410"></circle><circle cx="58" cy="44" r="3.5" fill="#1A1410"></circle><path d="M38 55 Q50 66 62 55" fill="none" stroke="#1A1410" stroke-width="4" stroke-linecap="round"></path></svg>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px">Solcraft</span>
+</div>
+<nav style="display: flex; flex-direction: column; gap: 4px">
+<a href="WebDiscover.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: #181B36; color: #F5F0E6; font-weight: 700; font-size: 15px; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>Discover</a>
+<a href="WebSky.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; color: #B3B0C7; font-size: 15px; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><ellipse cx="12" cy="12" rx="10" ry="4.5"></ellipse></svg>Your Sky</a>
+<a href="WebSunRoad.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; color: #B3B0C7; font-size: 15px; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 21c0-6 8-6 8-12M8 9c0-3 2-6 4-6"></path><circle cx="16" cy="9" r="2"></circle></svg>Sun Road</a>
+</nav>
+<a href="WebProfile.dc.html" style="margin-top: auto; display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px; color: #B3B0C7; font-size: 15px; text-decoration: none"><span style="width: 32px; height: 32px; border-radius: 16px; background: #2A211B; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 100 100" width="24" height="24" aria-hidden="true"><polygon points="50.0,3.9 57.6,21.7 73.9,8.6 70.4,29.6 90.9,26.4 79.3,42.2 94.8,50.0 80.0,58.0 88.7,72.3 71.7,71.7 72.4,88.8 57.5,78.0 50.0,96.6 41.6,81.5 27.4,89.1 29.1,70.9 8.7,73.8 17.9,58.6 2.6,50.0 20.6,42.1 7.2,25.3 29.7,29.7 25.6,7.7 42.2,21.1" fill="#FFC23A" stroke="#1A1410" stroke-width="5" stroke-linejoin="round"></polygon></svg></span>Ryan</a>
+</aside>
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 40px 40px 48px">
+<div style="max-width: 1120px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px; line-height: 1.05">Where to shine</h1>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{ chips }}" as="c" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{ c.pressed }}" onClick="{{ c.pick }}" style="{{ c.style }}">{{ c.label }}<span style="{{ c.countStyle }}">{{ c.count }}</span></button>
+</sc-for>
+<button type="button" onClick="{{ toggleView }}" style="height: 40px; padding: 0 16px; border-radius: 20px; border: 1.5px solid #FFC23A; background: transparent; color: #FFC23A; font: 700 14px 'DM Sans', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"></path><path d="M9 4v14M15 6v14"></path></svg>{{ viewLabel }}</button>
+</div>
+</div>
+<sc-if value="{{ hiddenNote }}" hint-placeholder-val="{{ false }}">
+<p style="margin: -6px 0 0; font-size: 13px; color: #B3B0C7; text-align: right">{{ hiddenText }}</p>
+</sc-if>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+<sc-if value="{{ isMap }}" hint-placeholder-val="{{ false }}">
+<div style="flex: 1.2 1 440px; min-width: 0; position: relative; border-radius: 26px; overflow: hidden; background: #121530">
+<svg viewBox="0 0 700 460" role="img" aria-label="Map of Atlanta neighborhoods with gatherings" style="width: 100%; height: auto; display: block">
+<rect x="0" y="0" width="700" height="460" fill="#121530"></rect>
+<path d="M210 70 L260 60 L280 120 L230 140 Z" fill="#17304A"></path>
+<text x="226" y="104" fill="#5D7FA8" font-size="11" font-family="DM Sans, sans-serif">Piedmont Park</text>
+<path d="M195 0 C190 120 205 240 190 460" fill="none" stroke="#2C3060" stroke-width="6"></path>
+<text x="148" y="40" fill="#6E6B88" font-size="11" font-family="DM Sans, sans-serif">Peachtree</text>
+<path d="M150 170 C300 160 420 175 560 168" fill="none" stroke="#2C3060" stroke-width="5"></path>
+<text x="470" y="160" fill="#6E6B88" font-size="11" font-family="DM Sans, sans-serif">Ponce de Leon</text>
+<path d="M0 352 C200 340 450 360 700 345" fill="none" stroke="#2C3060" stroke-width="8"></path>
+<text x="620" y="336" fill="#6E6B88" font-size="11" font-family="DM Sans, sans-serif">I-20</text>
+<path d="M300 300 C400 220 560 230 640 200" fill="none" stroke="#2C3060" stroke-width="4"></path>
+<text x="130" y="88" fill="#B3B0C7" font-size="13" font-weight="700" font-family="DM Sans, sans-serif">MIDTOWN</text>
+<text x="350" y="118" fill="#B3B0C7" font-size="13" font-weight="700" font-family="DM Sans, sans-serif">VIRGINIA-HIGHLAND</text>
+<text x="252" y="292" fill="#B3B0C7" font-size="13" font-weight="700" font-family="DM Sans, sans-serif">OLD FOURTH WARD</text>
+<text x="590" y="236" fill="#B3B0C7" font-size="13" font-weight="700" font-family="DM Sans, sans-serif">DECATUR</text>
+<text x="20" y="440" fill="#B3B0C7" font-size="13" font-weight="700" font-family="DM Sans, sans-serif">WEST END</text>
+<circle cx="40" cy="380" r="16" fill="#7FB2FF" opacity="0.2"></circle>
+<circle cx="40" cy="380" r="6" fill="#7FB2FF" stroke="#F5F0E6" stroke-width="2"></circle>
+<text x="54" y="384" fill="#7FB2FF" font-size="12" font-family="DM Sans, sans-serif">You · AUC</text>
+</svg>
+<sc-for list="{{ pins }}" as="p" hint-placeholder-count="4">
+<button type="button" aria-label="{{ p.title }}" onClick="{{ p.select }}" style="{{ p.style }}">
+<svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true"><polygon points="50.0,3.9 57.6,21.7 73.9,8.6 70.4,29.6 90.9,26.4 79.3,42.2 94.8,50.0 80.0,58.0 88.7,72.3 71.7,71.7 72.4,88.8 57.5,78.0 50.0,96.6 41.6,81.5 27.4,89.1 29.1,70.9 8.7,73.8 17.9,58.6 2.6,50.0 20.6,42.1 7.2,25.3 29.7,29.7 25.6,7.7 42.2,21.1" fill="#FFC23A" stroke="#1A1410" stroke-width="6" stroke-linejoin="round"></polygon></svg>
+</button>
+</sc-for>
+<p style="position: absolute; right: 14px; bottom: 10px; margin: 0; font-size: 11px; color: #6E6B88">Schematic map for the prototype</p>
+</div>
+</sc-if>
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<sc-for list="{{ shown }}" as="e" hint-placeholder-count="4">
+<article style="{{ e.cardStyle }}">
+<button type="button" aria-expanded="{{ e.expanded }}" onClick="{{ e.toggle }}" style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: 100%; padding: 20px; border: none; background: transparent; text-align: left; font-family: 'DM Sans', sans-serif; cursor: pointer; color: #F5F0E6">
+<span style="font-size: 13px; font-weight: 700; color: #FFD873">{{ e.when }}</span>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 22px">{{ e.title }}</span>
+<span style="font-size: 14px; color: #B3B0C7">{{ e.venue }} · {{ e.area }} · {{ e.cost }}</span>
+</button>
+<sc-if value="{{ e.open }}" hint-placeholder-val="{{ false }}">
+<div style="padding: 0 20px 22px; display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0; font-size: 16px; line-height: 1.55">{{ e.desc }}</p>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+<div style="padding: 12px 14px; border-radius: 14px; background: #22264A; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 12px; color: #B3B0C7">When</span><span style="font-size: 15px; font-weight: 700">{{ e.cadence }} · {{ e.nextText }}</span></div>
+<div style="padding: 12px 14px; border-radius: 14px; background: #22264A; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 12px; color: #B3B0C7">You can</span><span style="font-size: 15px; font-weight: 700">{{ e.part }}</span></div>
+<div style="padding: 12px 14px; border-radius: 14px; background: #22264A; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 12px; color: #B3B0C7">Coming alone</span><span style="font-size: 15px; font-weight: 700">[Confirm with host]</span></div>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
+<button type="button" onClick="{{ plan }}" style="{{ planStyle }}">{{ planLabel }}</button>
+<button type="button" style="height: 46px; padding: 0 20px; border-radius: 23px; border: 1.5px solid #3A3F6E; background: transparent; color: #F5F0E6; font: 500 15px 'DM Sans', sans-serif; cursor: pointer">Invite a friend</button>
+<a href="{{ e.url }}" style="display: flex; align-items: center; height: 46px; padding: 0 6px; font-size: 15px; text-decoration: none">Host's page ↗</a>
+</div>
+</div>
+</sc-if>
+</article>
+</sc-for>
+</div>
+</div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = this.state || {};
+const filter = s.filter || 'week';
+const view = s.view || 'list';
+const events = [
+{ id: 'jam', title: 'Wednesday Jazz Jam', venue: 'Red Light Café', area: 'Virginia-Highland', when: 'Wed, Oct 14 · 9 PM', day: 14, cost: '$10 · $5 students', price: 10, part: 'Listen or sit in', cadence: 'Weekly', desc: 'A house quartet plays a few numbers, then invites musicians and singers to sit in. You can just listen.', reason: 'Your opening sky: Leos tend to love a stage with some heat.', nextText: 'Oct 14 · Oct 21', url: 'https://redlightcafe.com/events', x: 335, y: 147 },
+{ id: 'songs', title: 'Atlanta Songwriters Club', venue: 'Red Light Café', area: 'Virginia-Highland', when: 'Mon, Oct 12 · 7:30 PM', day: 12, cost: '$5', price: 5, part: 'Share a song or listen', cadence: 'Second Mondays', desc: 'Songwriters gather to share work in progress and talk craft. Feedback is optional.', reason: '', nextText: 'Oct 12 · Nov 9', url: 'https://redlightcafe.com/events', x: 352, y: 128 },
+{ id: 'improv', title: 'Community Jam', venue: "Dad's Garage", area: 'Old Fourth Ward', when: 'Tue, Oct 13 · 8 PM', day: 13, cost: 'Cost not listed', price: null, part: 'Improv jam · details to confirm', cadence: 'Weekly', desc: 'An open improv jam at one of Atlanta’s longest-running improv theaters. Format and requirements to confirm with the host.', reason: '', nextText: 'Oct 13 · Oct 20', url: 'https://www.dadsgarage.com/', x: 240, y: 330 },
+{ id: 'cliterati', title: 'Cliterati Open Mic', venue: 'Charis Books & More', area: 'Decatur', when: 'Thu, Oct 15 · 7:30 PM', day: 15, cost: 'Cost not listed', price: null, part: 'Listen or read', cadence: 'Reading series', desc: 'An open mic and reading series at Charis, featuring Ansley Moon this month. In person only.', reason: '', nextText: 'Oct 15', url: 'https://charisbooksandmore.com/event/2026-10-15/cliterati-open-mic-featuring-ansley-moon-celebration-register-missing', x: 618, y: 202 },
+{ id: 'friday', title: 'Friday Jazz', venue: 'High Museum of Art', area: 'Midtown', when: 'Fri, Oct 16 · 6–10 PM', day: 16, cost: '$30 · $10 members', price: 30, part: 'Listen · galleries open', cadence: 'Third Fridays', desc: 'Live jazz on three stages with the galleries open late. Docent tours at 6:30 and 7 PM.', reason: '', nextText: 'Oct 16 · Nov 20', url: 'https://high.org/event/friday-jazz-october-2026/', x: 172, y: 114 },
+{ id: 'joy', title: 'JOY DEFICIT', venue: 'Red Light Café', area: 'Virginia-Highland', when: 'Mon, Oct 26 · 7:30 PM', day: 26, cost: 'No cover', price: 0, part: 'Watch · mixed performances', cadence: 'Monthly', desc: 'A monthly night of literature, poetry, music and comedy.', reason: '', nextText: 'Oct 26', url: 'https://redlightcafe.com/events', x: 320, y: 162 }
+];
+const tests = {
+all: () => true,
+week: (e) => e.day <= 16,
+under20: (e) => e.price !== null && e.price <= 20
+};
+const shownRaw = events.filter(tests[filter]);
+const unknownPrice = filter === 'under20' ? events.filter((e) => e.price === null).length : 0;
+const openId = s.open === undefined ? (view === 'map' ? null : null) : s.open;
+const cardBase = 'border-radius: 22px; background: #181B36; overflow: hidden;';
+const shown = shownRaw.map((e) => {
+const open = openId === e.id;
+return { ...e, open, expanded: open ? 'true' : 'false', hasReason: !!e.reason, toggle: () => this.setState({ open: open ? null : e.id, planned: false }), cardStyle: cardBase + (open ? ' border: 2px solid #FFC23A;' : ' border: 2px solid transparent;') };
+});
+const pins = shownRaw.map((e) => {
+const big = e.id === openId;
+const size = big ? 42 : 28;
+return { title: e.title, select: () => this.setState({ open: e.id, planned: false }), style: 'position: absolute; left: ' + (e.x / 700 * 100) + '%; top: ' + (e.y / 460 * 100) + '%; width: ' + size + 'px; height: ' + size + 'px; transform: translate(-50%, -50%); padding: 0; border: none; background: transparent; cursor: pointer;' + (big ? ' filter: drop-shadow(0 0 10px rgba(255,194,58,0.8));' : '') };
+});
+const chipBase = "height: 40px; padding: 0 8px 0 16px; border-radius: 20px; font: 500 14px 'DM Sans', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 8px;";
+const on = chipBase + ' border: none; background: #FFC23A; color: #1A1410; font-weight: 700;';
+const off = chipBase + ' border: 1.5px solid #3A3F6E; background: transparent; color: #F5F0E6;';
+const countBase = 'min-width: 24px; height: 24px; padding: 0 6px; box-sizing: border-box; border-radius: 12px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center;';
+const chips = [['week', 'This week'], ['under20', 'Under $20'], ['all', 'All']].map(([k, label]) => ({
+label,
+count: String(events.filter(tests[k]).length),
+pressed: filter === k ? 'true' : 'false',
+pick: () => this.setState({ filter: k, open: null }),
+style: filter === k ? on : off,
+countStyle: countBase + (filter === k ? ' background: #1A1410; color: #FFC23A;' : ' background: #22264A; color: #F5F0E6;')
+}));
+const planned = !!s.planned;
+return {
+chips, shown, pins,
+isMap: view === 'map',
+viewLabel: view === 'list' ? 'Map view' : 'List only',
+toggleView: () => this.setState({ view: view === 'list' ? 'map' : 'list' }),
+hiddenNote: unknownPrice > 0,
+hiddenText: unknownPrice + ' more ' + (unknownPrice === 1 ? 'gathering hasn’t' : 'gatherings haven’t') + ' listed a price yet.',
+plan: () => this.setState({ planned: true }),
+planLabel: planned ? 'Added to your calendar' : 'Plan it',
+planStyle: "height: 46px; padding: 0 22px; border-radius: 23px; border: none; font: 700 15px 'DM Sans', sans-serif; cursor: pointer;" + (planned ? ' background: #9BE3B8; color: #1A1410;' : ' background: #FFC23A; color: #1A1410;')
+};
+}
+}
+</script>
+</body>
+</html>
