@@ -36,3 +36,8 @@ Short log of choices that shape the project. Newest at the bottom.
 - **Choice:** Commit the `AGENTS.md` file that `next dev` writes.
 - **Reason:** `next dev` re-creates it if deleted. It tells AI coding assistants to check the docs bundled with this Next version.
 - **Tradeoff:** One file we didn't write ourselves.
+
+## 2026-10-12: GitHub over SSH, merge instead of force-push
+- **Choice:** Remote `origin` = `git@github.com:iryanmb/solcraft.git` (SSH). GitHub's auto-made README commit was merged in with `--allow-unrelated-histories`.
+- **Reason:** The Mac's SSH key already works for `iryanmb`; the saved HTTPS password in Keychain is stale. Merging keeps both histories; force-pushing would delete a commit on GitHub.
+- **Tradeoff:** One extra merge commit in the history.
