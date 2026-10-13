@@ -180,3 +180,28 @@ Short log of choices that shape the project. Newest at the bottom.
 - **Choice:** The Discover map uses OpenFreeMap's dark style (free, no key, commercial use allowed), drawn by MapLibre GL JS, pinned to exactly 6.11.2 (a release at least two weeks old). Its background and water are tinted with `--color-bg` / `--color-surface`. One sun pin per venue in the current filter; tapping a pin narrows the list to that venue ("Show all" returns). Side by side with the list from 1100px wide.
 - **Reason:** CARTO's free tiles now need an API key (an account); OpenFreeMap needs none and its map can use Solcraft's colors.
 - **Tradeoff:** MapLibre is large, so it loads only when the map is opened (`next/dynamic`, browser only). OpenFreeMap is a donation-funded project with no uptime guarantee. MapLibre's background worker files are copied into `public/maplibre/` after every `npm install` (`scripts/copy-map-worker.ts`, git-ignored), because Next's build doesn't include them.
+
+## 2026-10-13: The database is the bouncer for check-ins
+- **Choice:** Check-ins are created only by the database function `check_in()`. It checks the session is scheduled, that now is inside the window, and the distance to the venue (150 m + up to 100 m of the phone's reported accuracy), then discards the coordinates. Retries return the existing check-in. The window (1 h before; 1 h after the end, or 4 h after the start with no end) and the radius live only in the database; the app reads `opens_at`/`closes_at` from the `session_windows` view.
+- **Reason:** Anything running on a phone can be tampered with; only the database can enforce the rules. One copy of the numbers can't drift.
+- **Tradeoff:** Changing a window or radius means a new migration, not an edit to `lib/config.ts`.
+
+## 2026-10-13: Testers, and a dev panel only they can use
+- **Choice:** `profiles.is_tester` (off by default; nobody can set it from the app, only in the Table Editor). The dev panel shows for testers on localhost or after `?dev=1`, unless `NEXT_PUBLIC_DEV_PANEL=off`. Its switches: pretend I'm there, pretend it's session time, show the moon now, delete my check-ins. The database honors "pretend" only for testers.
+- **Reason:** Testing away from venues without letting pilot users fake check-ins (which would spoil the return-visit measure).
+- **Tradeoff:** Pretend check-ins are real rows; delete them from the dev panel before the pilot.
+
+## 2026-10-13: Suns and planets numbered by a view
+- **Choice:** `my_checkins` (a view that follows RLS) numbers each person's nights per gathering by session start; planet 1 is the sun. The check-in moment and the moon read it; nothing is stored as a counter.
+- **Reason:** CLAUDE.md: derive, don't duplicate.
+- **Tradeoff:** A check-in added for an earlier session (testing) renumbers the later ones.
+
+## 2026-10-13: Moons and their photos
+- **Choice:** The moon is offered on the first open from 6 AM the day after the session (Atlanta), for the most recent check-in of the last week without a moon. A word saves the moon at once; the line (max 280 characters) saves as you type; "Not now" hides it on this device. Photos are shrunk to 1600 px and re-saved as JPEG in the browser, which drops EXIF (including GPS), then stored in the private `moon-photos` bucket under the user's own folder; they're shown through links that expire after an hour.
+- **Reason:** CLAUDE.md: moons and photos private, location never stored.
+- **Tradeoff:** "Not now" is remembered per device, so another phone may offer the same moon.
+
+## 2026-10-13: Check-in moment wording for planets
+- **Choice:** First visit: "A new sun." + "Your first time at [gathering], [venue]. It's in your sky now." + "Sun N". Later visits: "Planet N." + "Your Nth night at [gathering]. It's orbiting your sun now." Sun Road and badge pills come in checkpoint 5.
+- **Reason:** No mockup for a planet moment; this matches the sun moment and the planet screen's "your 4th night here".
+- **Tradeoff:** Copy to review with real users.

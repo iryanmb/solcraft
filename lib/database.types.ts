@@ -66,6 +66,13 @@ export type Database = {
             foreignKeyName: "checkins_session_id_fkey"
             columns: ["session_id"]
             isOneToOne: false
+            referencedRelation: "session_windows"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checkins_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
             referencedRelation: "sessions"
             referencedColumns: ["id"]
           },
@@ -194,6 +201,13 @@ export type Database = {
             referencedRelation: "checkins"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "moons_checkin_id_fkey"
+            columns: ["checkin_id"]
+            isOneToOne: true
+            referencedRelation: "my_checkins"
+            referencedColumns: ["id"]
+          },
         ]
       }
       profiles: {
@@ -202,6 +216,7 @@ export type Database = {
           created_at: string
           display_name: string
           id: string
+          is_tester: boolean
           sun_sign: string | null
         }
         Insert: {
@@ -209,6 +224,7 @@ export type Database = {
           created_at?: string
           display_name: string
           id: string
+          is_tester?: boolean
           sun_sign?: string | null
         }
         Update: {
@@ -216,6 +232,7 @@ export type Database = {
           created_at?: string
           display_name?: string
           id?: string
+          is_tester?: boolean
           sun_sign?: string | null
         }
         Relationships: []
@@ -250,6 +267,13 @@ export type Database = {
             referencedRelation: "gatherings"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "sessions_gathering_id_fkey"
+            columns: ["gathering_id"]
+            isOneToOne: false
+            referencedRelation: "my_checkins"
+            referencedColumns: ["gathering_id"]
+          },
         ]
       }
       venues: {
@@ -278,9 +302,116 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      my_checkins: {
+        Row: {
+          art_form: string | null
+          created_at: string | null
+          ends_at: string | null
+          gathering_id: string | null
+          id: string | null
+          kind: string | null
+          moon_note: string | null
+          moon_photo_path: string | null
+          moon_word: string | null
+          planet_number: number | null
+          session_id: string | null
+          starts_at: string | null
+          title: string | null
+          venue_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checkins_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "session_windows"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checkins_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gatherings_venue_id_fkey"
+            columns: ["venue_id"]
+            isOneToOne: false
+            referencedRelation: "venues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_windows: {
+        Row: {
+          closes_at: string | null
+          ends_at: string | null
+          gathering_id: string | null
+          id: string | null
+          opens_at: string | null
+          starts_at: string | null
+          status: string | null
+        }
+        Insert: {
+          closes_at?: never
+          ends_at?: string | null
+          gathering_id?: string | null
+          id?: string | null
+          opens_at?: never
+          starts_at?: string | null
+          status?: string | null
+        }
+        Update: {
+          closes_at?: never
+          ends_at?: string | null
+          gathering_id?: string | null
+          id?: string | null
+          opens_at?: never
+          starts_at?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sessions_gathering_id_fkey"
+            columns: ["gathering_id"]
+            isOneToOne: false
+            referencedRelation: "gatherings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sessions_gathering_id_fkey"
+            columns: ["gathering_id"]
+            isOneToOne: false
+            referencedRelation: "my_checkins"
+            referencedColumns: ["gathering_id"]
+          },
+        ]
+      }
     }
     Functions: {
+      check_in: {
+        Args: {
+          p_accuracy?: number
+          p_lat?: number
+          p_lng?: number
+          p_pretend_place?: boolean
+          p_pretend_time?: boolean
+          p_session_id: string
+        }
+        Returns: {
+          checkin_id: string
+          is_new: boolean
+          planet_number: number
+          sun_count: number
+        }[]
+      }
+      checkin_closes_at: {
+        Args: { ends_at: string; starts_at: string }
+        Returns: string
+      }
+      checkin_opens_at: { Args: { starts_at: string }; Returns: string }
+      dev_delete_my_checkins: { Args: never; Returns: number }
       sun_sign_for: { Args: { birthday: string }; Returns: string }
     }
     Enums: {

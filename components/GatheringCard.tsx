@@ -3,6 +3,9 @@
 // One gathering in Discover. Tapping the top opens the details in place
 // (the card IS the gathering details screen). Unknown values show as xxx.
 
+import { useProfile } from "@/components/AppShell";
+import ImHereButton from "@/components/ImHereButton";
+import { useDevSettings } from "@/lib/dev";
 import { cityOf } from "@/lib/gatherings";
 import { XXX, isUnknown } from "@/lib/placeholders";
 import type { DiscoverGathering, Session } from "@/lib/store";
@@ -23,6 +26,12 @@ const verifiedText = (iso: string) =>
 export default function GatheringCard({ gathering: g, session, open, onToggle }: GatheringCardProps) {
   const detailsId = `details-${g.id}`;
   const next = g.upcoming.slice(0, 4);
+  const dev = useDevSettings(useProfile().is_tester);
+
+  // I'm here shows while a session's window is open (testers pretending: the headlined one).
+  const now = new Date();
+  const checkable = dev.pretendTime ? session : g.upcoming.find((s) => s.opensAt <= now && now <= s.closesAt);
+  const onMap = g.venue.lat !== null || dev.pretendPlace;
 
   return (
     <article className={`card${open ? " open" : ""}`}>
@@ -38,6 +47,7 @@ export default function GatheringCard({ gathering: g, session, open, onToggle }:
 
       {open && (
         <div id={detailsId} className="card-details">
+          {checkable && onMap && <ImHereButton sessionId={checkable.id} />}
           <p className="card-why">{g.whyItFits}</p>
 
           <dl className="tiles">

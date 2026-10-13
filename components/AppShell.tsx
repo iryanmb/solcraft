@@ -1,14 +1,18 @@
 "use client";
 
 // The frame around every signed-in screen: a bottom bar on phones, a sidebar on wide
-// screens. It also checks the account once and shares the profile with the screen inside.
-// Signed out -> Welcome; onboarding not finished -> onboarding.
+// screens. It also checks the account once and shares the profile with the screen inside
+// (signed out -> Welcome; onboarding not finished -> onboarding), offers the morning moon
+// when one is due, and shows the dev panel to testers.
 
-import { createContext, useContext, useEffect, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import DevPanel from "@/components/DevPanel";
 import SunMark from "@/components/SunMark";
-import type { Profile } from "@/lib/store";
+import { devPanelAllowed, rememberDevFlagFromUrl, useDevSettings } from "@/lib/dev";
+import { pendingMoon } from "@/lib/moon";
+import { getMyCheckins, type Profile } from "@/lib/store";
 import { useAccount } from "@/lib/useAccount";
 
 const ProfileContext = createContext<Profile | null>(null);
@@ -107,22 +111,61 @@ export function AppNav({ name }: { name: string }) {
   );
 }
 
+// Opens the moon card once per visit when one is due (lib/moon.ts has the timing).
+function useMorningMoon(profile: Profile | null | undefined) {
+  const router = useRouter();
+  const dev = useDevSettings(profile?.is_tester ?? false);
+
+  useEffect(() => {
+    if (!profile) return;
+    let current = true;
+    getMyCheckins()
+      .then((checkins) => {
+        const due = current && pendingMoon(checkins, new Date(), dev.moonNow);
+        if (!due) return;
+        const key = `solcraft-moon-offered-${due.id}`;
+        try {
+          if (sessionStorage.getItem(key)) return; // already offered during this visit
+          sessionStorage.setItem(key, "1");
+        } catch {
+          // no session storage: offer it anyway
+        }
+        router.push(`/moon?c=${due.id}`);
+      })
+      .catch(() => {}); // the moon can wait; never block the app over it
+    return () => {
+      current = false;
+    };
+  }, [profile, dev.moonNow, router]);
+}
+
 export default function AppShell({ children }: { children: ReactNode }) {
   const router = useRouter();
   const account = useAccount();
+  const profile = account?.profile;
+  const [showDev, setShowDev] = useState(false);
 
   useEffect(() => {
     if (account === null) router.replace("/welcome");
     else if (account && !account.profile) router.replace("/onboarding");
   }, [account, router]);
 
-  if (!account?.profile) return <div className="screen" aria-busy="true" />;
+  // Checked after the first draw, since it reads this device's address and storage.
+  useEffect(() => {
+    rememberDevFlagFromUrl();
+    setShowDev(devPanelAllowed(profile?.is_tester ?? false));
+  }, [profile]);
+
+  useMorningMoon(profile);
+
+  if (!profile) return <div className="screen" aria-busy="true" />;
 
   return (
-    <ProfileContext.Provider value={account.profile}>
+    <ProfileContext.Provider value={profile}>
       <div className="app">
-        <AppNav name={account.profile.display_name} />
+        <AppNav name={profile.display_name} />
         <div className="app-main">{children}</div>
+        {showDev && <DevPanel />}
       </div>
     </ProfileContext.Provider>
   );

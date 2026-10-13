@@ -29,8 +29,15 @@ for (const table of ["hosts", "venues", "gatherings", "sessions"]) {
   else pass(`${table}: ${count} rows readable`);
 }
 
+// The I'm here window, worked out by the database, is public too.
+{
+  const { data, error } = await supabase.from("session_windows").select("starts_at, ends_at, opens_at, closes_at").limit(1);
+  if (error || !data?.length) fail(`session_windows: can't read (${error?.message ?? "no rows"})`);
+  else pass(`session_windows: readable (opens ${(new Date(data[0].starts_at!).getTime() - new Date(data[0].opens_at!).getTime()) / 60000} min before the start)`);
+}
+
 // 2. Private tables show nothing to someone who isn't signed in.
-for (const table of ["profiles", "checkins", "moons"]) {
+for (const table of ["profiles", "checkins", "moons", "my_checkins"] as const) {
   const { data, error } = await supabase.from(table).select("*").limit(1);
   if (error || data.length === 0) pass(`${table}: hidden (${error ? "refused" : "0 rows visible"})`);
   else fail(`${table}: rows are visible without signing in`);
@@ -42,10 +49,12 @@ const attempts = [
   ["add a venue", supabase.from("venues").insert({ id: "test", name: "Test", address: "Test" }).select()],
   ["delete sessions", supabase.from("sessions").delete().eq("gathering_id", "friday-jazz").select()],
   ["create a check-in", supabase.from("checkins").insert({ session_id: crypto.randomUUID(), method: "location" }).select()],
+  ["check in without signing in", supabase.rpc("check_in", { p_session_id: crypto.randomUUID(), p_pretend_place: true, p_pretend_time: true })],
+  ["delete check-ins without signing in", supabase.rpc("dev_delete_my_checkins")],
 ] as const;
 for (const [label, attempt] of attempts) {
   const { data, error } = await attempt;
-  if (error || !data || data.length === 0) pass(`can't ${label}`);
+  if (error || !data || (Array.isArray(data) && data.length === 0)) pass(`can't ${label}`);
   else fail(`was able to ${label}!`);
 }
 

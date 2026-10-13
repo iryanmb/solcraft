@@ -94,3 +94,15 @@ export function timeRangeText(start: Date, end: Date | null): string {
 export function sessionText(start: Date, end: Date | null): string {
   return `${dayText(start)} · ${timeRangeText(start, end)}`;
 }
+
+// The hour on Atlanta's clock (0–23).
+export function atlantaHour(now = new Date()): number {
+  return Number(parts(now, { hour: "numeric", hourCycle: "h23" }));
+}
+
+// "Thursday morning", "Thursday evening"
+export function partOfDayText(now = new Date()): string {
+  const hour = atlantaHour(now);
+  const part = hour < 12 ? "morning" : hour < 17 ? "afternoon" : "evening";
+  return `${parts(now, { weekday: "long" })} ${part}`;
+}

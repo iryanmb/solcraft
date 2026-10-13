@@ -20,3 +20,20 @@ export function isUnderTwenty(cost: string): boolean | null {
   if (/\b(free|no cover|donation)/i.test(general)) return true;
   return null;
 }
+
+// Each art form gets one of the four planet colors (CLAUDE.md tokens), always the same one,
+// so a gathering's planets match everywhere. Based on the name, so new art forms just work.
+const PLANET_COLORS = ["var(--color-planet-1)", "var(--color-planet-2)", "var(--color-planet-3)", "var(--color-planet-4)"];
+
+export function artFormColor(artForm: string): string {
+  let hash = 0;
+  for (const char of artForm.toLowerCase()) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  return PLANET_COLORS[hash % PLANET_COLORS.length];
+}
+
+// 1 -> "1st", 2 -> "2nd", 11 -> "11th", 23 -> "23rd"
+export function ordinal(n: number): string {
+  const teen = n % 100 >= 11 && n % 100 <= 13;
+  const suffix = teen ? "th" : ({ 1: "st", 2: "nd", 3: "rd" } as Record<number, string>)[n % 10] ?? "th";
+  return `${n}${suffix}`;
+}

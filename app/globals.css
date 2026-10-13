@@ -929,6 +929,326 @@ a:hover {
 }
 
 /* ==========================================================
+   I'm here
+   ========================================================== */
+.im-here {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.here-list {
+  margin-top: 20px;
+}
+
+.here-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 20px;
+}
+
+.here-card .card-title {
+  margin: 0;
+}
+
+.here-card .im-here {
+  margin-top: var(--space-2);
+}
+
+.here-empty {
+  margin-top: 20px;
+}
+
+.section-title {
+  margin: var(--space-7) 0 var(--space-3);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.next-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.next-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 18px;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.next-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* ==========================================================
+   The check-in moment (03): warm red, ink text
+   ========================================================== */
+.moment {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: 56px 28px max(34px, env(safe-area-inset-bottom));
+  background: var(--color-red);
+  color: var(--color-ink);
+  text-align: center;
+}
+
+.moment-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+}
+
+.moment-eyebrow {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.moment-glow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 236px;
+  height: 236px;
+  border-radius: 50%;
+  background: rgba(255, 216, 115, 0.22);
+}
+
+.moment-title {
+  font-size: 48px;
+  font-weight: 800;
+}
+
+.moment-text {
+  max-width: 34ch;
+  margin: 0;
+  font-size: 17px;
+}
+
+.moment-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.moment-pill {
+  padding: 6px 14px;
+  border-radius: var(--radius-chip);
+  background: var(--color-ink);
+  color: var(--color-sun);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.moment-foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  width: 100%;
+  max-width: 480px;
+  margin: var(--space-6) auto 0;
+}
+
+.moment-done {
+  background: var(--color-ink);
+  color: var(--color-sun);
+}
+
+.moment-done:hover {
+  color: var(--color-sun-light);
+}
+
+/* ==========================================================
+   The morning moon (04)
+   ========================================================== */
+.moon-night {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin: var(--space-3) 0 var(--space-6);
+  padding: 20px;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.moon-night-when {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.moon-night-title {
+  margin: 2px 0 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.moon-title {
+  margin-top: var(--space-2);
+}
+
+.moon-words {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: var(--space-4);
+}
+
+.moon-word {
+  min-height: 48px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-input);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: 500 15px var(--font-body);
+  cursor: pointer;
+}
+
+.moon-word.on {
+  border-color: var(--color-moon);
+  background: var(--color-moon);
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+.moon-saved {
+  margin: var(--space-5) 0 0;
+  color: var(--color-sun-light);
+  font-weight: 700;
+}
+
+.moon-note {
+  margin-top: 0;
+  font-size: 17px;
+}
+
+.moon-photo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  margin-top: var(--space-4);
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.moon-photo strong {
+  display: block;
+  font-size: 17px;
+}
+
+.moon-photo-sub {
+  display: block;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.moon-photo-thumb {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border: 1.5px dashed var(--color-border);
+  border-radius: 16px;
+  background: var(--color-surface-2) center / cover no-repeat;
+}
+
+/* ==========================================================
+   Dev panel (testers only)
+   ========================================================== */
+.dev-panel {
+  position: fixed;
+  bottom: calc(96px + env(safe-area-inset-bottom));
+  left: 12px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+@media (min-width: 900px) {
+  .dev-panel {
+    bottom: 16px;
+    left: auto;
+    right: 16px;
+    align-items: flex-end;
+  }
+}
+
+.dev-toggle {
+  min-width: var(--touch-min);
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1.5px dashed var(--color-sun);
+  border-radius: 16px;
+  background: var(--color-bg);
+  color: var(--color-sun);
+  font: 700 12px var(--font-body);
+  cursor: pointer;
+}
+
+.dev-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: min(320px, calc(100vw - 24px));
+  padding: var(--space-4);
+  border: 1.5px dashed var(--color-sun);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  font-size: 14px;
+}
+
+.dev-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--touch-min);
+}
+
+.dev-switch input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-sun);
+}
+
+.dev-delete {
+  height: var(--touch-min);
+  border: 1.5px solid var(--color-border);
+  font-size: 14px;
+}
+
+.dev-message {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+/* ==========================================================
    Plain text pages (Terms, Privacy) and placeholders
    ========================================================== */
 .page {
