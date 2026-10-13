@@ -8,6 +8,7 @@ Solcraft helps people find recurring cultural gatherings in Atlanta (poetry nigh
 - I'm learning Git, JavaScript/TypeScript and React. Before big changes, show a plan and explain the why in plain language.
 - Explain each command before running it and each important file when it's created.
 - One small feature per step. After each step: what changed, which files, and one small edit for me to make myself.
+- Add every "edit for me" to `MY-EDITS.md` (with what it teaches), so I can do them later. Keep its file paths current when code moves.
 - I type the git commands myself; tell me what to run and check my work with `git status`.
 - Never invent event facts (dates, prices, "beginner-friendly", accessibility). Anything unknown is the placeholder `xxx` (see Placeholders).
 - Never commit secrets. Keys live in `.env.local`, which is git-ignored.
