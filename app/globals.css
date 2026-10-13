@@ -839,6 +839,96 @@ a:hover {
 }
 
 /* ==========================================================
+   Discover map
+   ========================================================== */
+.map-toggle {
+  padding: 0 16px;
+  border-color: var(--color-sun);
+  color: var(--color-sun);
+  font-weight: 700;
+}
+
+.discover-body.with-map {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.map-box {
+  width: 100%;
+  height: min(50dvh, 420px);
+  overflow: hidden;
+  border-radius: 26px;
+  background: var(--color-surface);
+}
+
+/* Side by side once there's room: map on the left, staying in view while the list scrolls. */
+@media (min-width: 1100px) {
+  .discover-body.with-map {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .map-column {
+    position: sticky;
+    top: 24px;
+  }
+
+  .map-box {
+    height: min(calc(100dvh - 48px), 640px);
+  }
+}
+
+/* A sun pin. The button is 44px for easy tapping; the sun inside is smaller. */
+.map-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.map-pin svg {
+  width: 28px;
+  height: 28px;
+}
+
+.map-pin.selected svg {
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 0 10px rgba(255, 194, 58, 0.8));
+}
+
+/* MapLibre's credit line, recolored for the dark map (".map-box" makes these win over MapLibre's own CSS). */
+.map-box .maplibregl-ctrl-attrib {
+  background: rgba(14, 16, 36, 0.9);
+  color: var(--color-muted);
+}
+
+.map-box .maplibregl-ctrl-attrib a {
+  color: var(--color-muted);
+}
+
+.map-box .maplibregl-ctrl-attrib-button {
+  filter: invert(1);
+}
+
+.venue-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0 4px;
+  color: var(--color-muted);
+}
+
+/* ==========================================================
    Plain text pages (Terms, Privacy) and placeholders
    ========================================================== */
 .page {

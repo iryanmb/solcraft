@@ -176,7 +176,7 @@ Short log of choices that shape the project. Newest at the bottom.
 - **Reason:** One copy of each rule for both the import and the screens.
 - **Tradeoff:** `lib/` mixes the two import styles (with and without `.ts`).
 
-## 2026-10-13: Map tiles — CARTO needs a key now (`xxx`, waiting on my choice)
-- **Choice:** Not decided. CARTO's free dark tiles now require an API key (an account). Key-free option: OpenFreeMap (free, no key, commercial use allowed, has a dark style), which uses the MapLibre library instead of Leaflet.
-- **Reason:** The plan said Leaflet + CARTO without a key; that no longer works.
-- **Tradeoff:** See the options in the checkpoint 3 report.
+## 2026-10-13: Map with OpenFreeMap + MapLibre (not CARTO)
+- **Choice:** The Discover map uses OpenFreeMap's dark style (free, no key, commercial use allowed), drawn by MapLibre GL JS, pinned to exactly 6.11.2 (a release at least two weeks old). Its background and water are tinted with `--color-bg` / `--color-surface`. One sun pin per venue in the current filter; tapping a pin narrows the list to that venue ("Show all" returns). Side by side with the list from 1100px wide.
+- **Reason:** CARTO's free tiles now need an API key (an account); OpenFreeMap needs none and its map can use Solcraft's colors.
+- **Tradeoff:** MapLibre is large, so it loads only when the map is opened (`next/dynamic`, browser only). OpenFreeMap is a donation-funded project with no uptime guarantee. MapLibre's background worker files are copied into `public/maplibre/` after every `npm install` (`scripts/copy-map-worker.ts`, git-ignored), because Next's build doesn't include them.

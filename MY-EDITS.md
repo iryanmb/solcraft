@@ -19,6 +19,7 @@ Tick a box when it's done (`[ ]` → `[x]`). Line numbers can drift; search for 
 
 ### Checkpoint 3: Discover
 - [ ] **Move the Under $20 line.** In `lib/gatherings.ts`, inside `isUnderTwenty`, change `< 20` to `< 12`. Run `npm run check-derived` and see which gatherings flip to "no", then open Discover and watch the Under $20 count drop. Put it back to `< 20`. *Learn:* the filter is a rule in code worked out from the cost text, not a stored yes/no.
+- [ ] **Change the map's starting view or pin size.** In `app/globals.css`, find `.map-pin svg` and change `28px` to `36px` (both lines). Open Discover → Map and see bigger suns. Put it back. *Learn:* the pins are ordinary HTML buttons styled with our CSS, sitting on top of the map.
 
 ## Also on my list
 - [ ] Move the files in `~/Desktop/documents-git-rescue/` (3 photos, BreakThroughTech projects, resume) somewhere permanent, then delete that folder.

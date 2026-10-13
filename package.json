@@ -11,10 +11,12 @@
     "import": "node --env-file=.env.local scripts/import.ts",
     "check-db": "node --env-file=.env.local scripts/check-database.ts",
     "types": "supabase gen types typescript --linked > lib/database.types.ts",
-    "check-derived": "node scripts/check-derived.ts"
+    "check-derived": "node scripts/check-derived.ts",
+    "postinstall": "node scripts/copy-map-worker.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.3",
+    "maplibre-gl": "6.11.2",
     "next": "^16.4.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

@@ -20,3 +20,6 @@ npm-debug.log*
 
 # macOS clutter
 .DS_Store
+
+# Copied from node_modules by scripts/copy-map-worker.ts (npm postinstall)
+public/maplibre/
