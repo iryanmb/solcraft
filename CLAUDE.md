@@ -9,7 +9,7 @@ Solcraft helps people find recurring cultural gatherings in Atlanta (poetry nigh
 - Explain each command before running it and each important file when it's created.
 - One small feature per step. After each step: what changed, which files, and one small edit for me to make myself.
 - I type the git commands myself; tell me what to run and check my work with `git status`.
-- Never invent event facts (dates, prices, "beginner-friendly", accessibility). Blank or clearly marked placeholders only.
+- Never invent event facts (dates, prices, "beginner-friendly", accessibility). Anything unknown is the placeholder `xxx` (see Placeholders).
 - Never commit secrets. Keys live in `.env.local`, which is git-ignored.
 - Keep DECISIONS.md (choice, reason, tradeoff) up to date.
 - When this file and `design/` disagree, this file wins. Tell me about the conflict.
@@ -43,9 +43,10 @@ Solcraft helps people find recurring cultural gatherings in Atlanta (poetry nigh
 | First Light | 1 | none |
 | Dawn | 5 | come back to a place once (any second visit to the same gathering) |
 | Radiant | 10 | suns in 3 art forms |
-| Zenith | 25 | 5 nights at one place |
-| Galaxy | 50 | suns at 8 different places |
+| Zenith | 25 | 5 nights at one gathering |
+| Galaxy | 50 | suns at 8 different gatherings |
 
+- "Place" in every challenge means a gathering, not a venue (Charis hosts several gatherings).
 - No streaks, no leaderboards.
 - Two first-time tips appear in the badge card (not a full-screen overlay): "This is you" (rings your marker) and "Badges light up along the way" (rings the next badge). Back, Next, Skip.
 
@@ -57,7 +58,7 @@ Solcraft helps people find recurring cultural gatherings in Atlanta (poetry nigh
 - Sign in with Apple is NOT needed (we don't offer third-party sign-in).
 
 ## Check-in ("I'm here")
-- Default method is location. During a session's window (1 hour before start to 1 hour after end), the gathering shows **I'm here**.
+- Default method is location. During a session's window (1 hour before start to 1 hour after end), the gathering shows **I'm here**. If a session has no end time, the window closes 3 hours after the start (an app setting; the app shows "End time not listed").
 - Tap → browser asks for location once → if within ~150 m of the venue (make the radius a setting), save the check-in. Account for reported accuracy; on failure show "We couldn't confirm your location." with Try again.
 - **Never store coordinates.** Store only the check-in and `method = 'location'`.
 - Save the check-in first, then play the moment (warm light, the new sun or planet). Closing the animation never loses it. Respect reduced motion.
@@ -76,10 +77,19 @@ Solcraft helps people find recurring cultural gatherings in Atlanta (poetry nigh
 
 ## Gatherings data
 - `data/gatherings.csv` = 28 verified Atlanta gatherings (exported from my Google Sheet). Columns: Gathering, Art form, Host, Venue, Address, Recurrence, Start, End, Cost, Age, How you take part, Why it fits Solcraft, Source, Last verified.
-- Blank cells mean no source stated it. Keep them blank in the app (show "Cost not listed" etc.), never guess.
-- Recurrence is plain English ("Monthly, 3rd Friday"). For sessions, propose a structured rule per gathering (for example an RRULE) and **show me the list to confirm before generating sessions**. Generate the next 8 weeks.
+- Recurrence is plain English ("Monthly, 3rd Friday"). Sessions come from either a confirmed RRULE or an explicit list of dates per gathering (`data/session-rules.json`). Generate the next 8 weeks. Gatherings with neither show "Next date not listed".
+- The Google Sheet is where I edit; `data/gatherings.csv` is its export and the build's source of truth.
+- "Under $20": the lowest general-public price is under $20; free and donation-based count; blank or "price not listed" is unknown and excluded.
 - Addresses need lat/lng. Propose how (a free geocoder within its usage policy, or I enter them), and flag rows without a single address (e.g. "Galleries across Castleberry Hill").
 - `data/zodiac-constellations.json` = the 12 constellation figures (SVG path + stars with brightness) and sun-sign date ranges. Keep its attribution line (d3-celestial, BSD-3-Clause) and credit it on an About or Terms page.
+
+## Placeholders: always `xxx`
+- One marker everywhere: `xxx`. Searching the project for `xxx` must find every placeholder, in data, code and copy.
+- **Data:** in `data/gatherings.csv`, a cell that is `xxx` is unknown. A value followed by ` xxx` (e.g. "About $20 at the door xxx", "Monthly, usually 3rd Thursday xxx") is a best guess to confirm.
+- **Code:** mark every stand-in with a comment starting `// xxx:` and what's needed, e.g. `// xxx: real email codes in Milestone 3; any 6 digits work now.` Adjustable stand-in values (3-hour default window, 150 m radius, 6 AM moon time) live in `lib/config.ts`, each with an `xxx` comment.
+- **Unwritten copy and pages** (Terms, Privacy Policy, credits text) contain `xxx` until I write them.
+- **On screen:** show `xxx` exactly as it is, in every environment, for now. Before the pilot I'll decide the public wording for unknowns (e.g. "Cost not listed"). The Under $20 filter treats `xxx` and guessed prices as unknown and leaves them out.
+- When I replace an `xxx`, nothing else should need to change.
 
 ## Screens (see `design/`)
 `design/screens/pilot/` are the screens for the pilot; `design/screens/later/` are for after it. `design/source/` holds the HTML mockups (they need a design runtime to render, so read them for layout, copy and tokens, and look at the PNGs to see them).
@@ -99,12 +109,16 @@ Known gaps in `design/`: the check-in moment and the center nav button still sho
 - Badge icons (24×24, stroke): first `M12 3 L13.8 10.2 L21 12 L13.8 13.8 L12 21 L10.2 13.8 L3 12 L10.2 10.2 Z` · dawn `M3 17 H21 M7 17 A5 5 0 0 1 17 17 M12 6 V8 M5.6 9.6 L7 11 M18.4 9.6 L17 11` · radiant `M12 9 A3 3 0 1 1 12 15 A3 3 0 1 1 12 9 Z M12 2 V5 M12 19 V22 M2 12 H5 M19 12 H22 M4.9 4.9 L7 7 M17 17 L19.1 19.1 M4.9 19.1 L7 17 M17 7 L19.1 4.9` · zenith `M3 20 Q12 0 21 20 M12 7 A2.5 2.5 0 1 1 12 12 A2.5 2.5 0 1 1 12 7 Z` · galaxy `M12 12 m-1 0 a1 1 0 1 1 2 0 a2.5 2.5 0 1 1 -4 1.5 a4.5 4.5 0 1 1 7.5 -3.5 a6.5 6.5 0 1 1 -10.5 6`
 - UI voice: short and direct. No helper text floating around screens.
 
-## Milestones (each ends with something deployed)
-1. **Hello, sun**: Next.js app on Vercel showing the sun mark and tokens. (Finish if not done.)
-2. **Working prototype on sample data**: onboarding screens (no real auth yet), Discover, gathering details, I'm here (with a dev-only "pretend I'm there" switch), check-in moment, Moon, Your Sky, Planet, Sun Road. Data from `data/gatherings.csv` converted to local JSON + fake check-ins. Then I test it with 5 friends.
-3. **Real data and accounts**: Supabase schema + RLS, email-code auth (Resend SMTP), import the 28 gatherings, generate sessions, real location check-in, moons with photos (Storage), account deletion.
-4. **Pilot-ready**: Plan it (.ics), Settings basics, privacy policy + terms pages, credits, production deploy.
-5. **Pilot** with one weekly host for 4–6 weeks. The host gets a weekly email I write from a SQL query (check-ins, first visits, returns). No host dashboard yet.
+## Milestones
+1. **Hello, sun**: done and live on Vercel.
+2. **The pilot build (one milestone, built in checkpoints)**: real data and accounts from the start. Supabase schema + RLS, email-code sign-in (Resend), the 28 gatherings and their sessions, onboarding, Discover, gathering details, I'm here (with the dev panel for testing away from venues), check-in moment, Moon (word, line, photo), Your Sky, Planet, Sun Road, Settings (account, sign out, delete account), Plan it (.ics), Terms/Privacy/credits pages (`xxx` until written), production deploy. I'm the tester. Stop at each checkpoint so I can test, review and commit:
+   1. Supabase project, schema, RLS, data import and sessions
+   2. Sign-in and onboarding
+   3. Discover and gathering details
+   4. I'm here, the check-in moment and moons
+   5. Your Sky, Planet and Sun Road
+   6. Settings, Plan it, legal pages, deploy
+3. **Pilot** with one weekly host for 4–6 weeks. The host gets a weekly email I write from a SQL query (check-ins, first visits, returns). No host dashboard yet.
 
 ## Later (not now)
 Rooms (each gathering's conversation; posting needs a sun there) · profile pages, follows, glow · host view and claim-your-gathering · QR check-in · glimmers (everyday moments) · Solstice recap and seasonal skies · Stripe ticketing and multi-night passes · App Store / Google Play via Capacitor · zodiac icons.

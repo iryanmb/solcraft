@@ -9,7 +9,7 @@ Short log of choices that shape the project. Newest at the bottom.
 
 ## 2026-10-12: One Git repo per project; stray `~/Documents/.git` removed
 - **Choice:** `git init` inside `solcraft/` only. The empty repo at `~/Documents/.git` was deleted after copying out 8 files that existed only in its staging area (to `~/Desktop/documents-git-rescue/`).
-- **Reason:** A repo covering a whole personal folder could push private files (transcript, FAFSA, resumes) to GitHub by accident.
+- **Reason:** A repo covering a whole personal folder could push personal files to GitHub by accident.
 - **Tradeoff:** None for Solcraft. The rescued files now need a permanent home.
 
 ## 2026-10-12: Hand-written Next.js setup instead of `create-next-app`
@@ -41,3 +41,62 @@ Short log of choices that shape the project. Newest at the bottom.
 - **Choice:** Remote `origin` = `git@github.com:iryanmb/solcraft.git` (SSH). GitHub's auto-made README commit was merged in with `--allow-unrelated-histories`.
 - **Reason:** The Mac's SSH key already works for `iryanmb`; the saved HTTPS password in Keychain is stale. Merging keeps both histories; force-pushing would delete a commit on GitHub.
 - **Tradeoff:** One extra merge commit in the history.
+
+## 2026-10-13: Public repo, private commit email
+- **Choice:** The GitHub repo is public. Commits from here on use GitHub's noreply address (`168069750+iryanmb@users.noreply.github.com`), set for this repo only.
+- **Reason:** A public repo shows every commit's author email. The noreply address keeps the Gmail out of new commits.
+- **Tradeoff:** The first commits still show the Gmail; removing it would mean rewriting history and force-pushing, which isn't worth it.
+
+## 2026-10-13: One placeholder marker, `xxx`
+- **Choice:** A cell that is `xxx` is unknown; a value ending in ` xxx` is a best guess to confirm. Code stand-ins get a `// xxx:` comment saying what's needed; adjustable ones live in `lib/config.ts`. Unwritten pages say `xxx`. The app shows `xxx` as-is, in every environment.
+- **Reason:** One marker is easy to search for (`grep -r xxx`) and impossible to mistake for a real event fact.
+- **Tradeoff:** Screens look unfinished until the gaps are filled. That's intended.
+
+## 2026-10-13: Under $20 rule
+- **Choice:** A gathering counts when its lowest general-public price is under $20. Free and donation-based count. `xxx` and guessed (` xxx`) prices are unknown and left out of the filter.
+- **Reason:** Costs are free text; a fixed rule keeps the filter honest and explainable.
+- **Tradeoff:** Some cheap nights stay out of the filter until their price is confirmed.
+
+## 2026-10-13: Sessions from `data/session-rules.json`
+- **Choice:** Each gathering has either an RRULE or an explicit list of dates, in Atlanta time, for 2026. The 17 clear rules were confirmed; Songwriters Open Mic, Poetry on Peter, Art Out Loud, Collage Night, Lavender Lens, Saturday Matinee, Auburn Avenue Literary Society and Poetry & Wine use explicit dates; Swing Dance runs weekly through Dec 8; Figure Drawing Sessions is the 3rd Thursday. Figure Drawing (The Bakery) has no sessions (next date `xxx`).
+- **Reason:** Plain-English recurrence ("Monthly, Wednesdays") can't be turned into dates without guessing.
+- **Tradeoff:** Explicit date lists need updating by hand when they run out.
+
+## 2026-10-13: Check-in and product rules for the pilot build
+- **Choice:**
+  - No end time → check-in closes 3 hours after start (config value, `xxx`); the app shows the end as `xxx`.
+  - "Place" in badges = the same gathering, not the venue.
+  - City from the address instead of neighborhoods.
+  - The card opening in place is the gathering details screen.
+  - Center I'm here with nothing on → "Nothing on right now" plus the next sessions this week.
+  - Castleberry Hill (2nd Friday Art Stroll): no pin and no check-in until its address is known.
+  - Moon copy says "a new sun" for a first visit.
+  - No comets for now (no one-time events in the data).
+  - Mockup items with no data are left out (neighborhoods, "Coming solo" chip, "Saved artist", Instagram/Profile in Settings).
+- **Reason:** Answers to the open questions in the Milestone 2 plan (still valid after the change of plan below); CLAUDE.md wins over `design/`.
+- **Tradeoff:** Screens differ from the mockups in those places.
+
+## 2026-10-13: Dev panel behind an env variable
+- **Choice:** The "pretend I'm there" dev panel is on at localhost, and on elsewhere with `?dev=1`, unless an environment variable switches it off (`xxx`: switch it off in production before the pilot).
+- **Reason:** Testing check-ins away from venues, on localhost and the deployed site; real pilot users must not use it.
+- **Tradeoff:** Anyone who knows `?dev=1` can use it until it's switched off.
+
+## 2026-10-13: `profiles.sun_sign` is stored (deliberate exception)
+- **Choice:** Store `sun_sign` even though it's derived from the birthday.
+- **Reason:** The birthday is private to its owner, but others may see the sign, so the sign can't be computed from a field they can't read.
+- **Tradeoff:** If a birthday is edited, `sun_sign` must be updated in the same write.
+
+## 2026-10-13: The Google Sheet is the source; the CSV is its export
+- **Choice:** `data/gatherings.csv` is the "Gatherings" tab exported as CSV. The "To check" tab stays out of the app.
+- **Reason:** One place to edit gatherings.
+- **Tradeoff:** Re-export the CSV after every sheet edit.
+
+## 2026-10-13: One pilot build on Supabase, in 6 checkpoints
+- **Choice:** Milestones 2–4 are merged into one pilot build, built on Supabase from the start: real email-code sign-in (Resend), moon photos (Storage, private) and the real data. No localStorage prototype. Six checkpoints (see CLAUDE.md), each stopping for my test, review and commit.
+- **Reason:** I'm the only tester, so a throwaway prototype for friends isn't needed; building it twice would cost more than it teaches.
+- **Tradeoff:** The first visible screens arrive later (checkpoint 2), and accounts (Supabase, Resend) must be set up first.
+
+## 2026-10-13: `lib/store.ts` is the only door to data
+- **Choice:** Every screen reads and writes through `lib/store.ts`, which calls the Supabase client in the browser.
+- **Reason:** One place to change if the data source changes, and it keeps the core flows working without server-only Next.js features (for a later Capacitor wrap).
+- **Tradeoff:** One more file between a screen and its data.
