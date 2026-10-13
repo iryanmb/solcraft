@@ -21,6 +21,13 @@
   --color-planet-3: #9be3b8;
   --color-planet-4: #c9a7ff;
 
+  /* Smaller UI colors from the onboarding mockup (design/source/Main.dc.html) */
+  --color-placeholder: #8f8ca8; /* input placeholder text */
+  --color-track: #2c3060; /* unfilled progress segment */
+  --color-disabled-text: #6e6b88; /* text on a disabled button */
+  --color-error: #ff8f7a; /* error messages */
+  --color-star: #fff6da; /* constellation stars */
+
   /* Fonts (the --font-bricolage and --font-dm-sans variables
      are created by next/font in app/layout.tsx) */
   --font-display: var(--font-bricolage), system-ui, sans-serif;
@@ -31,6 +38,7 @@
   --radius-field: 14px;
   --radius-chip: 18px;
   --radius-pill: 28px;
+  --radius-input: 16px; /* text fields and selects (onboarding mockup) */
 
   /* Spacing scale (the gaps that repeat across the mockups) */
   --space-1: 4px;
@@ -45,7 +53,7 @@
 
   /* Layout */
   --gutter: 22px; /* side padding on phones (mobile mockups) */
-  --sidebar-width: 220px; /* desktop mockups' left nav, used from Milestone 2 */
+  --sidebar-width: 220px; /* desktop mockups' left nav, used from checkpoint 3 */
   --content-max: 1120px; /* desktop mockups' content width */
   --touch-min: 44px; /* smallest tap target */
 }
@@ -124,7 +132,7 @@ a:hover {
 }
 
 /* ==========================================================
-   App shell
+   Layout helpers
    ========================================================== */
 
 /* Centers content, caps it at --content-max, keeps side gutters. */
@@ -135,70 +143,366 @@ a:hover {
   padding-inline: var(--gutter);
 }
 
-.site-header {
-  border-bottom: 1px solid var(--color-surface-2);
-}
-
-.header-inner {
-  display: flex;
-  align-items: center;
-  min-height: 64px;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  min-height: var(--touch-min);
-  color: var(--color-text);
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.brand:hover {
-  color: var(--color-text);
+/* Read by screen readers, invisible on screen. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 /* ==========================================================
-   Home page
+   Full-height phone screens (onboarding, welcome)
+   A column: top bar, content that grows, buttons at the bottom.
+   On wide screens it stays phone-width in the middle.
    ========================================================== */
-.hero {
+.screen {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 480px;
+  min-height: 100dvh;
+  margin-inline: auto;
+  padding: 56px 24px max(34px, env(safe-area-inset-bottom));
+}
+
+.screen-top {
+  display: flex;
   align-items: center;
+  gap: 14px;
+  min-height: var(--touch-min);
+  margin-bottom: 30px;
+}
+
+.screen-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   gap: var(--space-3);
-  padding-block: var(--space-9) var(--space-8);
-  text-align: center;
 }
 
-.eyebrow {
-  margin: var(--space-6) 0 0;
+.screen-body.centered {
+  justify-content: center;
+  gap: 28px;
+}
+
+.screen-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: var(--space-6);
+}
+
+.screen-title {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.08;
+}
+
+.screen-title.big {
+  font-size: 40px;
+}
+
+.screen-sub {
+  margin: 0;
   color: var(--color-muted);
-  font-size: 15px;
-  letter-spacing: 0.04em;
+  font-size: 16px;
 }
 
-.hero h1 {
-  font-size: clamp(36px, 7vw, 44px);
+.fine-print {
+  margin: 0;
+  color: var(--color-placeholder);
+  font-size: 13px;
+}
+
+.fine-print a {
+  color: var(--color-muted);
+}
+
+.error {
+  margin: 6px 0 0;
+  color: var(--color-error);
+  font-size: 15px;
+}
+
+/* ==========================================================
+   Buttons
+   ========================================================== */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 54px;
+  border: none;
+  border-radius: 27px;
+  background: transparent;
+  color: var(--color-text);
+  font: 700 16px var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--color-sun);
+  color: var(--color-ink);
+}
+
+.btn-primary:hover {
+  background: var(--color-sun-light);
+  color: var(--color-ink);
+}
+
+.btn:disabled {
+  background: var(--color-surface-2);
+  color: var(--color-disabled-text);
+  cursor: default;
+}
+
+.btn-ghost:hover {
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+/* A text-only button that sits inside a sentence ("Edit"). */
+.text-button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-sun);
+  font: 700 16px var(--font-body);
+  cursor: pointer;
+}
+
+.link-button {
+  align-self: flex-start;
+  min-height: var(--touch-min);
+  margin-top: 10px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-muted);
+  font: 500 15px var(--font-body);
+  cursor: pointer;
+}
+
+.link-button:disabled {
+  color: var(--color-disabled-text);
+  cursor: default;
+}
+
+/* The round back arrow. */
+.back-button {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border: 1.5px solid var(--color-border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+/* ==========================================================
+   Form fields
+   ========================================================== */
+.field {
+  width: 100%;
+  height: 58px;
+  margin-top: 18px;
+  padding: 0 18px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-input);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: 500 20px var(--font-body);
+}
+
+.field::placeholder {
+  color: var(--color-placeholder);
+}
+
+.select-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.15fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.select-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.select-label .field {
+  margin-top: 0;
+  padding: 0 12px;
+  font-size: 17px;
+}
+
+/* Six boxes that show the code; one invisible input on top does the typing,
+   so paste and iPhone's "From Mail" code suggestion still work. */
+.code-boxes {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: 18px;
+}
+
+.code-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-field);
+  background: var(--color-surface);
+  font: 700 24px var(--font-body);
+}
+
+.code-box.active {
+  border-color: var(--color-sun);
+}
+
+.code-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  opacity: 0;
+  font-size: 16px; /* 16px stops iPhone from zooming in */
+  cursor: text;
+}
+
+/* ==========================================================
+   Progress bar (4 sign-up steps)
+   ========================================================== */
+.progress {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.progress span {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-track);
+}
+
+.progress span.done {
+  background: var(--color-sun);
+}
+
+/* ==========================================================
+   Sun glow and gentle entrances
+   ========================================================== */
+.sun-glow {
+  filter: drop-shadow(0 0 28px rgba(255, 194, 58, 0.5));
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(28px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.rise {
+  animation: rise 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* The constellation reveal: lines draw, stars pop in, then the words. */
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 2.6s ease-in-out 0.9s forwards;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.pop {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pop 0.5s ease-out forwards;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.late {
+  opacity: 0;
+  animation: fade-up 0.7s ease-out 3.2s forwards;
+}
+
+/* ==========================================================
+   Plain text pages (Terms, Privacy) and placeholders
+   ========================================================== */
+.page {
+  max-width: 680px;
+  margin-inline: auto;
+  padding: var(--space-9) var(--gutter);
+}
+
+.page h1 {
+  margin-bottom: var(--space-4);
+  font-size: 34px;
   font-weight: 800;
 }
 
-.lede {
-  max-width: 36ch;
-  margin: 0;
+.page p {
   color: var(--color-muted);
 }
 
+/* ==========================================================
+   /tokens: color swatches for checking by eye
+   ========================================================== */
 .tokens {
-  padding-block: var(--space-7) var(--space-9);
+  padding-block: var(--space-9);
 }
 
-.tokens h2 {
-  margin-bottom: var(--space-4);
-  font-size: 22px;
-  font-weight: 700;
+.tokens h1 {
+  margin-bottom: var(--space-6);
+  font-size: 34px;
+  font-weight: 800;
 }
 
 .swatches {
@@ -244,9 +548,19 @@ a:hover {
 }
 
 /* ==========================================================
-   Respect "reduce motion" (no animations yet; ready for later)
+   Respect "reduce motion"
    ========================================================== */
 @media (prefers-reduced-motion: reduce) {
+  .rise,
+  .draw,
+  .pop,
+  .late {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    stroke-dashoffset: 0;
+  }
+
   *,
   *::before,
   *::after {

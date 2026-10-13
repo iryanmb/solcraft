@@ -135,3 +135,23 @@ Short log of choices that shape the project. Newest at the bottom.
 - **Choice:** `scripts/*.ts` run with plain `node` (Node 26 strips the types itself) and read `.env.local` with `--env-file`. `package.json` has `"type": "module"`.
 - **Reason:** No extra tools (ts-node, dotenv) to install or learn.
 - **Tradeoff:** Imports between scripts need the `.ts` ending, and only type syntax that can simply be erased is allowed (`erasableSyntaxOnly`).
+
+## 2026-10-13: Sign-in runs in the browser, pages are static
+- **Choice:** The Supabase client (`lib/supabase.ts`) runs in the browser and keeps the session on the device. Pages are client components and are built as static files; `/` checks the account and sends you to Welcome, onboarding or Your Sky. No middleware, server actions or server cookies.
+- **Reason:** CLAUDE.md asks the core flows not to depend on server-only Next.js features, so a Capacitor app can wrap the same pages later.
+- **Tradeoff:** Each protected screen shows a blank frame for a moment while it checks the account, and the redirect happens in the browser. Row Level Security, not the redirect, is what protects the data.
+
+## 2026-10-13: Onboarding details
+- **Choice:**
+  - Nothing is saved until Continue on the birthday step; then the profile is created and the database returns the sun sign shown in the reveal.
+  - Back on the name step signs out and returns to the email step ("wrong email").
+  - Birthday selects start empty (no pre-filled date); the year list includes under-18 years so the 18+ message can show.
+  - "I have an account" uses the same code flow; it only changes the title and hides the progress bar (as in the mockup).
+  - Placeholder Discover and Your Sky pages carry a temporary Sign out button (`xxx` until Settings in checkpoint 6). The color swatches moved to `/tokens`.
+- **Reason:** Matches CLAUDE.md (one code flow, 18+) and the onboarding mockup; one source of truth for the sign.
+- **Tradeoff:** Reloading during onboarding starts again at the name step.
+
+## 2026-10-13: Extra UI colors from the onboarding mockup
+- **Choice:** Added `--color-placeholder`, `--color-track`, `--color-disabled-text`, `--color-error`, `--color-star` and `--radius-input` (16px) to `app/globals.css`, taken from `design/source/Main.dc.html`.
+- **Reason:** CLAUDE.md's tokens don't cover these small states; the mockup does.
+- **Tradeoff:** More tokens than CLAUDE.md lists. Disabled-button text is low contrast, which is allowed for disabled controls.

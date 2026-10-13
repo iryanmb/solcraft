@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import Link from "next/link";
 import { Bricolage_Grotesque, DM_Sans } from "next/font/google";
-import SunMark from "@/components/SunMark";
 import "./globals.css";
 
 // next/font downloads these at build time and serves them from our own site.
@@ -28,6 +26,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#0E1024",
+  // Lets the layout reach the screen edges on iPhone; .screen pads around the home bar.
+  viewportFit: "cover",
 };
 
 // Every page is rendered inside this layout.
@@ -38,17 +38,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        <header className="site-header">
-          <div className="shell header-inner">
-            <Link href="/" className="brand">
-              <SunMark size={36} strokeWidth={4} />
-              Solcraft
-            </Link>
-          </div>
-        </header>
-        <main id="main" className="shell">
-          {children}
-        </main>
+        <main id="main">{children}</main>
       </body>
     </html>
   );

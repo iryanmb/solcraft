@@ -9,7 +9,8 @@
     "start": "next start",
     "geocode": "node scripts/geocode-venues.ts",
     "import": "node --env-file=.env.local scripts/import.ts",
-    "check-db": "node --env-file=.env.local scripts/check-database.ts"
+    "check-db": "node --env-file=.env.local scripts/check-database.ts",
+    "types": "supabase gen types typescript --linked > lib/database.types.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.3",
