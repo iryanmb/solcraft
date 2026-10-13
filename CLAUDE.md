@@ -78,9 +78,9 @@ Solcraft helps people find recurring cultural gatherings in Atlanta (poetry nigh
 
 ## Gatherings data
 - `data/gatherings.csv` = 28 verified Atlanta gatherings (exported from my Google Sheet). Columns: Gathering, Art form, Host, Venue, Address, Recurrence, Start, End, Cost, Age, How you take part, Why it fits Solcraft, Source, Last verified.
-- Recurrence is plain English ("Monthly, 3rd Friday"). Sessions come from either a confirmed RRULE or an explicit list of dates per gathering (`data/session-rules.json`). Generate the next 8 weeks. Gatherings with neither show "Next date not listed".
+- Recurrence is plain English ("Monthly, 3rd Friday"). Sessions come from either a confirmed RRULE or an explicit list of dates per gathering (`data/session-rules.json`). Generate the next 8 weeks. Gatherings with neither show the next date as `xxx` for now.
 - The Google Sheet is where I edit; `data/gatherings.csv` is its export and the build's source of truth.
-- "Under $20": the lowest general-public price is under $20; free and donation-based count; blank or "price not listed" is unknown and excluded.
+- "Under $20": the lowest general-public price (the part before the first ";") is under $20; free and donation-based count; `xxx` and guessed (` xxx`) prices are unknown and excluded.
 - Addresses need lat/lng. Propose how (a free geocoder within its usage policy, or I enter them), and flag rows without a single address (e.g. "Galleries across Castleberry Hill").
 - `data/zodiac-constellations.json` = the 12 constellation figures (SVG path + stars with brightness) and sun-sign date ranges. Keep its attribution line (d3-celestial, BSD-3-Clause) and credit it on an About or Terms page.
 
@@ -95,7 +95,7 @@ Solcraft helps people find recurring cultural gatherings in Atlanta (poetry nigh
 ## Screens (see `design/`)
 `design/screens/pilot/` are the screens for the pilot; `design/screens/later/` are for after it. `design/source/` holds the HTML mockups (they need a design runtime to render, so read them for layout, copy and tokens, and look at the PNGs to see them).
 
-**Pilot scope:** Onboarding · Discover (list with This week / Under $20 / All filters, map view, cards expand in place) · gathering details + I'm here · check-in moment · Moon (next morning: word, line, photo) · Your Sky (Sky + Moons tabs; tap a sun → its planets) · Planet detail · Sun Road · Settings (account: name, email, birthday; privacy policy; terms; sign out; delete account) · Plan it (.ics with two reminders).
+**Pilot scope:** Onboarding · Discover (list with This week (Monday to Sunday, Atlanta time) / Under $20 / All filters, map view, cards expand in place) · gathering details + I'm here · check-in moment · Moon (next morning: word, line, photo) · Your Sky (Sky + Moons tabs; tap a sun → its planets) · Planet detail · Sun Road · Settings (account: name, email, birthday; privacy policy; terms; sign out; delete account) · Plan it (.ics with two reminders).
 
 Known gaps in `design/`: the check-in moment and the center nav button still show the old QR/scan idea; build the location "I'm here" flow above instead. Bottom nav for the pilot: Discover · I'm here (center) · Your Sky · Sun Road. Rooms comes later.
 

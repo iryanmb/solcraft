@@ -17,6 +17,9 @@ Tick a box when it's done (`[ ]` → `[x]`). Line numbers can drift; search for 
 ### Checkpoint 2: Sign-in and onboarding
 - [ ] **Rewrite an error message.** In `lib/store.ts`, change "That code didn't work. Check it, or send a new one." to your own words. Save, enter a wrong code on localhost, and see your words. *Learn:* screens get their messages from the store.
 
+### Checkpoint 3: Discover
+- [ ] **Move the Under $20 line.** In `lib/gatherings.ts`, inside `isUnderTwenty`, change `< 20` to `< 12`. Run `npm run check-derived` and see which gatherings flip to "no", then open Discover and watch the Under $20 count drop. Put it back to `< 20`. *Learn:* the filter is a rule in code worked out from the cost text, not a stored yes/no.
+
 ## Also on my list
 - [ ] Move the files in `~/Desktop/documents-git-rescue/` (3 photos, BreakThroughTech projects, resume) somewhere permanent, then delete that folder.
 - [ ] Before anyone else signs in: buy a domain, verify it in Resend, and change the SMTP sender in Supabase from `onboarding@resend.dev` (DECISIONS.md, "No domain yet").

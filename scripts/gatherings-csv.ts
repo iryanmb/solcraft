@@ -24,9 +24,8 @@ const COLUMNS = [
 
 export type CsvRow = Record<(typeof COLUMNS)[number], string>;
 
-// The placeholder marker (see CLAUDE.md). "xxx" alone = unknown; "... xxx" = a best guess.
-export const XXX = "xxx";
-export const isUnknown = (value: string) => value.trim() === XXX;
+// The placeholder marker lives in lib/placeholders.ts; re-exported for the other scripts.
+export { isUnknown, XXX } from "../lib/placeholders.ts";
 
 // Splits CSV text into rows of cells. Handles quoted cells, which can contain commas
 // ("515-B N McDonough St, Decatur, GA") and doubled quotes ("" means one ").

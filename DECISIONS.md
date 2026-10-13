@@ -155,3 +155,28 @@ Short log of choices that shape the project. Newest at the bottom.
 - **Choice:** Added `--color-placeholder`, `--color-track`, `--color-disabled-text`, `--color-error`, `--color-star` and `--radius-input` (16px) to `app/globals.css`, taken from `design/source/Main.dc.html`.
 - **Reason:** CLAUDE.md's tokens don't cover these small states; the mockup does.
 - **Tradeoff:** More tokens than CLAUDE.md lists. Disabled-button text is low contrast, which is allowed for disabled controls.
+
+## 2026-10-13: Discover rules
+- **Choice:**
+  - This week = Monday 00:00 to the next Monday 00:00, Atlanta time; sessions that already ended drop off.
+  - One card per gathering, headlining its next session in the filter; sorted by that session; gatherings with no upcoming date come last and show "Next date: xxx".
+  - Under $20 counts all gatherings (any date). The general-public price is the part of the cost before the first ";". A note shows how many have price `xxx` or a guess.
+  - City comes from the address (`lib/gatherings.ts`); times are always shown in Atlanta time (`lib/time.ts`).
+  - The open card is the gathering details: why it fits, When / Starts / Ends / You can / Cost / Age, the next four dates, address with a Directions link, host, source and last-checked date.
+- **Reason:** Your answers on the checkpoint 3 plan; nothing shown that the data doesn't say.
+- **Tradeoff:** A gathering meeting three times this week (Laughing Skull) shows one card; its other dates are in the details.
+
+## 2026-10-13: Signed-in screens share one frame
+- **Choice:** Pages in `app/(app)/` share `AppShell`: one account check, the profile passed down through React context, a bottom bar on phones (Discover takes the left half so I'm here sits dead center) and a sidebar from 900px.
+- **Reason:** The account check and nav in one place instead of on every screen.
+- **Tradeoff:** The bottom bar is slightly lopsided (Discover alone on the left); that's what keeps the I'm here button in the middle with four places.
+
+## 2026-10-13: Shared helpers in `lib/`, used by app and scripts
+- **Choice:** Atlanta date/time math (`lib/time.ts`), the `xxx` marker (`lib/placeholders.ts`) and derived facts (`lib/gatherings.ts`) live in `lib/`; the scripts import them. Their imports end in `.ts` so Node can run them directly.
+- **Reason:** One copy of each rule for both the import and the screens.
+- **Tradeoff:** `lib/` mixes the two import styles (with and without `.ts`).
+
+## 2026-10-13: Map tiles — CARTO needs a key now (`xxx`, waiting on my choice)
+- **Choice:** Not decided. CARTO's free dark tiles now require an API key (an account). Key-free option: OpenFreeMap (free, no key, commercial use allowed, has a dark style), which uses the MapLibre library instead of Leaflet.
+- **Reason:** The plan said Leaflet + CARTO without a key; that no longer works.
+- **Tradeoff:** See the options in the checkpoint 3 report.

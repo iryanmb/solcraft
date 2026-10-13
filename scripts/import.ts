@@ -10,7 +10,8 @@ import { readFileSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
 import { SESSION_WEEKS, TIMEZONE } from "../lib/config.ts";
 import { isUnknown, readGatheringsCsv, slugify, venueIds, venueKey, XXX } from "./gatherings-csv.ts";
-import { addDays, atlantaToInstant, dayToIso, parse24h, parseClock, sessionsFor, todayInAtlanta, type Rule } from "./sessions.ts";
+import { addDays, atlantaToInstant, dayToIso, todayInAtlanta } from "../lib/time.ts";
+import { parse24h, parseClock, sessionsFor, type Rule } from "./sessions.ts";
 
 const dryRun = process.argv.includes("--dry-run");
 

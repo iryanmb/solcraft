@@ -2,6 +2,7 @@
 // errors into short messages a person can act on. If the data source ever changes,
 // only this file changes.
 
+import { NO_END_WINDOW_HOURS } from "./config";
 import { supabase } from "./supabase";
 import type { Database } from "./database.types";
 
@@ -85,4 +86,59 @@ export async function createProfile(displayName: string, birthday: string): Prom
   // 42501 = refused by Row Level Security, which here means under 18.
   if (error) throw friendly(error, error.code === "42501" ? "Solcraft is for people 18 and older." : undefined);
   return data;
+}
+
+// ---- Discover -------------------------------------------------------------------
+
+export type Session = { id: string; startsAt: Date; endsAt: Date | null };
+
+export type DiscoverGathering = {
+  id: string;
+  title: string;
+  artForm: string;
+  recurrenceText: string;
+  startText: string;
+  endText: string;
+  howYouTakePart: string;
+  whyItFits: string;
+  costText: string;
+  ageText: string;
+  sourceUrl: string;
+  lastVerifiedAt: string; // YYYY-MM-DD
+  hostName: string;
+  venue: { id: string; name: string; address: string; lat: number | null; lng: number | null };
+  upcoming: Session[]; // scheduled sessions that haven't ended yet, soonest first
+};
+
+// Every published gathering with its venue, host and upcoming sessions, in one request.
+export async function getDiscover(now = new Date()): Promise<DiscoverGathering[]> {
+  const { data, error } = await supabase
+    .from("gatherings")
+    .select(
+      "id, title, art_form, recurrence_text, start_text, end_text, how_you_take_part, why_it_fits, cost_text, age_text, source_url, last_verified_at, venue:venues(id, name, address, lat, lng), host:hosts(name), sessions(id, starts_at, ends_at, status)",
+    )
+    .eq("status", "published");
+  if (error) throw friendly(error, "Couldn't load gatherings. Try again.");
+
+  return data.map((row) => ({
+    id: row.id,
+    title: row.title,
+    artForm: row.art_form,
+    recurrenceText: row.recurrence_text,
+    startText: row.start_text,
+    endText: row.end_text,
+    howYouTakePart: row.how_you_take_part,
+    whyItFits: row.why_it_fits,
+    costText: row.cost_text,
+    ageText: row.age_text,
+    sourceUrl: row.source_url,
+    lastVerifiedAt: row.last_verified_at,
+    hostName: row.host.name,
+    venue: row.venue,
+    upcoming: row.sessions
+      .filter((s) => s.status === "scheduled")
+      .map((s) => ({ id: s.id, startsAt: new Date(s.starts_at), endsAt: s.ends_at ? new Date(s.ends_at) : null }))
+      .filter((s) => (s.endsAt ?? new Date(s.startsAt.getTime() + NO_END_WINDOW_HOURS * 3_600_000)) > now)
+      .sort((a, b) => a.startsAt.getTime() - b.startsAt.getTime()),
+  }));
 }

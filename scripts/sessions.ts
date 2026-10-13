@@ -1,28 +1,10 @@
 // Turns a gathering's rule (an RRULE or a list of dates) plus its start/end times into
-// session start and end instants. Dates are calendar days in Atlanta; the database stores
-// instants (timestamptz), so each local time is converted to UTC here.
+// session start and end instants. Date and time-zone helpers live in lib/time.ts.
 
-import { TIMEZONE } from "../lib/config.ts";
+import { addDays, atlantaToInstant, dayFromIso, type Clock, type Day } from "../lib/time.ts";
 
 export type Rule = { rrule?: string; dates?: string[]; start?: string; end?: string; note?: string };
-export type Clock = { hour: number; minute: number }; // 24-hour local time
 export type SessionTimes = { startsAt: Date; endsAt: Date | null };
-
-// A calendar day with no time zone. Stored as a UTC midnight only so date math is easy.
-type Day = Date;
-
-export const dayFromIso = (iso: string): Day => {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) throw new Error(`Bad date "${iso}", expected YYYY-MM-DD`);
-  return new Date(`${iso}T00:00:00Z`);
-};
-export const dayToIso = (day: Day) => day.toISOString().slice(0, 10);
-export const addDays = (day: Day, n: number): Day => new Date(day.getTime() + n * 86_400_000);
-
-// Today's date in Atlanta (not on this computer's clock, which could be elsewhere).
-export function todayInAtlanta(now = new Date()): Day {
-  const parts = new Intl.DateTimeFormat("en-CA", { timeZone: TIMEZONE, year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
-  return dayFromIso(parts); // en-CA formats as YYYY-MM-DD
-}
 
 // "9:15 PM (doors 8:30)" -> 21:15. "About 10:00 PM xxx" -> 22:00. "12:00 AM" -> 0:00. "xxx" -> null.
 export function parseClock(text: string): Clock | null {
@@ -38,34 +20,6 @@ export function parse24h(text: string): Clock {
   const match = text.match(/^(\d{2}):(\d{2})$/);
   if (!match) throw new Error(`Bad time "${text}", expected HH:MM`);
   return { hour: Number(match[1]), minute: Number(match[2]) };
-}
-
-// How far Atlanta's clock is ahead of UTC at a given instant, in minutes (-240 in summer, -300 in winter).
-function atlantaOffsetMinutes(instant: number): number {
-  const parts = Object.fromEntries(
-    new Intl.DateTimeFormat("en-US", {
-      timeZone: TIMEZONE,
-      hourCycle: "h23",
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    })
-      .formatToParts(new Date(instant))
-      .map((p) => [p.type, Number(p.value)]),
-  );
-  const asIfUtc = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute);
-  return Math.round((asIfUtc - instant) / 60_000);
-}
-
-// A wall-clock time on an Atlanta calendar day -> the real instant. Handles the clock
-// change (Nov 1, 2026): the offset is checked again after the first guess.
-export function atlantaToInstant(day: Day, clock: Clock): Date {
-  const wall = Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), clock.hour, clock.minute);
-  let instant = wall - atlantaOffsetMinutes(wall) * 60_000;
-  instant = wall - atlantaOffsetMinutes(instant) * 60_000;
-  return new Date(instant);
 }
 
 const WEEKDAYS = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];

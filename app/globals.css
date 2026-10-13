@@ -474,6 +474,371 @@ a:hover {
 }
 
 /* ==========================================================
+   App shell: bottom bar on phones, sidebar from 900px wide
+   ========================================================== */
+.app {
+  min-height: 100dvh;
+}
+
+.app-main {
+  /* room for the bottom bar (and the iPhone home bar) */
+  padding-bottom: calc(84px + env(safe-area-inset-bottom));
+}
+
+.app-page {
+  width: 100%;
+  max-width: calc(var(--content-max) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding: 56px var(--gutter) var(--space-8);
+}
+
+.page-title {
+  font-size: 34px;
+  font-weight: 800;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.sidebar {
+  display: none;
+}
+
+.bottom-nav {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 5;
+  display: grid;
+  /* Discover takes the left half; I'm here sits dead center; Your Sky and Sun Road share the right. */
+  grid-template-columns: 2fr auto 1fr 1fr;
+  align-items: center;
+  height: calc(84px + env(safe-area-inset-bottom));
+  padding: 0 8px env(safe-area-inset-bottom);
+  border-top: 1px solid var(--color-surface-2);
+  background: var(--color-bg);
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: var(--touch-min);
+  color: var(--color-muted);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.tab:hover {
+  color: var(--color-text);
+}
+
+.tab[aria-current="page"] {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.here-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  margin: -26px 12px 0;
+  border-radius: 50%;
+  background: var(--color-sun);
+  color: var(--color-ink);
+}
+
+.here-button:hover,
+.here-button[aria-current="page"] {
+  background: var(--color-sun-light);
+  color: var(--color-ink);
+}
+
+@media (min-width: 900px) {
+  .app {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  }
+
+  .app-main {
+    grid-column: 2;
+    grid-row: 1;
+    padding-bottom: 0;
+  }
+
+  .app-page {
+    padding: 40px 40px 48px;
+  }
+
+  .page-title {
+    font-size: 44px;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+
+  .sidebar {
+    grid-column: 1;
+    grid-row: 1;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    height: 100dvh;
+    padding: 32px 24px;
+    border-right: 1px solid var(--color-surface-2);
+  }
+
+  .sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--color-text);
+}
+
+.side-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--touch-min);
+  padding: 0 14px;
+  border-radius: var(--radius-field);
+  color: var(--color-muted);
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.side-link:hover {
+  color: var(--color-text);
+}
+
+.side-link[aria-current="page"] {
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.side-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: auto 0 0;
+  padding: 10px 12px;
+  color: var(--color-muted);
+  font-size: 15px;
+}
+
+.side-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-surface-2);
+}
+
+/* ==========================================================
+   Discover: filters and cards
+   ========================================================== */
+.discover-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: 20px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-min);
+  padding: 0 8px 0 16px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 22px;
+  background: transparent;
+  color: var(--color-text);
+  font: 500 14px var(--font-body);
+  cursor: pointer;
+}
+
+.chip.on {
+  border-color: var(--color-sun);
+  background: var(--color-sun);
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+.chip-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 12px;
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.chip.on .chip-count {
+  background: var(--color-ink);
+  color: var(--color-sun);
+}
+
+.list-note {
+  margin: -8px 0 16px;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.list-message {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  color: var(--color-muted);
+}
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.card {
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.card.open {
+  border-color: var(--color-sun);
+}
+
+.card-heading {
+  margin: 0;
+  font: inherit;
+}
+
+.card-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+  padding: 20px;
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  text-align: left;
+  cursor: pointer;
+}
+
+.card-when {
+  color: var(--color-sun-light);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.card-meta {
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0 20px 22px;
+}
+
+.card-why {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 14px;
+  border-radius: var(--radius-field);
+  background: var(--color-surface-2);
+}
+
+.tile dt {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+.tile dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.card-line {
+  margin: 0;
+  font-size: 15px;
+}
+
+.card-line.muted {
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+/* ==========================================================
    Plain text pages (Terms, Privacy) and placeholders
    ========================================================== */
 .page {
