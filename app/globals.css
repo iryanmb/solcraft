@@ -647,8 +647,16 @@ a:hover {
   gap: 12px;
   margin: auto 0 0;
   padding: 10px 12px;
+  border-radius: var(--radius-field);
   color: var(--color-muted);
   font-size: 15px;
+  text-decoration: none;
+}
+
+.side-user:hover,
+.side-user[aria-current="page"] {
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 
 .side-avatar {
@@ -1275,8 +1283,12 @@ a:hover {
     width: auto;
   }
 
-  .sky-head .sun-count {
+  .sky-head .sky-head-end {
     justify-self: end;
+  }
+
+  .gear {
+    display: none !important;
   }
 }
 
@@ -1860,6 +1872,188 @@ a:hover {
 }
 
 /* ==========================================================
+   Settings (08), Plan it
+   ========================================================== */
+.sky-head-end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.gear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-muted);
+}
+
+.gear:hover {
+  color: var(--color-text);
+}
+
+.settings {
+  max-width: 720px;
+}
+
+.settings-group {
+  margin-top: var(--space-6);
+}
+
+.settings-group .section-title {
+  margin-top: 0;
+}
+
+.settings-card {
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.settings-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 60px;
+  padding: 8px 20px;
+  border-bottom: 1px solid var(--color-surface-2);
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+}
+
+.settings-label {
+  font-size: 16px;
+}
+
+.settings-value {
+  min-height: var(--touch-min);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-muted);
+  font: 15px var(--font-body);
+  text-align: right;
+  cursor: pointer;
+}
+
+.settings-value:hover {
+  color: var(--color-text);
+}
+
+.settings-value.static {
+  display: flex;
+  align-items: center;
+  cursor: default;
+}
+
+.settings-edit {
+  display: flex;
+  flex: 1 1 100%;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-bottom: 12px;
+}
+
+.settings-edit .field,
+.settings-edit .select-row {
+  margin-top: 0;
+}
+
+.settings-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.settings-save {
+  width: auto;
+  padding: 0 24px;
+}
+
+.settings-link {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.settings-link:hover {
+  color: var(--color-text);
+  background: var(--color-surface-2);
+}
+
+.settings-link span {
+  color: var(--color-muted);
+}
+
+.settings-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+}
+
+.settings-signout {
+  width: auto;
+  padding: 0 28px;
+  border: 1.5px solid var(--color-border);
+}
+
+.delete-link {
+  min-height: var(--touch-min);
+  color: var(--color-error);
+}
+
+.delete-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  padding: 22px;
+  border: 1.5px solid var(--color-error);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.btn-danger {
+  width: auto;
+  padding: 0 24px;
+  background: var(--color-error);
+  color: var(--color-ink);
+}
+
+.plan-it {
+  flex: none;
+  width: auto;
+  height: 46px;
+  padding: 0 24px;
+  white-space: nowrap;
+}
+
+.card-details .plan-it {
+  align-self: flex-start;
+}
+
+.next-session {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.next-session > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ==========================================================
    Plain text pages (Terms, Privacy) and placeholders
    ========================================================== */
 .page {
@@ -1872,6 +2066,12 @@ a:hover {
   margin-bottom: var(--space-4);
   font-size: 34px;
   font-weight: 800;
+}
+
+.page h2 {
+  margin: var(--space-6) 0 var(--space-2);
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .page p {

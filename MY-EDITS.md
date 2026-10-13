@@ -34,9 +34,15 @@ Tick a box when it's done (`[ ]` → `[x]`). Line numbers can drift; search for 
 - [ ] **Walk the Sun Road.** Open **Sun Road**, read the two tips, then tap each badge to see its challenge. Press **?** to see the tips again. *Learn:* badges need both the step and the challenge.
 - [ ] **Move a sun.** In `components/SkyMap.tsx`, change the first entry in `SPOTS` from `[115, 165]` to `[115, 120]`. Your first sun moves up. Put it back. *Learn:* suns sit at fixed spots, in the order you found them.
 
+### Checkpoint 6: Settings, Plan it, legal, Home Screen
+- [ ] **Edit yourself.** Open Settings (the gear on Your Sky on a phone, or your name at the bottom of the sidebar). Change your name, then your birthday by one month, and watch your sign change. Change it back. *Learn:* the database works out the sign from the birthday.
+- [ ] **Plan a night.** Open any planet (Your Sky → tap a sun → a night) or an open Discover card, tap **Plan it**, and add it to your calendar. *Learn:* a .ics file is just text your calendar app understands; there are no reminders in it.
+- [ ] **Add Solcraft to your Home Screen.** On your iPhone in Safari, open solcraft-pi.vercel.app, tap Share → **Add to Home Screen**. Open it from the icon: no browser bars. *Learn:* the manifest and icons make a website feel like an app.
+- [ ] **Write the legal pages.** Replace the `xxx` in `app/terms/page.tsx` and `app/privacy/page.tsx` with your own words (or have them reviewed). *Learn:* nothing else changes when an `xxx` is replaced.
+
 ## Also on my list
 - [ ] Move the files in `~/Desktop/documents-git-rescue/` (3 photos, BreakThroughTech projects, resume) somewhere permanent, then delete that folder.
-- [ ] Before anyone else signs in: buy a domain, verify it in Resend, and change the SMTP sender in Supabase from `onboarding@resend.dev` (DECISIONS.md, "No domain yet").
+- [ ] Before anyone else signs in: buy a domain, verify it in Resend, and change the SMTP sender in Supabase from `onboarding@resend.dev` (DECISIONS.md, "No domain yet"). Then add "change email" to Settings.
 - [ ] Before the pilot: decide the public wording for every `xxx` (search the project for `xxx`).
 - [ ] Before the pilot: on Vercel, add `NEXT_PUBLIC_DEV_PANEL` = `off` (Settings → Environment Variables), and use "Delete my check-ins" to clear test check-ins.
 - [ ] Before the pilot: confirm the check-in window (1 h before / 1 h after / 4 h with no end) and the 150 m radius at a real venue; they're `xxx` in `supabase/migrations/*_checkins_and_moons.sql`.

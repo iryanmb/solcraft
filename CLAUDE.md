@@ -95,7 +95,7 @@ Solcraft helps people find recurring cultural gatherings in Atlanta (poetry nigh
 ## Screens (see `design/`)
 `design/screens/pilot/` are the screens for the pilot; `design/screens/later/` are for after it. `design/source/` holds the HTML mockups (they need a design runtime to render, so read them for layout, copy and tokens, and look at the PNGs to see them).
 
-**Pilot scope:** Onboarding · Discover (list with This week (Monday to Sunday, Atlanta time) / Under $20 / All filters, map view, cards expand in place) · gathering details + I'm here · check-in moment · Moon (next morning: word, line, photo) · Your Sky (Sky + Moons tabs; tap a sun → its planets) · Planet detail · Sun Road · Settings (account: name, email, birthday; privacy policy; terms; sign out; delete account) · Plan it (.ics with two reminders).
+**Pilot scope:** Onboarding · Discover (list with This week (Monday to Sunday, Atlanta time) / Under $20 / All filters, map view, cards expand in place) · gathering details + I'm here · check-in moment · Moon (next morning: word, line, photo) · Your Sky (Sky + Moons tabs; tap a sun → its planets) · Planet detail · Sun Road · Settings (account: name, email, birthday; privacy policy; terms; sign out; delete account) · Plan it (.ics, no reminders: Solcraft doesn't add alerts to people's calendars).
 
 Known gaps in `design/`: the check-in moment and the center nav button still show the old QR/scan idea; build the location "I'm here" flow above instead. Bottom nav for the pilot: Discover · I'm here (center) · Your Sky · Sun Road. Rooms comes later.
 
@@ -112,7 +112,7 @@ Known gaps in `design/`: the check-in moment and the center nav button still sho
 
 ## Milestones
 1. **Hello, sun**: done and live on Vercel.
-2. **The pilot build (one milestone, built in checkpoints)**: real data and accounts from the start. Supabase schema + RLS, email-code sign-in (Resend), the 28 gatherings and their sessions, onboarding, Discover, gathering details, I'm here (with the dev panel for testing away from venues), check-in moment, Moon (word, line, photo), Your Sky, Planet, Sun Road, Settings (account, sign out, delete account), Plan it (.ics), Terms/Privacy/credits pages (`xxx` until written), production deploy. I'm the tester. Stop at each checkpoint so I can test, review and commit:
+2. **The pilot build (one milestone, built in checkpoints)**: real data and accounts from the start. Supabase schema + RLS, email-code sign-in (Resend), the 28 gatherings and their sessions, onboarding, Discover, gathering details, I'm here (with the dev panel for testing away from venues), check-in moment, Moon (word, line, photo), Your Sky, Planet, Sun Road, Settings (account, sign out, delete account), Plan it (.ics, no reminders), Home Screen manifest, Terms/Privacy/credits pages (`xxx` until written), production deploy. I'm the tester. Stop at each checkpoint so I can test, review and commit:
    1. Supabase project, schema, RLS, data import and sessions
    2. Sign-in and onboarding
    3. Discover and gathering details

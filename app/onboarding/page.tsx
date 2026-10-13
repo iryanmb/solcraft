@@ -7,25 +7,11 @@
 import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import BirthdayFields, { isAdult, isComplete, toIso, type BirthdayParts } from "@/components/BirthdayFields";
 import Constellation from "@/components/Constellation";
 import ScreenTop from "@/components/ScreenTop";
 import { createProfile, signOut, StoreError, type Profile } from "@/lib/store";
 import { useAccount } from "@/lib/useAccount";
-
-const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const THIS_YEAR = new Date().getFullYear();
-// Includes years under 18, so a younger person sees why they can't continue.
-const YEARS = Array.from({ length: 90 }, (_, i) => THIS_YEAR - 10 - i);
-
-const pad = (n: number) => String(n).padStart(2, "0");
-const daysIn = (month: number, year: number) => new Date(year || 2000, month, 0).getDate(); // 2000: a leap year, so Feb 29 is allowed until a year is chosen
-
-// 18 or older today, on this device's calendar. The database checks again when saving.
-function isAdult(year: number, month: number, day: number) {
-  const today = new Date();
-  const todayIso = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
-  return `${year + 18}-${pad(month)}-${pad(day)}` <= todayIso;
-}
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -33,9 +19,7 @@ export default function OnboardingPage() {
 
   const [step, setStep] = useState<"name" | "birthday" | "reveal">("name");
   const [name, setName] = useState("");
-  const [month, setMonth] = useState(0); // 0 = not chosen yet
-  const [day, setDay] = useState(0);
-  const [year, setYear] = useState(0);
+  const [birthday, setBirthday] = useState<BirthdayParts>({ month: 0, day: 0, year: 0 });
   const [profile, setProfile] = useState<Profile | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -48,8 +32,8 @@ export default function OnboardingPage() {
 
   if (!account || (account.profile && step !== "reveal")) return <div className="screen" aria-busy="true" />;
 
-  const complete = month > 0 && day > 0 && year > 0;
-  const tooYoung = complete && !isAdult(year, month, day);
+  const complete = isComplete(birthday);
+  const tooYoung = complete && !isAdult(birthday);
 
   async function onSubmitBirthday(event: FormEvent) {
     event.preventDefault();
@@ -57,7 +41,7 @@ export default function OnboardingPage() {
     setBusy(true);
     setError("");
     try {
-      setProfile(await createProfile(name, `${year}-${pad(month)}-${pad(day)}`));
+      setProfile(await createProfile(name, toIso(birthday)));
       setStep("reveal");
     } catch (e) {
       setError(e instanceof StoreError ? e.message : "Something went wrong. Try again.");
@@ -112,70 +96,13 @@ export default function OnboardingPage() {
   }
 
   if (step === "birthday") {
-    const dayCount = daysIn(month || 1, year);
     return (
       <form className="screen" onSubmit={onSubmitBirthday} noValidate>
         <ScreenTop step={4} onBack={() => setStep("name")} />
         <div className="screen-body">
           <h1 className="screen-title">When&apos;s your birthday?</h1>
           <p className="screen-sub">It draws the first stars in your sky.</p>
-          <div className="select-row">
-            <label className="select-label">
-              Month
-              <select
-                className="field"
-                value={month}
-                onChange={(event) => {
-                  const m = Number(event.target.value);
-                  setMonth(m);
-                  if (day > daysIn(m, year)) setDay(0);
-                }}
-              >
-                <option value={0} disabled>
-                  —
-                </option>
-                {MONTHS.map((label, i) => (
-                  <option key={label} value={i + 1}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="select-label">
-              Day
-              <select className="field" value={day} onChange={(event) => setDay(Number(event.target.value))}>
-                <option value={0} disabled>
-                  —
-                </option>
-                {Array.from({ length: dayCount }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="select-label">
-              Year
-              <select
-                className="field"
-                value={year}
-                onChange={(event) => {
-                  const y = Number(event.target.value);
-                  setYear(y);
-                  if (month && day > daysIn(month, y)) setDay(0);
-                }}
-              >
-                <option value={0} disabled>
-                  —
-                </option>
-                {YEARS.map((y) => (
-                  <option key={y} value={y}>
-                    {y}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
+          <BirthdayFields value={birthday} onChange={setBirthday} />
           {(tooYoung || error) && (
             <p className="error" role="alert">
               {tooYoung ? "Solcraft is for people 18 and older." : error}

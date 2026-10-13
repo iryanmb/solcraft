@@ -316,3 +316,38 @@ export async function getSunRoad(): Promise<SunRoad> {
     })),
   };
 }
+
+// ---- Settings -------------------------------------------------------------------
+
+// Changes your name and/or birthday. The database re-checks 18+ and recomputes the sun sign.
+export async function updateProfile(changes: { displayName?: string; birthday?: string }): Promise<Profile> {
+  const { data: session } = await supabase.auth.getSession();
+  const userId = session.session?.user.id;
+  if (!userId) throw new StoreError("You're signed out. Sign in again.");
+  const { data, error } = await supabase
+    .from("profiles")
+    .update({
+      ...(changes.displayName !== undefined && { display_name: changes.displayName.trim() }),
+      ...(changes.birthday !== undefined && { birthday: changes.birthday }),
+    })
+    .eq("id", userId)
+    .select()
+    .single();
+  if (error) throw friendly(error, error.code === "42501" ? "Solcraft is for people 18 and older." : "Couldn't save. Try again.");
+  return data;
+}
+
+// Deletes everything: moon photos first (Storage), then your sign-in, which takes your
+// profile, check-ins and moons with it (delete_my_account() in the database).
+export async function deleteMyAccount(): Promise<void> {
+  const { data: session } = await supabase.auth.getSession();
+  const userId = session.session?.user.id;
+  if (!userId) throw new StoreError("You're signed out. Sign in again.");
+  const { data: files } = await supabase.storage.from(MOON_BUCKET).list(userId);
+  if (files?.length) await supabase.storage.from(MOON_BUCKET).remove(files.map((f) => `${userId}/${f.name}`));
+  const { error } = await supabase.rpc("delete_my_account");
+  if (error) throw friendly(error, "Couldn't delete your account. Try again.");
+  // The account is gone; forget it on this device. (The server answers 403 because the user
+  // no longer exists; the local session is cleared anyway.)
+  await supabase.auth.signOut({ scope: "local" });
+}

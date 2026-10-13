@@ -5,6 +5,7 @@
 
 import { useProfile } from "@/components/AppShell";
 import ImHereButton from "@/components/ImHereButton";
+import PlanItButton from "@/components/PlanItButton";
 import { useDevSettings } from "@/lib/dev";
 import { cityOf } from "@/lib/gatherings";
 import { XXX, isUnknown } from "@/lib/placeholders";
@@ -95,6 +96,16 @@ export default function GatheringCard({ gathering: g, session, open, onToggle }:
             )}
           </p>
           <p className="card-line">Hosted by {g.hostName}</p>
+          {(session ?? g.upcoming[0]) && (
+            <PlanItButton
+              session={(session ?? g.upcoming[0])!}
+              title={g.title}
+              venueName={g.venue.name}
+              address={g.venue.address}
+              howYouTakePart={g.howYouTakePart}
+              sourceUrl={g.sourceUrl}
+            />
+          )}
           <p className="card-line muted">
             <a href={g.sourceUrl} target="_blank" rel="noopener noreferrer">
               Source ↗

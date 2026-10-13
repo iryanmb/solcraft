@@ -15,14 +15,17 @@ import { pendingMoon } from "@/lib/moon";
 import { getMyCheckins, type Profile } from "@/lib/store";
 import { useAccount } from "@/lib/useAccount";
 
-const ProfileContext = createContext<Profile | null>(null);
+type Shell = { profile: Profile; email: string; setProfile: (profile: Profile) => void };
+const ShellContext = createContext<Shell | null>(null);
 
-// For screens inside the shell: the signed-in person's profile (always there inside it).
-export function useProfile(): Profile {
-  const profile = useContext(ProfileContext);
-  if (!profile) throw new Error("useProfile() is only for screens inside AppShell.");
-  return profile;
+// For screens inside the shell: the signed-in person (always there inside it).
+export function useShell(): Shell {
+  const shell = useContext(ShellContext);
+  if (!shell) throw new Error("useShell() is only for screens inside AppShell.");
+  return shell;
 }
+
+export const useProfile = (): Profile => useShell().profile;
 
 const icons = {
   discover: (
@@ -85,12 +88,12 @@ export function AppNav({ name }: { name: string }) {
             </Link>
           ))}
         </nav>
-        <p className="side-user">
+        <Link href="/settings" className="side-user" aria-current={current("/settings")}>
           <span className="side-avatar" aria-hidden="true">
             <SunMark size={24} strokeWidth={5} />
           </span>
           {name}
-        </p>
+        </Link>
       </aside>
 
       <nav className="bottom-nav" aria-label="Main">
@@ -142,7 +145,8 @@ function useMorningMoon(profile: Profile | null | undefined) {
 export default function AppShell({ children }: { children: ReactNode }) {
   const router = useRouter();
   const account = useAccount();
-  const profile = account?.profile;
+  const [edited, setEdited] = useState<Profile | null>(null); // after changes in Settings
+  const profile = edited ?? account?.profile;
   const [showDev, setShowDev] = useState(false);
 
   useEffect(() => {
@@ -161,12 +165,12 @@ export default function AppShell({ children }: { children: ReactNode }) {
   if (!profile) return <div className="screen" aria-busy="true" />;
 
   return (
-    <ProfileContext.Provider value={profile}>
+    <ShellContext.Provider value={{ profile, email: account?.email ?? "", setProfile: setEdited }}>
       <div className="app">
         <AppNav name={profile.display_name} />
         <div className="app-main">{children}</div>
         {showDev && <DevPanel />}
       </div>
-    </ProfileContext.Provider>
+    </ShellContext.Provider>
   );
 }

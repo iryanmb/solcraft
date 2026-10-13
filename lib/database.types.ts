@@ -412,6 +412,7 @@ export type Database = {
         Returns: string
       }
       checkin_opens_at: { Args: { starts_at: string }; Returns: string }
+      delete_my_account: { Args: never; Returns: undefined }
       dev_delete_my_checkins: { Args: never; Returns: number }
       my_sun_road: {
         Args: never

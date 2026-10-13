@@ -52,10 +52,11 @@ const attempts = [
   ["check in without signing in", supabase.rpc("check_in", { p_session_id: crypto.randomUUID(), p_pretend_place: true, p_pretend_time: true })],
   ["delete check-ins without signing in", supabase.rpc("dev_delete_my_checkins")],
   ["read a Sun Road without signing in", supabase.rpc("my_sun_road")],
+  ["delete an account without signing in", supabase.rpc("delete_my_account")],
 ] as const;
 for (const [label, attempt] of attempts) {
   const { data, error } = await attempt;
-  if (error || !data || (Array.isArray(data) && data.length === 0)) pass(`can't ${label}`);
+  if (error || (Array.isArray(data) && data.length === 0)) pass(`can't ${label}`);
   else fail(`was able to ${label}!`);
 }
 

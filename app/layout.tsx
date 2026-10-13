@@ -22,6 +22,8 @@ export const metadata: Metadata = {
   title: "Solcraft",
   description:
     "Find recurring cultural gatherings in Atlanta, show up, and keep coming back.",
+  // iPhone "Add to Home Screen": open full screen, with the status bar over the dark background.
+  appleWebApp: { capable: true, title: "Solcraft", statusBarStyle: "black-translucent" },
 };
 
 export const viewport: Viewport = {

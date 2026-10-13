@@ -1,17 +1,18 @@
 "use client";
 
 // Planet detail (design/screens/pilot/06): one night, its moon, the moons around this sun,
-// and the gathering's next session. xxx: Plan it arrives in checkpoint 6. ("Saved artist"
-// from the mockup is left out: there's no such data.)
+// and the gathering's next session with Plan it. ("Saved artist" from the mockup is left
+// out: there's no such data.)
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import PlanItButton from "@/components/PlanItButton";
 import { artFormColor, ordinal } from "@/lib/gatherings";
-import { getDiscover, getMoonPhotoUrl, getMyCheckins, getVenueName, type MyCheckin, type Session } from "@/lib/store";
+import { getDiscover, getMoonPhotoUrl, getMyCheckins, getVenueName, type DiscoverGathering, type MyCheckin } from "@/lib/store";
 import { dayText, sessionText, shortDayText } from "@/lib/time";
 
-type Data = { checkin: MyCheckin; nights: MyCheckin[]; venueName: string; next: Session | undefined; photoUrl: string | null };
+type Data = { checkin: MyCheckin; nights: MyCheckin[]; venueName: string; gathering: DiscoverGathering | undefined; photoUrl: string | null };
 
 export default function PlanetDetail() {
   const checkinId = useSearchParams().get("c");
@@ -28,8 +29,8 @@ export default function PlanetDetail() {
         getVenueName(checkin.venueId),
         checkin.moon?.photoPath ? getMoonPhotoUrl(checkin.moon.photoPath) : Promise.resolve(null),
       ]);
-      const next = gatherings.find((g) => g.id === checkin.gatheringId)?.upcoming[0];
-      if (current) setData({ checkin, nights: all.filter((c) => c.gatheringId === checkin.gatheringId), venueName, next, photoUrl });
+      const gathering = gatherings.find((g) => g.id === checkin.gatheringId);
+      if (current) setData({ checkin, nights: all.filter((c) => c.gatheringId === checkin.gatheringId), venueName, gathering, photoUrl });
     });
     return () => {
       current = false;
@@ -39,7 +40,8 @@ export default function PlanetDetail() {
   if (data === "missing") return <div className="app-page"><p className="list-message">This night isn&apos;t in your sky.</p></div>;
   if (!data) return <div className="app-page" aria-busy="true" />;
 
-  const { checkin, nights, venueName, next, photoUrl } = data;
+  const { checkin, nights, venueName, gathering, photoUrl } = data;
+  const next = gathering?.upcoming[0];
   const color = artFormColor(checkin.artForm);
 
   return (
@@ -99,11 +101,20 @@ export default function PlanetDetail() {
         ))}
       </ul>
 
-      {next && (
+      {next && gathering && (
         <section className="next-session">
-          <span className="card-meta">Next session</span>
-          <strong>{sessionText(next.startsAt, next.endsAt)}</strong>
-          {/* xxx: the Plan it button (.ics with two reminders) arrives in checkpoint 6. */}
+          <span>
+            <span className="card-meta">Next session</span>
+            <strong>{sessionText(next.startsAt, next.endsAt)}</strong>
+          </span>
+          <PlanItButton
+            session={next}
+            title={gathering.title}
+            venueName={gathering.venue.name}
+            address={gathering.venue.address}
+            howYouTakePart={gathering.howYouTakePart}
+            sourceUrl={gathering.sourceUrl}
+          />
         </section>
       )}
     </div>

@@ -220,3 +220,23 @@ Short log of choices that shape the project. Newest at the bottom.
 - **Choice:** The Sun Road keeps the bottom nav (no "← Your Sky" link); "Back this week" shows on phones; "Tap a sun to see its planets" is left out (no floating helper text); the planet screen has no "Saved artist" and no Plan it button yet (checkpoint 6).
 - **Reason:** CLAUDE.md wins over `design/`.
 - **Tradeoff:** Small differences from the mockups.
+
+## 2026-10-13: Plan it adds no reminders
+- **Choice:** Plan it downloads a calendar file (.ics) with the session's title, start (and end if known), place, how you take part and the source link, and **no alerts**. CLAUDE.md said "two reminders"; changed.
+- **Reason:** It goes into the person's own calendar; Solcraft shouldn't flood anyone. If in-app (push) reminders ever come: the day before and 2 hours before.
+- **Tradeoff:** People who want an alert add it themselves (or their calendar's default does).
+
+## 2026-10-13: Delete account
+- **Choice:** Settings → Delete account → confirm → `delete_my_account()` (database) deletes the sign-in, which cascades to profile, check-ins and moons; the app removes the moon photos from Storage first.
+- **Reason:** CLAUDE.md: users can delete their account and data from Settings.
+- **Tradeoff:** No undo, and no grace period.
+
+## 2026-10-13: Settings scope
+- **Choice:** Name and birthday are editable (the database re-checks 18+ and recomputes the sign); the email is shown but not changeable (`xxx` until the domain, since Resend's test sender only reaches my own address). Terms, Privacy Policy and Credits are separate pages (`xxx` text). Settings opens from a gear on Your Sky (phones) and the name in the sidebar (wide screens). Photo, Instagram and Notifications from the mockup are left out.
+- **Reason:** CLAUDE.md's Settings list; no data for the rest.
+- **Tradeoff:** Changing email needs support until the domain is set up.
+
+## 2026-10-13: Installable to the Home Screen
+- **Choice:** `app/manifest.ts` (name, colors, standalone) with sun icons rendered from the sun mark (192, 512, maskable 512, and a 180 px Apple icon), plus Apple's "web app capable" setting.
+- **Reason:** CLAUDE.md: installable to the Home Screen.
+- **Tradeoff:** The icons are PNG files to re-render if the sun mark changes (`app/apple-icon.png`, `public/icons/`).
