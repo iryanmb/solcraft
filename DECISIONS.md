@@ -82,9 +82,9 @@ Short log of choices that shape the project. Newest at the bottom.
 - **Tradeoff:** Anyone who knows `?dev=1` can use it until it's switched off.
 
 ## 2026-10-13: `profiles.sun_sign` is stored (deliberate exception)
-- **Choice:** Store `sun_sign` even though it's derived from the birthday.
-- **Reason:** The birthday is private to its owner, but others may see the sign, so the sign can't be computed from a field they can't read.
-- **Tradeoff:** If a birthday is edited, `sun_sign` must be updated in the same write.
+- **Choice:** Store `sun_sign` even though it's derived from the birthday. It's a generated column: the database computes it from the birthday with `sun_sign_for()`, so nobody writes it by hand.
+- **Reason:** The birthday is private to its owner, but others may see the sign, so the sign can't be computed from a field they can't read. Generating it means the two can never disagree.
+- **Tradeoff:** The sign date ranges exist twice (the SQL function and `data/zodiac-constellations.json`); `npm run check-db` checks they match.
 
 ## 2026-10-13: The Google Sheet is the source; the CSV is its export
 - **Choice:** `data/gatherings.csv` is the "Gatherings" tab exported as CSV. The "To check" tab stays out of the app.
@@ -100,3 +100,38 @@ Short log of choices that shape the project. Newest at the bottom.
 - **Choice:** Every screen reads and writes through `lib/store.ts`, which calls the Supabase client in the browser.
 - **Reason:** One place to change if the data source changes, and it keeps the core flows working without server-only Next.js features (for a later Capacitor wrap).
 - **Tradeoff:** One more file between a screen and its data.
+
+## 2026-10-13: Resend key stays as is
+- **Choice:** Keep the existing Resend API key. It goes only into Supabase's SMTP settings (checkpoint 2), never into code, `.env.local`, Git or Vercel.
+- **Reason:** My call; I understand it was exposed in a chat and accept that risk.
+- **Tradeoff:** If it's ever misused, delete it in Resend and paste a new one into Supabase.
+
+## 2026-10-13: No domain yet (`xxx`)
+- **Choice:** Sign-in emails come from `onboarding@resend.dev`, which can only deliver to my own address. xxx: buy a domain (probably my name, with Solcraft on a subdomain) and verify it in Resend before anyone else signs in.
+- **Reason:** I'm the only tester for now.
+- **Tradeoff:** Nobody else can sign in until the domain is set up.
+
+## 2026-10-13: Schema as SQL migrations, applied with the Supabase CLI
+- **Choice:** Tables, permissions and RLS policies live in `supabase/migrations/*.sql`, applied with `npx supabase db push`. The CLI is a dev dependency, so its version is pinned in `package.json`.
+- **Reason:** Every database change is a file in Git, with history, instead of clicks in the dashboard.
+- **Tradeoff:** Changes go through a new migration file, not the Table Editor.
+
+## 2026-10-13: Catalog details
+- **Choice:**
+  - Readable text ids for hosts, venues and gatherings (`wednesday-jazz-jam`); random UUIDs for sessions, check-ins and moons.
+  - `gatherings.start_text` / `end_text` keep the CSV wording, including ` xxx` guesses.
+  - `UNIQUE(gathering_id, starts_at)` on sessions, so re-importing updates instead of duplicating.
+  - Sessions are created within 8 weeks of the day the import runs; re-running adds the rest and removes future sessions the rules no longer produce (never ones with check-ins).
+  - Venues with the same name but different addresses stay separate (Eddie's Attic: 515-B vs 515 N McDonough St).
+- **Reason:** Stable ids survive re-imports; nothing is merged or invented by guesswork.
+- **Tradeoff:** Renaming a gathering in the sheet changes its id (it becomes a new gathering).
+
+## 2026-10-13: Venue coordinates from the US Census Geocoder
+- **Choice:** `npm run geocode` looks up each address once and saves it to `data/venue-locations.json`, with a map link to check. Misses are `xxx` and get entered by hand.
+- **Reason:** Free, no key, public-domain data, and fine for ~20 addresses.
+- **Tradeoff:** Its points are estimates along the street, so each pin needs a look; it doesn't know some campus addresses (Kendeda Building).
+
+## 2026-10-13: Scripts in TypeScript, run directly by Node
+- **Choice:** `scripts/*.ts` run with plain `node` (Node 26 strips the types itself) and read `.env.local` with `--env-file`. `package.json` has `"type": "module"`.
+- **Reason:** No extra tools (ts-node, dotenv) to install or learn.
+- **Tradeoff:** Imports between scripts need the `.ts` ending, and only type syntax that can simply be erased is allowed (`erasableSyntaxOnly`).

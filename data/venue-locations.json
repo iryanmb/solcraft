@@ -1,0 +1,179 @@
+{
+  "about": "Venue coordinates from the US Census Geocoder (an estimate along the street). Check each map link. Fix a pin by editing lat/lng here; xxx means not placed yet.",
+  "venues": {
+    "eddies-attic": {
+      "name": "Eddie's Attic",
+      "address": "515-B N McDonough St, Decatur, GA 30030",
+      "lat": 33.773732,
+      "lng": -84.296456,
+      "matched": "515 N MCDONOUGH ST, DECATUR, GA, 30030",
+      "map": "https://www.google.com/maps?q=33.773732,-84.296456"
+    },
+    "charis-books-more": {
+      "name": "Charis Books & More",
+      "address": "184 S Candler St, Decatur, GA 30030",
+      "lat": 33.768465,
+      "lng": -84.292515,
+      "matched": "184 S CANDLER ST, DECATUR, GA, 30030",
+      "map": "https://www.google.com/maps?q=33.768465,-84.292515"
+    },
+    "theatrical-outfit-balzer-theater": {
+      "name": "Theatrical Outfit, Balzer Theater",
+      "address": "84 Luckie St NW, Atlanta, GA 30303",
+      "lat": 33.75684,
+      "lng": -84.389169,
+      "matched": "84 LUCKIE ST NW, ATLANTA, GA, 30303",
+      "map": "https://www.google.com/maps?q=33.756840,-84.389169"
+    },
+    "apache-xlr": {
+      "name": "Apache XLR",
+      "address": "393 Marietta St NW, Atlanta, GA 30313",
+      "lat": 33.763904,
+      "lng": -84.397163,
+      "matched": "393 MARIETTA ST, ATLANTA, GA, 30313",
+      "map": "https://www.google.com/maps?q=33.763904,-84.397163"
+    },
+    "westview-maker-space": {
+      "name": "Westview Maker Space",
+      "address": "1554 Ralph David Abernathy Blvd SW, Atlanta, GA 30310",
+      "lat": 33.743839,
+      "lng": -84.438411,
+      "matched": "1554 RALPH DAVID ABERNATHY BLVD SW, ATLANTA, GA, 30310",
+      "map": "https://www.google.com/maps?q=33.743839,-84.438411"
+    },
+    "red-light-cafe": {
+      "name": "Red Light Café",
+      "address": "553-1 Amsterdam Ave NE, Atlanta, GA 30306",
+      "lat": 33.788163,
+      "lng": -84.368434,
+      "matched": "553 AMSTERDAM AVE NE, ATLANTA, GA, 30306",
+      "map": "https://www.google.com/maps?q=33.788163,-84.368434"
+    },
+    "high-museum-of-art": {
+      "name": "High Museum of Art",
+      "address": "1280 Peachtree St NE, Atlanta, GA 30309",
+      "lat": 33.789412,
+      "lng": -84.384462,
+      "matched": "1280 PEACHTREE ST, ATLANTA, GA, 30309",
+      "map": "https://www.google.com/maps?q=33.789412,-84.384462"
+    },
+    "eddies-attic-2": {
+      "name": "Eddie's Attic",
+      "address": "515 N McDonough St, Decatur, GA 30030",
+      "lat": 33.773732,
+      "lng": -84.296456,
+      "matched": "515 N MCDONOUGH ST, DECATUR, GA, 30030",
+      "map": "https://www.google.com/maps?q=33.773732,-84.296456"
+    },
+    "napoleons-grill": {
+      "name": "Napoleon's Grill",
+      "address": "2836 LaVista Rd, Decatur, GA",
+      "lat": 33.825139,
+      "lng": -84.290733,
+      "matched": "2836 LAVISTA RD, DECATUR, GA, 30033",
+      "map": "https://www.google.com/maps?q=33.825139,-84.290733"
+    },
+    "northside-tavern": {
+      "name": "Northside Tavern",
+      "address": "1058 Howell Mill Rd NW, Atlanta, GA 30318",
+      "lat": 33.783611,
+      "lng": -84.411899,
+      "matched": "1058 HOWELL MILL RD, ATLANTA, GA, 30318",
+      "map": "https://www.google.com/maps?q=33.783611,-84.411899"
+    },
+    "smiths-olde-bar-c-bar": {
+      "name": "Smith's Olde Bar (C Bar)",
+      "address": "1578 Piedmont Ave NE, Atlanta, GA 30324",
+      "lat": 33.797992,
+      "lng": -84.368438,
+      "matched": "1578 PIEDMONT AVE NE, ATLANTA, GA, 30324",
+      "map": "https://www.google.com/maps?q=33.797992,-84.368438"
+    },
+    "dads-garage-theatre": {
+      "name": "Dad's Garage Theatre",
+      "address": "569 Ezzard St SE, Atlanta, GA 30312",
+      "lat": 33.753425,
+      "lng": -84.368262,
+      "matched": "569 EZZARD ST SE, ATLANTA, GA, 30312",
+      "map": "https://www.google.com/maps?q=33.753425,-84.368262"
+    },
+    "laughing-skull-lounge": {
+      "name": "Laughing Skull Lounge",
+      "address": "878 Peachtree St NE, Atlanta, GA",
+      "lat": 33.778738,
+      "lng": -84.384355,
+      "matched": "878 PEACHTREE ST, ATLANTA, GA, 30309",
+      "map": "https://www.google.com/maps?q=33.778738,-84.384355"
+    },
+    "the-heretic": {
+      "name": "The Heretic",
+      "address": "2069 Cheshire Bridge Rd NE, Atlanta, GA 30324",
+      "lat": 33.812253,
+      "lng": -84.354788,
+      "matched": "2069 CHESHIRE BRIDGE RD, ATLANTA, GA, 30324",
+      "map": "https://www.google.com/maps?q=33.812253,-84.354788"
+    },
+    "fire-ice-studios": {
+      "name": "Fire & Ice Studios",
+      "address": "3201 Atlanta Industrial Pkwy #208, Atlanta, GA 30331",
+      "lat": 33.793055,
+      "lng": -84.495082,
+      "matched": "3201 ATLANTA INDUSTRIAL PKWY NW, ATLANTA, GA, 30331",
+      "map": "https://www.google.com/maps?q=33.793055,-84.495082"
+    },
+    "kendeda-building-room-230": {
+      "name": "Kendeda Building, Room 230",
+      "address": "422 Ferst Dr NW, Atlanta, GA 30313",
+      "lat": "xxx",
+      "lng": "xxx",
+      "note": "xxx: the geocoder found no match; enter lat/lng by hand."
+    },
+    "galleries-across-castleberry-hill": {
+      "name": "Galleries across Castleberry Hill",
+      "address": "xxx",
+      "lat": "xxx",
+      "lng": "xxx",
+      "note": "xxx: no single address, so no map pin or check-in."
+    },
+    "the-supermarket": {
+      "name": "The Supermarket",
+      "address": "638 N Highland Ave NE, Atlanta, GA 30306",
+      "lat": 33.77186,
+      "lng": -84.352582,
+      "matched": "638 N HIGHLAND AVE NE, ATLANTA, GA, 30306",
+      "map": "https://www.google.com/maps?q=33.771860,-84.352582"
+    },
+    "piedmont-park-community-center": {
+      "name": "Piedmont Park Community Center",
+      "address": "1071 Piedmont Ave NE, Atlanta, GA",
+      "lat": 33.783707,
+      "lng": -84.379171,
+      "matched": "1071 PIEDMONT AVE NE, ATLANTA, GA, 30309",
+      "map": "https://www.google.com/maps?q=33.783707,-84.379171"
+    },
+    "the-supermarket-black-box": {
+      "name": "The Supermarket (Black Box)",
+      "address": "638 N Highland Ave NE, Atlanta, GA 30306",
+      "lat": 33.77186,
+      "lng": -84.352582,
+      "matched": "638 N HIGHLAND AVE NE, ATLANTA, GA, 30306",
+      "map": "https://www.google.com/maps?q=33.771860,-84.352582"
+    },
+    "auburn-avenue-research-library": {
+      "name": "Auburn Avenue Research Library",
+      "address": "101 Auburn Ave NE, Atlanta, GA 30303",
+      "lat": 33.755513,
+      "lng": -84.3842,
+      "matched": "101 AUBURN AVE NE, ATLANTA, GA, 30303",
+      "map": "https://www.google.com/maps?q=33.755513,-84.384200"
+    },
+    "little-shop-of-stories": {
+      "name": "Little Shop of Stories",
+      "address": "133A E Court Square, Decatur, GA 30030",
+      "lat": 33.775128,
+      "lng": -84.29584,
+      "matched": "133A E COURT SQ, DECATUR, GA, 30030",
+      "map": "https://www.google.com/maps?q=33.775128,-84.295840"
+    }
+  }
+}

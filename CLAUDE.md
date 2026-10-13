@@ -58,7 +58,7 @@ Solcraft helps people find recurring cultural gatherings in Atlanta (poetry nigh
 - Sign in with Apple is NOT needed (we don't offer third-party sign-in).
 
 ## Check-in ("I'm here")
-- Default method is location. During a session's window (1 hour before start to 1 hour after end), the gathering shows **I'm here**. If a session has no end time, the window closes 3 hours after the start (an app setting; the app shows "End time not listed").
+- Default method is location. During a session's window (1 hour before start to 1 hour after end), the gathering shows **I'm here**. If a session has no end time, the window closes 3 hours after the start (an app setting in `lib/config.ts`); the app shows the end time as `xxx` for now.
 - Tap → browser asks for location once → if within ~150 m of the venue (make the radius a setting), save the check-in. Account for reported accuracy; on failure show "We couldn't confirm your location." with Try again.
 - **Never store coordinates.** Store only the check-in and `method = 'location'`.
 - Save the check-in first, then play the moment (warm light, the new sun or planet). Closing the animation never loses it. Respect reduced motion.
@@ -69,8 +69,8 @@ Solcraft helps people find recurring cultural gatherings in Atlanta (poetry nigh
 - `profiles` (id = auth user id, display_name, birthday, sun_sign, created_at). Birthday readable only by its owner; others see display_name and sun_sign.
 - `hosts` (id, name, contact)
 - `venues` (id, name, address, lat, lng)
-- `gatherings` (id, host_id, venue_id, title, art_form, kind: 'recurring' | 'one_time', recurrence_text, how_you_take_part, why_it_fits, cost_text, age_text, source_url, last_verified_at, status: 'draft' | 'published')
-- `sessions` (id, gathering_id, starts_at, ends_at, status: 'scheduled' | 'cancelled')
+- `gatherings` (id, host_id, venue_id, title, art_form, kind: 'recurring' | 'one_time', recurrence_text, start_text, end_text, how_you_take_part, why_it_fits, cost_text, age_text, source_url, last_verified_at, status: 'draft' | 'published'). start_text/end_text keep the CSV wording ("9:15 PM (doors 8:30)", "About 10:00 PM xxx").
+- `sessions` (id, gathering_id, starts_at, ends_at nullable, status: 'scheduled' | 'cancelled', UNIQUE(gathering_id, starts_at))
 - `checkins` (id, user_id, session_id, method: 'location' | 'qr', created_at, UNIQUE(user_id, session_id))
 - `moons` (id, checkin_id UNIQUE, word, note nullable, photo_path nullable, created_at). Owner-only via RLS. Photos in a private Storage bucket.
 - Suns, planets, comets, constellations, road steps and badges are computed from `checkins` (SQL views or functions), never stored as counters.
@@ -86,7 +86,7 @@ Solcraft helps people find recurring cultural gatherings in Atlanta (poetry nigh
 ## Placeholders: always `xxx`
 - One marker everywhere: `xxx`. Searching the project for `xxx` must find every placeholder, in data, code and copy.
 - **Data:** in `data/gatherings.csv`, a cell that is `xxx` is unknown. A value followed by ` xxx` (e.g. "About $20 at the door xxx", "Monthly, usually 3rd Thursday xxx") is a best guess to confirm.
-- **Code:** mark every stand-in with a comment starting `// xxx:` and what's needed, e.g. `// xxx: real email codes in Milestone 3; any 6 digits work now.` Adjustable stand-in values (3-hour default window, 150 m radius, 6 AM moon time) live in `lib/config.ts`, each with an `xxx` comment.
+- **Code:** mark every stand-in with a comment starting `// xxx:` and what's needed, e.g. `// xxx: Castleberry Hill has no single address, so no map pin or check-in until it has one.` Adjustable stand-in values (3-hour default window, 150 m radius, 6 AM moon time) live in `lib/config.ts`, each with an `xxx` comment.
 - **Unwritten copy and pages** (Terms, Privacy Policy, credits text) contain `xxx` until I write them.
 - **On screen:** show `xxx` exactly as it is, in every environment, for now. Before the pilot I'll decide the public wording for unknowns (e.g. "Cost not listed"). The Under $20 filter treats `xxx` and guessed prices as unknown and leaves them out.
 - When I replace an `xxx`, nothing else should need to change.

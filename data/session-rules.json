@@ -1,0 +1,41 @@
+{
+  "about": "When each gathering meets, confirmed 2026-10-13. Each gathering has an RRULE (a standard repeat rule) or an explicit list of dates. All times are Atlanta time. Times come from the CSV's Start and End unless a rule gives its own start or end (24-hour HH:MM). The import creates sessions within 8 weeks of the day it runs.",
+  "gatherings": {
+    "wednesday-jazz-jam": { "rrule": "FREQ=WEEKLY;BYDAY=WE" },
+    "joes-jam-session": { "rrule": "FREQ=WEEKLY;BYDAY=MO" },
+    "lolas-jam": { "rrule": "FREQ=WEEKLY;BYDAY=MO" },
+    "the-listening-room": { "rrule": "FREQ=WEEKLY;BYDAY=TU" },
+    "community-jam": { "rrule": "FREQ=WEEKLY;BYDAY=TU" },
+    "laughing-skull-open-mic": { "rrule": "FREQ=WEEKLY;BYDAY=MO,TU,WE" },
+    "thursday-country": { "rrule": "FREQ=WEEKLY;BYDAY=TH" },
+    "swing-dance-social": { "rrule": "FREQ=WEEKLY;BYDAY=TU;UNTIL=20261208" },
+
+    "cliterati-open-mic": { "rrule": "FREQ=MONTHLY;BYDAY=3TH" },
+    "the-moth-storyslam-atlanta": { "rrule": "FREQ=MONTHLY;BYDAY=3MO" },
+    "poetry-in-motion": { "rrule": "FREQ=MONTHLY;BYDAY=3TU" },
+    "monthly-sapphic-writing-group": { "rrule": "FREQ=MONTHLY;BYDAY=2WE" },
+    "friday-jazz": { "rrule": "FREQ=MONTHLY;BYDAY=3FR" },
+    "atlanta-songwriters-club-meetup": { "rrule": "FREQ=MONTHLY;BYDAY=2MO" },
+    "mambo-mayhem": { "rrule": "FREQ=MONTHLY;BYDAY=3SA" },
+    "2nd-friday-art-stroll": { "rrule": "FREQ=MONTHLY;BYDAY=2FR" },
+    "community-art-making": { "rrule": "FREQ=MONTHLY;BYDAY=2SU" },
+    "black-feminist-book-club": { "rrule": "FREQ=MONTHLY;BYDAY=1SU" },
+    "figure-drawing-sessions": { "rrule": "FREQ=MONTHLY;BYDAY=3TH" },
+
+    "songwriters-open-mic": {
+      "dates": ["2026-10-19", "2026-10-26", "2026-11-02", "2026-11-09", "2026-11-16", "2026-11-23", "2026-12-07", "2026-12-14", "2026-12-21", "2026-12-28"]
+    },
+    "poetry-on-peter": {
+      "dates": ["2026-10-19", "2026-11-02", "2026-11-16", "2026-11-30", "2026-12-14"],
+      "start": "20:30"
+    },
+    "art-out-loud-open-mic": { "dates": ["2026-10-31"] },
+    "collage-night": { "dates": ["2026-10-21"] },
+    "lavender-lens-queer-movie-night": { "dates": ["2026-10-21"] },
+    "saturday-matinee-at-auburn": { "dates": ["2026-10-17"] },
+    "auburn-avenue-literary-society": { "dates": ["2026-10-19", "2026-12-14"] },
+    "poetry-wine-book-club": { "dates": ["2026-10-21"] },
+
+    "figure-drawing": { "dates": [], "note": "xxx: next date not known yet." }
+  }
+}
