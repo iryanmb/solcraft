@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Solcraft onboarding</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&amp;display=swap">
+<style>
+body{margin:0;background:#0E1024}
+a{color:#FFC23A}a:hover{color:#FFD873}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #FFD873;outline-offset:2px}
+input::placeholder{color:#8F8CA8}
+@keyframes rise{from{transform:translateY(28px);opacity:0}to{transform:none;opacity:1}}
+.rise{animation:rise 1s cubic-bezier(.2,.7,.2,1) both}
+@keyframes draw{to{stroke-dashoffset:0}}
+.draw{stroke-dasharray:900;stroke-dashoffset:900;animation:draw 2.6s ease-in-out .9s forwards}
+@keyframes pop{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
+.star{opacity:0;transform-box:fill-box;transform-origin:center;animation:pop .5s ease-out forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.late{opacity:0;animation:fadeUp .7s ease-out 3.2s forwards}
+@media (prefers-reduced-motion: reduce){.rise,.draw,.star,.late{animation:none;opacity:1;transform:none;stroke-dashoffset:0}}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; background: #0E1024; color: #F5F0E6; font-family: 'DM Sans', sans-serif; display: flex; flex-direction: column; padding: 56px 24px 34px; overflow: hidden">
+<sc-if value="{{ showTop }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 14px; margin-bottom: 30px">
+<button type="button" onClick="{{ back }}" aria-label="Back" style="width: 44px; height: 44px; flex: none; border-radius: 22px; border: 1.5px solid #3A3F6E; background: transparent; color: #F5F0E6; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+<sc-if value="{{ showBar }}" hint-placeholder-val="{{ true }}">
+<div role="progressbar" aria-label="Sign-up progress" aria-valuemin="1" aria-valuemax="4" aria-valuenow="{{ step }}" style="flex: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{ segs }}" as="g" hint-placeholder-count="4"><span style="{{ g }}"></span></sc-for>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ sWelcome }}" hint-placeholder-val="{{ true }}">
+<div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 28px">
+<span class="rise" style="width: 132px; height: 132px; filter: drop-shadow(0 0 28px rgba(255,194,58,0.5))"><svg viewBox="0 0 100 100" width="132" height="132" aria-hidden="true"><polygon points="50.0,3.9 57.6,21.7 73.9,8.6 70.4,29.6 90.9,26.4 79.3,42.2 94.8,50.0 80.0,58.0 88.7,72.3 71.7,71.7 72.4,88.8 57.5,78.0 50.0,96.6 41.6,81.5 27.4,89.1 29.1,70.9 8.7,73.8 17.9,58.6 2.6,50.0 20.6,42.1 7.2,25.3 29.7,29.7 25.6,7.7 42.2,21.1" fill="#FFC23A" stroke="#1A1410" stroke-width="3" stroke-linejoin="round"></polygon><circle cx="42" cy="44" r="3.5" fill="#1A1410"></circle><circle cx="58" cy="44" r="3.5" fill="#1A1410"></circle><path d="M38 55 Q50 66 62 55" fill="none" stroke="#1A1410" stroke-width="4" stroke-linecap="round"></path></svg></span>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; line-height: 1.08; font-size: 40px">Find the rooms you'll want to come back to.</h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.5; color: #B3B0C7">Poetry, jazz, comedy and more, across Atlanta.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<button type="button" onClick="{{ start }}" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 27px; border: none; background: #FFC23A; color: #1A1410; font: 700 16px 'DM Sans', sans-serif; text-decoration: none; cursor: pointer; width: 100%;">Get started</button>
+<button type="button" onClick="{{ signIn }}" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 27px; border: 1.5px solid #3A3F6E; background: transparent; color: #F5F0E6; font: 700 16px 'DM Sans', sans-serif; text-decoration: none; cursor: pointer; width: 100%; border: none;">I have an account</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ sPhone }}" hint-placeholder-val="{{ false }}">
+<div style="flex: 1; display: flex; flex-direction: column; gap: 12px">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; line-height: 1.08">{{ phoneTitle }}</h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.5; color: #B3B0C7">We'll email you a code. No passwords.</p>
+<label for="ob-email" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Email</label>
+<input id="ob-email" type="email" inputMode="email" autocomplete="email" autoCapitalize="none" placeholder="you@email.com" value="{{ email }}" onChange="{{ onEmail }}" style="height: 58px; border-radius: 16px; border: 1.5px solid #3A3F6E; background: #181B36; color: #F5F0E6; font: 500 20px 'DM Sans', sans-serif; padding: 0 18px; box-sizing: border-box; width: 100%; margin-top: 18px">
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #8F8CA8">By continuing you agree to the <a href="#" style="color: #B3B0C7">Terms</a> and <a href="#" style="color: #B3B0C7">Privacy Policy</a>.</p>
+<button type="button" onClick="{{ toCode }}" disabled="{{ phoneBad }}" style="{{ phoneBtn }}">Send code</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ sCode }}" hint-placeholder-val="{{ false }}">
+<div style="flex: 1; display: flex; flex-direction: column; gap: 12px">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; line-height: 1.08">Enter the code</h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.5; color: #B3B0C7">Sent to {{ phoneShown }}. <button type="button" onClick="{{ editPhone }}" style="border: none; background: none; padding: 0; color: #FFC23A; font: 700 16px 'DM Sans', sans-serif; cursor: pointer">Edit</button></p>
+<label for="ob-code" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">6-digit code</label>
+<div style="position: relative; margin-top: 18px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{ boxes }}" as="b" hint-placeholder-count="6"><span style="{{ b.style }}">{{ b.d }}</span></sc-for>
+<input id="ob-code" type="text" inputMode="numeric" autocomplete="one-time-code" maxLength="6" value="{{ code }}" onChange="{{ onCode }}" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; font-size: 16px; border: none; cursor: text">
+</div>
+<button type="button" onClick="{{ fillCode }}" style="align-self: flex-start; margin-top: 10px; height: 44px; padding: 0; border: none; background: none; color: #B3B0C7; font: 500 15px 'DM Sans', sans-serif; cursor: pointer">Send a new code</button>
+</div>
+<button type="button" onClick="{{ verify }}" disabled="{{ codeBad }}" style="{{ codeBtn }}">Continue</button>
+</sc-if>
+
+<sc-if value="{{ sName }}" hint-placeholder-val="{{ false }}">
+<div style="flex: 1; display: flex; flex-direction: column; gap: 12px">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; line-height: 1.08">What should we call you?</h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.5; color: #B3B0C7">Your first name is fine.</p>
+<label for="ob-name" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Name</label>
+<input id="ob-name" type="text" autocomplete="given-name" placeholder="Your name" value="{{ name }}" onChange="{{ onName }}" style="height: 58px; border-radius: 16px; border: 1.5px solid #3A3F6E; background: #181B36; color: #F5F0E6; font: 500 20px 'DM Sans', sans-serif; padding: 0 18px; box-sizing: border-box; width: 100%; margin-top: 18px">
+</div>
+<button type="button" onClick="{{ toBday }}" disabled="{{ nameBad }}" style="{{ nameBtn }}">Continue</button>
+</sc-if>
+
+<sc-if value="{{ sBday }}" hint-placeholder-val="{{ false }}">
+<div style="flex: 1; display: flex; flex-direction: column; gap: 12px">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; line-height: 1.08">When's your birthday?</h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.5; color: #B3B0C7">It draws the first stars in your sky.</p>
+<div style="margin-top: 18px; display: grid; grid-template-columns: 1.5fr 1fr 1.15fr; gap: 10px">
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #B3B0C7">Month<select value="{{ month }}" onChange="{{ onMonth }}" style="height: 58px; border-radius: 16px; border: 1.5px solid #3A3F6E; background: #181B36; color: #F5F0E6; font: 500 17px 'DM Sans', sans-serif; padding: 0 12px; box-sizing: border-box; width: 100%;"><sc-for list="{{ months }}" as="o" hint-placeholder-count="12"><option value="{{ o.v }}">{{ o.t }}</option></sc-for></select></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #B3B0C7">Day<select value="{{ day }}" onChange="{{ onDay }}" style="height: 58px; border-radius: 16px; border: 1.5px solid #3A3F6E; background: #181B36; color: #F5F0E6; font: 500 17px 'DM Sans', sans-serif; padding: 0 12px; box-sizing: border-box; width: 100%;"><sc-for list="{{ days }}" as="o" hint-placeholder-count="31"><option value="{{ o.v }}">{{ o.t }}</option></sc-for></select></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #B3B0C7">Year<select value="{{ year }}" onChange="{{ onYear }}" style="height: 58px; border-radius: 16px; border: 1.5px solid #3A3F6E; background: #181B36; color: #F5F0E6; font: 500 17px 'DM Sans', sans-serif; padding: 0 12px; box-sizing: border-box; width: 100%;"><sc-for list="{{ years }}" as="o" hint-placeholder-count="20"><option value="{{ o.v }}">{{ o.t }}</option></sc-for></select></label>
+</div>
+<sc-if value="{{ tooYoung }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 6px 0 0; font-size: 15px; color: #FF8F7A">Solcraft is for people 18 and older.</p></sc-if>
+</div>
+<button type="button" onClick="{{ toReveal }}" disabled="{{ tooYoung }}" style="{{ bdayBtn }}">Continue</button>
+</sc-if>
+
+<sc-if value="{{ sReveal }}" hint-placeholder-val="{{ false }}">
+<div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 30px; text-align: center">
+<svg viewBox="0 0 300 200" width="340" height="227" role="img" aria-label="{{ signAria }}">
+<path class="draw" d="{{ signPath }}" fill="none" stroke="#FFD873" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"></path>
+<sc-for list="{{ signStars }}" as="p" hint-placeholder-count="8"><circle class="star" cx="{{ p.x }}" cy="{{ p.y }}" r="{{ p.r }}" fill="#FFF6DA" style="{{ p.delay }}"></circle></sc-for>
+</svg>
+<h1 class="late" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; line-height: 1.08">Your sky begins with {{ sign }}, {{ name }}.</h1>
+</div>
+<a href="Discover.dc.html" class="late" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 27px; border: none; background: #FFC23A; color: #1A1410; font: 700 16px 'DM Sans', sans-serif; text-decoration: none; cursor: pointer; width: 100%;">See what's on</a>
+</sc-if>
+
+<sc-if value="{{ sBack }}" hint-placeholder-val="{{ false }}">
+<div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 22px">
+<span class="rise" style="width: 96px; height: 96px; filter: drop-shadow(0 0 22px rgba(255,194,58,0.5))"><svg viewBox="0 0 100 100" width="96" height="96" aria-hidden="true"><polygon points="50.0,3.9 57.6,21.7 73.9,8.6 70.4,29.6 90.9,26.4 79.3,42.2 94.8,50.0 80.0,58.0 88.7,72.3 71.7,71.7 72.4,88.8 57.5,78.0 50.0,96.6 41.6,81.5 27.4,89.1 29.1,70.9 8.7,73.8 17.9,58.6 2.6,50.0 20.6,42.1 7.2,25.3 29.7,29.7 25.6,7.7 42.2,21.1" fill="#FFC23A" stroke="#1A1410" stroke-width="3" stroke-linejoin="round"></polygon><circle cx="42" cy="44" r="3.5" fill="#1A1410"></circle><circle cx="58" cy="44" r="3.5" fill="#1A1410"></circle><path d="M38 55 Q50 66 62 55" fill="none" stroke="#1A1410" stroke-width="4" stroke-linecap="round"></path></svg></span>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; line-height: 1.08">Welcome back, Ryan.</h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.5; color: #B3B0C7">Your sky is right where you left it.</p>
+</div>
+<a href="Sky.dc.html" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 27px; border: none; background: #FFC23A; color: #1A1410; font: 700 16px 'DM Sans', sans-serif; text-decoration: none; cursor: pointer; width: 100%;">Open your sky</a>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = this.state || {};
+const step = s.step || 'welcome';
+const returning = !!s.returning;
+const go = (k) => this.setState({ step: k });
+const FIG = {"Aquarius": {"d": "M278.0 100.9 L269.9 97.2 L209.8 74.2 L160.1 43.2 L137.2 49.4 L126.9 41.5 L117.5 42.0 L93.1 85.3 L56.3 95.6 L70.6 166.7 M209.8 74.2 L158.5 121.3 M160.1 43.2 L144.0 86.1 M126.9 41.5 L132.0 33.3 M50.9 161.7 L56.3 95.6 L22.0 150.2", "stars": [[278.0, 100.9, 2.2], [269.9, 97.2, 1.6], [209.8, 74.2, 2.8], [160.1, 43.2, 2.8], [137.2, 49.4, 2.1], [126.9, 41.5, 2.3], [117.5, 42.0, 2.0], [93.1, 85.3, 2.2], [56.3, 95.6, 1.7], [70.6, 166.7, 2.2], [158.5, 121.3, 1.8], [144.0, 86.1, 1.9], [132.0, 33.3, 1.6], [50.9, 161.7, 2.0], [22.0, 150.2, 1.6]]}, "Aries": {"d": "M28.3 22.0 L210.1 100.2 L265.9 149.4 L271.7 178.0", "stars": [[28.3, 22.0, 2.3], [210.1, 100.2, 3.5], [265.9, 149.4, 3.0], [271.7, 178.0, 2.1]]}, "Cancer": {"d": "M108.7 156.7 L135.7 107.0 L138.4 80.7 L132.5 22.0 M135.7 107.0 L191.3 178.0", "stars": [[108.7, 156.7, 1.8], [135.7, 107.0, 2.0], [138.4, 80.7, 1.6], [132.5, 22.0, 2.0], [191.3, 178.0, 2.4]]}, "Capricorn": {"d": "M269.4 22.0 L259.0 46.8 L236.7 79.4 L190.5 159.9 L176.2 178.0 L88.2 130.1 L30.6 63.7 L49.8 68.6 L97.4 68.4 L140.1 71.8 L269.4 22.0", "stars": [[269.4, 22.0, 1.8], [259.0, 46.8, 2.7], [236.7, 79.4, 1.6], [190.5, 159.9, 1.9], [176.2, 178.0, 1.9], [88.2, 130.1, 2.2], [30.6, 63.7, 2.9], [49.8, 68.6, 2.2], [97.4, 68.4, 1.8], [140.1, 71.8, 1.9]]}, "Gemini": {"d": "M233.4 96.2 L217.9 97.4 L177.6 78.2 L128.4 37.3 L87.7 22.0 L66.6 52.3 L83.1 62.9 L110.8 103.9 L140.7 115.7 L192.2 148.7 L178.3 178.0 M110.8 103.9 L113.5 148.1", "stars": [[233.4, 96.2, 2.5], [217.9, 97.4, 2.8], [177.6, 78.2, 2.7], [128.4, 37.3, 1.7], [87.7, 22.0, 3.8], [66.6, 52.3, 4.1], [83.1, 62.9, 2.0], [110.8, 103.9, 2.4], [140.7, 115.7, 2.0], [192.2, 148.7, 3.6], [178.3, 178.0, 2.5], [113.5, 148.1, 2.3]]}, "Leo": {"d": "M236.2 160.9 L237.2 119.8 L211.1 94.1 L102.4 85.2 L22.0 131.3 L99.3 129.2 L236.2 160.9 M211.1 94.1 L217.2 63.5 L263.2 39.1 L278.0 57.5", "stars": [[236.2, 160.9, 4.0], [237.2, 119.8, 2.4], [211.1, 94.1, 3.5], [102.4, 85.2, 3.1], [22.0, 131.3, 3.4], [99.3, 129.2, 2.5], [217.2, 63.5, 2.4], [263.2, 39.1, 2.1], [278.0, 57.5, 2.8]]}, "Libra": {"d": "M166.4 143.0 L191.9 73.7 L144.5 22.0 L110.5 63.7 L110.4 165.1 L108.1 178.0 M191.9 73.7 L110.5 63.7", "stars": [[166.4, 143.0, 2.6], [191.9, 73.7, 2.9], [144.5, 22.0, 3.0], [110.5, 63.7, 2.1], [110.4, 165.1, 2.3], [108.1, 178.0, 2.3]]}, "Pisces": {"d": "M99.6 53.6 L103.1 22.0 L93.0 37.7 L99.6 53.6 L102.0 73.4 L75.0 102.5 L54.4 134.8 L28.1 169.2 L40.9 167.1 L58.9 154.9 L74.7 151.8 L97.0 144.7 L111.2 143.3 L129.6 145.2 L193.5 148.6 L219.6 154.6 L236.0 150.1 L247.1 155.2 L252.3 166.6 L238.9 178.0 L217.6 175.3 L211.3 166.2 L219.6 154.6 M252.3 166.6 L271.9 163.2", "stars": [[99.6, 53.6, 1.6], [103.1, 22.0, 1.6], [93.0, 37.7, 1.6], [102.0, 73.4, 1.6], [75.0, 102.5, 2.3], [54.4, 134.8, 1.8], [28.1, 169.2, 2.1], [40.9, 167.1, 1.6], [58.9, 154.9, 1.7], [74.7, 151.8, 1.6], [97.0, 144.7, 1.6], [111.2, 143.3, 1.8], [129.6, 145.2, 1.7], [193.5, 148.6, 2.0], [219.6, 154.6, 1.9], [236.0, 150.1, 1.8], [247.1, 155.2, 1.6], [252.3, 166.6, 2.2], [238.9, 178.0, 1.6], [217.6, 175.3, 1.6], [211.3, 166.2, 1.6], [271.9, 163.2, 1.6]]}, "Sagittarius": {"d": "M198.5 136.4 L192.2 122.6 L197.7 98.3 L191.0 74.1 L210.7 51.6 M129.9 178.0 L127.5 156.1 L149.3 96.7 L169.3 81.5 L191.0 74.1 M95.2 167.1 L85.8 130.9 L84.6 81.4 L107.6 71.6 L121.5 68.8 L133.5 72.4 L157.9 77.6 L169.3 81.5 L197.7 98.3 L215.4 103.4 L192.2 122.6 L149.3 96.7 L144.1 85.0 L157.9 77.6 L146.4 53.2 L140.0 49.5 L129.7 38.4 L124.3 32.5 L123.7 22.0 M146.4 53.2 L155.1 49.8 L159.5 58.6 L157.9 77.6", "stars": [[198.5, 136.4, 2.7], [192.2, 122.6, 3.7], [197.7, 98.3, 3.0], [191.0, 74.1, 2.9], [210.7, 51.6, 2.1], [129.9, 178.0, 2.0], [127.5, 156.1, 2.0], [149.3, 96.7, 3.0], [169.3, 81.5, 2.6], [95.2, 167.1, 1.9], [85.8, 130.9, 1.7], [84.6, 81.4, 1.6], [107.6, 71.6, 1.6], [121.5, 68.8, 1.6], [133.5, 72.4, 1.6], [157.9, 77.6, 3.5], [215.4, 103.4, 2.8], [144.1, 85.0, 2.5], [146.4, 53.2, 2.2], [140.0, 49.5, 2.8], [129.7, 38.4, 1.6], [124.3, 32.5, 2.1], [123.7, 22.0, 1.6], [155.1, 49.8, 2.4], [159.5, 58.6, 1.6]]}, "Scorpio": {"d": "M224.4 65.7 L224.8 42.0 L218.7 22.0 M224.8 42.0 L191.0 59.8 L178.5 64.9 L168.6 76.3 L148.2 115.9 L146.1 140.5 L143.0 169.3 L121.8 176.2 L90.8 178.0 L75.2 160.7 L80.9 152.3 L91.1 137.9", "stars": [[224.4, 65.7, 2.8], [224.8, 42.0, 3.3], [218.7, 22.0, 3.1], [191.0, 59.8, 2.8], [178.5, 64.9, 4.2], [168.6, 76.3, 2.9], [148.2, 115.9, 3.3], [146.1, 140.5, 2.8], [143.0, 169.3, 2.3], [121.8, 176.2, 2.5], [90.8, 178.0, 3.6], [75.2, 160.7, 2.8], [80.9, 152.3, 3.2], [91.1, 137.9, 3.8]]}, "Taurus": {"d": "M64.8 62.0 L143.4 92.7 L152.5 96.2 L163.5 97.6 L159.7 87.6 L152.8 78.9 L83.4 22.0 M163.5 97.6 L187.7 113.8 L231.8 127.1 L185.0 147.9 M231.8 127.1 L235.2 130.8 L221.0 178.0", "stars": [[64.8, 62.0, 2.8], [143.4, 92.7, 4.3], [152.5, 96.2, 2.5], [163.5, 97.6, 2.3], [159.7, 87.6, 2.2], [152.8, 78.9, 2.4], [83.4, 22.0, 3.8], [187.7, 113.8, 2.4], [231.8, 127.1, 2.2], [185.0, 147.9, 2.1], [235.2, 130.8, 2.3], [221.0, 178.0, 1.8]]}, "Virgo": {"d": "M278.0 61.5 L270.4 89.5 L227.3 103.3 L197.0 107.5 L158.7 129.4 L138.3 160.3 L67.9 133.2 L27.3 132.5 M169.2 39.7 L178.1 81.2 L197.0 107.5 M158.7 129.4 L125.4 102.8 L88.3 91.1 L22.0 88.5", "stars": [[278.0, 61.5, 2.0], [270.4, 89.5, 2.3], [227.3, 103.3, 2.1], [197.0, 107.5, 2.9], [158.7, 129.4, 1.7], [138.3, 160.3, 4.3], [67.9, 133.2, 1.9], [27.3, 132.5, 2.1], [169.2, 39.7, 2.9], [178.1, 81.2, 2.5], [125.4, 102.8, 2.5], [88.3, 91.1, 1.8], [22.0, 88.5, 2.2]]}};
+const digits = (v) => (v || '').replace(/\D/g, '').slice(0, 10);
+const fmt = (d) => d.length < 4 ? d : d.length < 7 ? '(' + d.slice(0, 3) + ') ' + d.slice(3) : '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6);
+const email = s.email !== undefined ? s.email : 'ryan@example.com';
+const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const code = s.code || '';
+const name = s.name !== undefined ? s.name : 'Ryan';
+const month = s.month || 8, day = s.day || 14, year = s.year || 2004;
+const signOf = (m, d) => {
+const cut = [[1,20,'Capricorn','Aquarius'],[2,19,'Aquarius','Pisces'],[3,21,'Pisces','Aries'],[4,20,'Aries','Taurus'],[5,21,'Taurus','Gemini'],[6,21,'Gemini','Cancer'],[7,23,'Cancer','Leo'],[8,23,'Leo','Virgo'],[9,23,'Virgo','Libra'],[10,23,'Libra','Scorpio'],[11,22,'Scorpio','Sagittarius'],[12,22,'Sagittarius','Capricorn']][m - 1];
+return d < cut[1] ? cut[2] : cut[3];
+};
+const sign = signOf(month, day);
+const fig = FIG[sign];
+const age = 2026 - year - ((month > 10 || (month === 10 && day > 12)) ? 1 : 0);
+const tooYoung = age < 18;
+const primary = "display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 27px; border: none; font: 700 16px 'DM Sans', sans-serif; width: 100%; ";
+const btn = (ok) => primary + (ok ? 'background: #FFC23A; color: #1A1410; cursor: pointer;' : 'background: #22264A; color: #6E6B88; cursor: default;');
+const order = ['phone', 'code', 'name', 'bday'];
+const idx = order.indexOf(step) + 1;
+const segs = [1, 2, 3, 4].map((n) => 'height: 6px; border-radius: 3px; background: ' + (n <= idx ? '#FFC23A' : '#2C3060') + ';');
+const MN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const dim = new Date(year, month, 0).getDate();
+const boxes = [0,1,2,3,4,5].map((i) => ({ d: code[i] || '', style: 'height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font: 700 24px \'DM Sans\', sans-serif; background: #181B36; border: 1.5px solid ' + (i === code.length ? '#FFC23A' : '#3A3F6E') + ';' }));
+const allStars = fig.stars.map((p, i) => ({ x: p[0], y: p[1], r: p[2], delay: 'animation-delay: ' + (0.3 + i * Math.min(0.12, 1.8 / fig.stars.length)).toFixed(2) + 's' }));
+const prev = { phone: 'welcome', code: 'phone', name: 'code', bday: 'name' };
+return {
+step: idx, segs, boxes, name, sign, tooYoung,
+sWelcome: step === 'welcome', sPhone: step === 'phone', sCode: step === 'code', sName: step === 'name', sBday: step === 'bday', sReveal: step === 'reveal', sBack: step === 'back',
+showTop: ['phone','code','name','bday'].indexOf(step) >= 0, showBar: !returning,
+back: () => go(prev[step] || 'welcome'),
+start: () => this.setState({ step: 'phone', returning: false }),
+signIn: () => this.setState({ step: 'phone', returning: true }),
+phoneTitle: returning ? 'Welcome back. Your email?' : "What's your email?",
+email, phoneShown: email,
+onEmail: (e) => this.setState({ email: (e.target.value || '').trim() }),
+phoneBad: !emailOk, phoneBtn: btn(emailOk),
+toCode: () => { if (emailOk) this.setState({ step: 'code', code: '' }); },
+editPhone: () => go('phone'),
+code, onCode: (e) => this.setState({ code: (e.target.value || '').replace(/\D/g, '').slice(0, 6) }),
+fillCode: () => this.setState({ code: '482913' }),
+codeBad: code.length < 6, codeBtn: btn(code.length === 6),
+verify: () => { if (code.length === 6) go(returning ? 'back' : 'name'); },
+onName: (e) => this.setState({ name: e.target.value }),
+nameBad: !name.trim(), nameBtn: btn(!!name.trim()),
+toBday: () => { if (name.trim()) go('bday'); },
+month: String(month), day: String(Math.min(day, dim)), year: String(year),
+months: MN.map((t, i) => ({ t, v: String(i + 1) })),
+days: Array.from({ length: dim }, (_, i) => ({ t: String(i + 1), v: String(i + 1) })),
+years: Array.from({ length: 71 }, (_, i) => { const y = 2010 - i; return { t: String(y), v: String(y) }; }),
+onMonth: (e) => this.setState({ month: Number(e.target.value) }),
+onDay: (e) => this.setState({ day: Number(e.target.value) }),
+onYear: (e) => this.setState({ year: Number(e.target.value) }),
+bdayBtn: btn(!tooYoung),
+toReveal: () => { if (!tooYoung) go('reveal'); },
+signPath: fig.d, signStars: allStars, signAria: 'The constellation ' + sign
+};
+}
+}
+</script>
+</body>
+</html>

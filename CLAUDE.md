@@ -1,76 +1,116 @@
 # Solcraft
 
-Solcraft helps people discover shared cultural and creative experiences in their city, show up, and keep coming back. Mobile-first web app (works in any phone browser; installable to the Home Screen). Pilot city: Atlanta.
+Solcraft helps people find recurring cultural gatherings in Atlanta (poetry nights, jazz jams, improv, figure drawing, book clubs), show up, and keep coming back. Mission: nourish the soul through rooms you return to. Mobile-first web app (any phone browser, installable to the Home Screen). Pilot city: Atlanta.
+
+**The pilot proves one thing:** do first-time visitors come back? Success metric: the share of first visits that return to the same gathering within 4 weeks. Build only what serves that until the pilot is done.
 
 ## How I want to work
 - I'm learning Git, JavaScript/TypeScript and React. Before big changes, show a plan and explain the why in plain language.
 - Explain each command before running it and each important file when it's created.
 - One small feature per step. After each step: what changed, which files, and one small edit for me to make myself.
-- Never invent event facts (dates, prices, "beginner-friendly", accessibility). Use clearly marked placeholders.
+- I type the git commands myself; tell me what to run and check my work with `git status`.
+- Never invent event facts (dates, prices, "beginner-friendly", accessibility). Blank or clearly marked placeholders only.
 - Never commit secrets. Keys live in `.env.local`, which is git-ignored.
-- Keep a short DECISIONS.md (choice, reason, tradeoff).
+- Keep DECISIONS.md (choice, reason, tradeoff) up to date.
+- When this file and `design/` disagree, this file wins. Tell me about the conflict.
 
 ## Stack
 - Next.js (App Router) + TypeScript
-- Plain CSS with CSS variables for design tokens (no UI component libraries)
-- Supabase: Postgres, Auth (anonymous sign-in first, email link to keep your sky), Row Level Security, Storage (voice notes, later)
+- Plain CSS with CSS variables for design tokens (no Tailwind, no UI component libraries)
+- Supabase: Postgres, Auth (email one-time code), Row Level Security, Storage (moon photos)
+- Email delivery for sign-in codes: Resend (free tier) as Supabase's custom SMTP. Supabase's built-in email is for testing only.
 - Vercel for hosting, deploys from GitHub
-- Web app manifest so it can be added to the Home Screen; push notifications later
+- Web app manifest so it can be added to the Home Screen
+- **Keep a later App Store wrap possible (Capacitor):** core screens fetch data in the browser through the Supabase client. Avoid relying on server-only Next.js features (server actions, server-only data loading) for the core flows.
 
 ## The world (product vocabulary)
-- **Sun**: your first check-in at a recurring gathering. One sun per gathering.
-- **Planet**: every check-in at a recurring gathering (including the first). Planets orbit that gathering's sun.
-- **Moon**: an optional, private reflection on one planet. One tap = a word (Moved, Joyful, Inspired, Calm, Curious, Not for me); optional line, voice note, saved artist.
+- **Sun**: your first check-in at a recurring gathering. One sun per gathering, ever.
+- **Planet**: every check-in at a recurring gathering, including the first. Planets orbit that gathering's sun.
 - **Comet**: a check-in at a one-time event.
-- **Constellation**: two or more suns in the same art form, connected.
-- **Your Sky**: the profile that draws all of the above.
-- **Solstice**: recap on Jun 21 and Dec 21.
-- **Sun Road**: vertical road from sun 1 to 50, to scale (one step per sun). Only suns move you forward.
-- **Badges** (the only achievements; shown on the road and later on the profile): First Light (sun 1), Dawn (sun 5 + bring a friend to their first sun, or Find a Twin), Radiant (sun 10 + suns in 3 art forms), Zenith (sun 25 + 5 visits to one place), Galaxy (sun 50 + bring 3 friends).
-- **Astrology**: birthday only, optional, used for the first few suggestions and a "Sun in Leo" label. Sign = lookup table from month/day. Behavior overrides it after a few suns.
+- **Moon**: an optional, private memory of one night: one word (Moved, Joyful, Inspired, Calm, Curious, Not for me), plus an optional line, plus an optional photo. Offered the next morning.
+- **Constellation**: suns that share an art form, joined by a thin arc of stars.
+- **Birth constellation**: the zodiac constellation from the user's birthday. It's the first thing in their sky, with its name under it (e.g. "Leo").
+- **Your Sky**: the screen that draws all of the above. Two tabs: Sky and Moons.
+- **Sun Road**: the progress road (rules below).
+- **Astrology is decoration only:** birthday → sun sign → birth constellation in the sky + the sign on the profile ("Atlanta · Leo"). No astrology-based recommendations, no birth charts.
+
+## Sun Road
+- 50 steps. **Every check-in (sun, planet or comet) moves you one step.**
+- Five badges on the road. A badge is earned when you reach its step **and** finish its challenge. You keep walking either way; the badge lights when both are true.
+
+| Badge | Step | Challenge |
+|---|---|---|
+| First Light | 1 | none |
+| Dawn | 5 | come back to a place once (any second visit to the same gathering) |
+| Radiant | 10 | suns in 3 art forms |
+| Zenith | 25 | 5 nights at one place |
+| Galaxy | 50 | suns at 8 different places |
+
+- No streaks, no leaderboards.
+- Two first-time tips appear in the badge card (not a full-screen overlay): "This is you" (rings your marker) and "Badges light up along the way" (rings the next badge). Back, Next, Skip.
+
+## Onboarding and accounts
+- Flow (see `design/screens/pilot/01*`): Welcome → email → 6-digit code → first name → birthday → constellation reveal ("Your sky begins with Leo, Ryan.") → Discover.
+- "I have an account" → email → code → "Welcome back, [name]." → Your Sky. Sign-up and sign-in are the same code flow. No passwords.
+- Birthday is required; must be 18+. Show "Solcraft is for people 18 and older." and block Continue if younger.
+- Sessions persist on the device (Supabase handles this).
+- Sign in with Apple is NOT needed (we don't offer third-party sign-in).
+
+## Check-in ("I'm here")
+- Default method is location. During a session's window (1 hour before start to 1 hour after end), the gathering shows **I'm here**.
+- Tap → browser asks for location once → if within ~150 m of the venue (make the radius a setting), save the check-in. Account for reported accuracy; on failure show "We couldn't confirm your location." with Try again.
+- **Never store coordinates.** Store only the check-in and `method = 'location'`.
+- Save the check-in first, then play the moment (warm light, the new sun or planet). Closing the animation never loses it. Respect reduced motion.
+- Retries and double taps never create duplicates (UNIQUE(user_id, session_id) + upsert).
+- QR check-in for partner hosts comes later (`method = 'qr'`).
 
 ## Data model (derive, don't duplicate)
-- `profiles` (id = auth user id, display_name, birthday nullable, created_at)
+- `profiles` (id = auth user id, display_name, birthday, sun_sign, created_at). Birthday readable only by its owner; others see display_name and sun_sign.
 - `hosts` (id, name, contact)
-- `venues` (id, name, address, neighborhood, lat, lng)
-- `gatherings` (id, host_id, venue_id, title, art_form, kind: 'recurring' | 'one_time', description, participation, solo_friendly: 'yes' | 'no' | 'unknown', cost_text, source_url, last_verified_at, status: 'draft' | 'published')
-- `sessions` (id, gathering_id, starts_at, ends_at, status: 'scheduled' | 'cancelled', checkin_secret)
-- `checkins` (id, user_id, session_id, invited_by nullable, created_at, UNIQUE(user_id, session_id))
-- `moons` (id, checkin_id UNIQUE, word, note nullable, created_at). Owner-only via RLS.
-- Suns, planets, comets, constellations and achievements are computed from `checkins` (SQL views or server functions), never stored as separate counters.
+- `venues` (id, name, address, lat, lng)
+- `gatherings` (id, host_id, venue_id, title, art_form, kind: 'recurring' | 'one_time', recurrence_text, how_you_take_part, why_it_fits, cost_text, age_text, source_url, last_verified_at, status: 'draft' | 'published')
+- `sessions` (id, gathering_id, starts_at, ends_at, status: 'scheduled' | 'cancelled')
+- `checkins` (id, user_id, session_id, method: 'location' | 'qr', created_at, UNIQUE(user_id, session_id))
+- `moons` (id, checkin_id UNIQUE, word, note nullable, photo_path nullable, created_at). Owner-only via RLS. Photos in a private Storage bucket.
+- Suns, planets, comets, constellations, road steps and badges are computed from `checkins` (SQL views or functions), never stored as counters.
 
-## Check-in rules
-- QR opens `/c/[sessionId]?t=[token]`. Server verifies the token and that now is within the session window (1 hour before start to 1 hour after end).
-- First-time visitors are signed in anonymously; no form at the door. Check-in takes under 10 seconds.
-- Retries or double taps never create duplicate check-ins (the UNIQUE constraint + upsert).
-- After check-in: the sun/planet moment, then "Phone away. Enjoy the room."
+## Gatherings data
+- `data/gatherings.csv` = 28 verified Atlanta gatherings (exported from my Google Sheet). Columns: Gathering, Art form, Host, Venue, Address, Recurrence, Start, End, Cost, Age, How you take part, Why it fits Solcraft, Source, Last verified.
+- Blank cells mean no source stated it. Keep them blank in the app (show "Cost not listed" etc.), never guess.
+- Recurrence is plain English ("Monthly, 3rd Friday"). For sessions, propose a structured rule per gathering (for example an RRULE) and **show me the list to confirm before generating sessions**. Generate the next 8 weeks.
+- Addresses need lat/lng. Propose how (a free geocoder within its usage policy, or I enter them), and flag rows without a single address (e.g. "Galleries across Castleberry Hill").
+- `data/zodiac-constellations.json` = the 12 constellation figures (SVG path + stars with brightness) and sun-sign date ranges. Keep its attribution line (d3-celestial, BSD-3-Clause) and credit it on an About or Terms page.
+
+## Screens (see `design/`)
+`design/screens/pilot/` are the screens for the pilot; `design/screens/later/` are for after it. `design/source/` holds the HTML mockups (they need a design runtime to render, so read them for layout, copy and tokens, and look at the PNGs to see them).
+
+**Pilot scope:** Onboarding · Discover (list with This week / Under $20 / All filters, map view, cards expand in place) · gathering details + I'm here · check-in moment · Moon (next morning: word, line, photo) · Your Sky (Sky + Moons tabs; tap a sun → its planets) · Planet detail · Sun Road · Settings (account: name, email, birthday; privacy policy; terms; sign out; delete account) · Plan it (.ics with two reminders).
+
+Known gaps in `design/`: the check-in moment and the center nav button still show the old QR/scan idea; build the location "I'm here" flow above instead. Bottom nav for the pilot: Discover · I'm here (center) · Your Sky · Sun Road. Rooms comes later.
 
 ## Design tokens
 - Background `#0E1024`, surface `#181B36`, surface-2 `#22264A`, border `#3A3F6E`
 - Text `#F5F0E6`, muted `#B3B0C7`
 - Sun `#FFC23A`, sun-light `#FFD873`, brand red `#E8452C`, ink `#1A1410`, moon `#E9E4D6`
-- Planet colors: `#7FB2FF`, `#FF8F6B`, `#9BE3B8`, `#C9A7FF`
-- Fonts (Google Fonts): Bricolage Grotesque (display, 700/800), DM Sans (body, 400/500/700)
-- Radii: cards 22px, pills 18–28px. Touch targets at least 44px. Respect reduced motion.
+- Planet / art-form colors: `#7FB2FF`, `#FF8F6B`, `#9BE3B8`, `#C9A7FF`
+- Fonts (Google Fonts via next/font): Bricolage Grotesque (display, 700/800), DM Sans (body, 400/500/700)
+- Radii: cards 22px, pills 18–28px. Touch targets at least 44px. Text contrast at least 4.5:1. Respect reduced motion.
 - Sun mark (SVG, viewBox 0 0 100 100): polygon points `50.0,3.9 57.6,21.7 73.9,8.6 70.4,29.6 90.9,26.4 79.3,42.2 94.8,50.0 80.0,58.0 88.7,72.3 71.7,71.7 72.4,88.8 57.5,78.0 50.0,96.6 41.6,81.5 27.4,89.1 29.1,70.9 8.7,73.8 17.9,58.6 2.6,50.0 20.6,42.1 7.2,25.3 29.7,29.7 25.6,7.7 42.2,21.1`, fill sun, stroke ink 3, round joins; eyes at (42,44) and (58,44) r 2.8; smile `M38 55 Q50 66 62 55`.
-- Screen references: `design/` folder (screenshots from the Solcraft Screens canvas).
-
-## Social (version 1)
-- Hevy-style one-way follow. Profiles are private by default (you approve followers); you can switch to public.
-- Friends feed shows: new suns and badges earned. Posts appear only after the event's end time. Never live location, never plans.
-- One reaction: a "glow", with no public counts. No comments, no chat.
-- Moons are always private unless the user shares a single line.
-- Not in version 1: Find a Twin, regulars as guides, "met someone?", going out together, star clusters.
-
-## Screens (see `design/`)
-Discover (filters: This week, Under $20, All, with counts; map view; cards expand in place) · Your Sky (Sky and Moons tabs; sun count opens the Sun Road; "Back this week" panel; tap a sun for its planets) · Sun Road (vertical, bottom to top, 1 to 50, one step per sun, 5 badges, 2 first-time tips) · Profile (avatar sun, badges, constellations, Twin Suns later) · Check-in · Moon (one word + optional line) · Solstice recap.
-The files in `design/` are reference mockups (HTML/CSS). Match their layout, tokens and copy; don't copy their runtime code.
+- Badge icons (24×24, stroke): first `M12 3 L13.8 10.2 L21 12 L13.8 13.8 L12 21 L10.2 13.8 L3 12 L10.2 10.2 Z` · dawn `M3 17 H21 M7 17 A5 5 0 0 1 17 17 M12 6 V8 M5.6 9.6 L7 11 M18.4 9.6 L17 11` · radiant `M12 9 A3 3 0 1 1 12 15 A3 3 0 1 1 12 9 Z M12 2 V5 M12 19 V22 M2 12 H5 M19 12 H22 M4.9 4.9 L7 7 M17 17 L19.1 19.1 M4.9 19.1 L7 17 M17 7 L19.1 4.9` · zenith `M3 20 Q12 0 21 20 M12 7 A2.5 2.5 0 1 1 12 12 A2.5 2.5 0 1 1 12 7 Z` · galaxy `M12 12 m-1 0 a1 1 0 1 1 2 0 a2.5 2.5 0 1 1 -4 1.5 a4.5 4.5 0 1 1 7.5 -3.5 a6.5 6.5 0 1 1 -10.5 6`
+- UI voice: short and direct. No helper text floating around screens.
 
 ## Milestones (each ends with something deployed)
-1. **Hello, sun**: Next.js app on Vercel showing the sun mark and tokens.
-2. **The app on sample data**: Discover, Your Sky (a data-driven SVG component) and the Sun Road, all reading from a local JSON of sample events and check-ins. No database yet.
-3. **Real data**: Supabase schema + RLS, the verified Atlanta gatherings, anonymous sign-in, the QR check-in route that creates suns and planets.
-4. **Moons + Plan it**: the next-morning moon card (shown on next open); "Plan it" downloads an .ics with two reminders.
-5. **Host view**: create sessions, print the QR, see check-ins, first visits and returns (labeled as what Solcraft observed).
-6. **Pilot** with one weekly host for 4–6 weeks.
-7. **Profile + friends feed** (Social, above), opened to pilot users and their friends.
+1. **Hello, sun**: Next.js app on Vercel showing the sun mark and tokens. (Finish if not done.)
+2. **Working prototype on sample data**: onboarding screens (no real auth yet), Discover, gathering details, I'm here (with a dev-only "pretend I'm there" switch), check-in moment, Moon, Your Sky, Planet, Sun Road. Data from `data/gatherings.csv` converted to local JSON + fake check-ins. Then I test it with 5 friends.
+3. **Real data and accounts**: Supabase schema + RLS, email-code auth (Resend SMTP), import the 28 gatherings, generate sessions, real location check-in, moons with photos (Storage), account deletion.
+4. **Pilot-ready**: Plan it (.ics), Settings basics, privacy policy + terms pages, credits, production deploy.
+5. **Pilot** with one weekly host for 4–6 weeks. The host gets a weekly email I write from a SQL query (check-ins, first visits, returns). No host dashboard yet.
+
+## Later (not now)
+Rooms (each gathering's conversation; posting needs a sun there) · profile pages, follows, glow · host view and claim-your-gathering · QR check-in · glimmers (everyday moments) · Solstice recap and seasonal skies · Stripe ticketing and multi-night passes · App Store / Google Play via Capacitor · zodiac icons.
+
+## Privacy and safety
+- 18+ only. Birthday private. Location never stored. Moons and their photos private.
+- Users can delete their account and data from Settings.
+- Privacy policy and terms linked in onboarding and Settings.
+- Credit d3-celestial for the constellation data.

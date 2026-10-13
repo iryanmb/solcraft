@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Solcraft rooms feed</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&amp;display=swap">
+<style>
+body{margin:0;background:#0E1024}
+a{color:#FFC23A}a:hover{color:#FFD873}
+button:focus-visible,a:focus-visible{outline:3px solid #FFD873;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height: 100vh; box-sizing: border-box; background: #0E1024; color: #F5F0E6; font-family: 'DM Sans', sans-serif; display: flex; flex-wrap: wrap">
+<aside style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; padding: 32px 24px; border-right: 1px solid #22264A; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg viewBox="0 0 100 100" width="36" height="36" aria-hidden="true"><polygon points="50.0,3.9 57.6,21.7 73.9,8.6 70.4,29.6 90.9,26.4 79.3,42.2 94.8,50.0 80.0,58.0 88.7,72.3 71.7,71.7 72.4,88.8 57.5,78.0 50.0,96.6 41.6,81.5 27.4,89.1 29.1,70.9 8.7,73.8 17.9,58.6 2.6,50.0 20.6,42.1 7.2,25.3 29.7,29.7 25.6,7.7 42.2,21.1" fill="#FFC23A" stroke="#1A1410" stroke-width="4" stroke-linejoin="round"></polygon><circle cx="42" cy="44" r="3.5" fill="#1A1410"></circle><circle cx="58" cy="44" r="3.5" fill="#1A1410"></circle><path d="M38 55 Q50 66 62 55" fill="none" stroke="#1A1410" stroke-width="4" stroke-linecap="round"></path></svg>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px">Solcraft</span>
+</div>
+<nav style="display: flex; flex-direction: column; gap: 4px">
+<a href="WebDiscover.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; color: #B3B0C7; font-size: 15px; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>Discover</a>
+<a href="WebRooms.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: #181B36; color: #F5F0E6; font-weight: 700; font-size: 15px; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path><path d="M14.5 12h.01"></path></svg>Rooms</a>
+<a href="WebSky.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; color: #B3B0C7; font-size: 15px; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><ellipse cx="12" cy="12" rx="10" ry="4.5"></ellipse></svg>Your Sky</a>
+<a href="WebSunRoad.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; color: #B3B0C7; font-size: 15px; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 21c0-6 8-6 8-12M8 9c0-3 2-6 4-6"></path><circle cx="16" cy="9" r="2"></circle></svg>Sun Road</a>
+</nav>
+<a href="WebProfile.dc.html" style="margin-top: auto; display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px; color: #B3B0C7; font-size: 15px; text-decoration: none"><span style="width: 32px; height: 32px; border-radius: 16px; background: #2A211B; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 100 100" width="24" height="24" aria-hidden="true"><polygon points="50.0,3.9 57.6,21.7 73.9,8.6 70.4,29.6 90.9,26.4 79.3,42.2 94.8,50.0 80.0,58.0 88.7,72.3 71.7,71.7 72.4,88.8 57.5,78.0 50.0,96.6 41.6,81.5 27.4,89.1 29.1,70.9 8.7,73.8 17.9,58.6 2.6,50.0 20.6,42.1 7.2,25.3 29.7,29.7 25.6,7.7 42.2,21.1" fill="#FFC23A" stroke="#1A1410" stroke-width="5" stroke-linejoin="round"></polygon></svg></span>Ryan</a>
+</aside>
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 40px 40px 48px">
+<div style="max-width: 1120px; display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+<section aria-labelledby="rooms-title" style="flex: 2 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<h1 id="rooms-title" style="margin: 0 0 6px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; line-height: 1">Rooms</h1>
+<sc-for list="{{ posts }}" as="p" hint-placeholder-count="5">
+<sc-if value="{{ p.isWelcome }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 22px; background: #15183A">
+<svg viewBox="0 0 100 100" width="30" height="30" aria-hidden="true"><polygon points="50.0,3.9 57.6,21.7 73.9,8.6 70.4,29.6 90.9,26.4 79.3,42.2 94.8,50.0 80.0,58.0 88.7,72.3 71.7,71.7 72.4,88.8 57.5,78.0 50.0,96.6 41.6,81.5 27.4,89.1 29.1,70.9 8.7,73.8 17.9,58.6 2.6,50.0 20.6,42.1 7.2,25.3 29.7,29.7 25.6,7.7 42.2,21.1" fill="#FFC23A" stroke="#1A1410" stroke-width="5" stroke-linejoin="round"></polygon></svg>
+<span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 15px">{{ p.text }}</strong><span style="font-size: 13px; color: #B3B0C7">{{ p.room }} · {{ p.time }}</span></span>
+<button type="button" onClick="{{ p.glow }}" aria-pressed="{{ p.glowed }}" style="{{ p.glowStyle }}"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><polygon points="50.0,3.9 57.6,21.7 73.9,8.6 70.4,29.6 90.9,26.4 79.3,42.2 94.8,50.0 80.0,58.0 88.7,72.3 71.7,71.7 72.4,88.8 57.5,78.0 50.0,96.6 41.6,81.5 27.4,89.1 29.1,70.9 8.7,73.8 17.9,58.6 2.6,50.0 20.6,42.1 7.2,25.3 29.7,29.7 25.6,7.7 42.2,21.1" fill="{{ p.glowFill }}" stroke="#FFC23A" stroke-width="6" stroke-linejoin="round"></polygon></svg>{{ p.glowLabel }}</button>
+</div>
+</sc-if>
+<sc-if value="{{ p.isPost }}" hint-placeholder-val="{{ true }}">
+<article style="display: flex; gap: 14px; padding: 20px; border-radius: 22px; background: #181B36">
+<span style="{{ p.avatarStyle }}">{{ p.initial }}</span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+<span style="font-weight: 700; font-size: 15px">{{ p.name }}</span>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6E6B88" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+<sc-if value="{{ p.linked }}" hint-placeholder-val="{{ false }}"><a href="WebRoom.dc.html" style="font-weight: 700; font-size: 15px; color: #FFC23A; text-decoration: none">{{ p.room }}</a></sc-if>
+<sc-if value="{{ p.unlinked }}" hint-placeholder-val="{{ true }}"><span style="font-weight: 700; font-size: 15px; color: #FFC23A">{{ p.room }}</span></sc-if>
+<span style="{{ p.chipStyle }}"><span style="{{ p.dotStyle }}"></span>{{ p.standing }}</span>
+<span style="margin-left: auto; font-size: 13px; color: #B3B0C7">{{ p.time }}</span>
+</div>
+<p style="margin: 0; font-size: 16px; line-height: 1.5">{{ p.text }}</p>
+<sc-if value="{{ p.hasWork }}" hint-placeholder-val="{{ false }}">
+<blockquote style="margin: 0; padding: 18px 20px; border-radius: 16px; background: #22264A; font-style: italic; font-size: 16px; line-height: 1.6; white-space: pre-line; color: #E9E4D6">{{ p.work }}</blockquote>
+</sc-if>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+<button type="button" onClick="{{ p.glow }}" aria-pressed="{{ p.glowed }}" style="{{ p.glowStyle }}"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><polygon points="50.0,3.9 57.6,21.7 73.9,8.6 70.4,29.6 90.9,26.4 79.3,42.2 94.8,50.0 80.0,58.0 88.7,72.3 71.7,71.7 72.4,88.8 57.5,78.0 50.0,96.6 41.6,81.5 27.4,89.1 29.1,70.9 8.7,73.8 17.9,58.6 2.6,50.0 20.6,42.1 7.2,25.3 29.7,29.7 25.6,7.7 42.2,21.1" fill="{{ p.glowFill }}" stroke="#FFC23A" stroke-width="6" stroke-linejoin="round"></polygon></svg>{{ p.glowLabel }}</button>
+<span style="height: 36px; padding: 0 14px; border-radius: 18px; border: 1.5px solid #3A3F6E; color: #F5F0E6; font-size: 13px; display: flex; align-items: center; gap: 6px; box-sizing: border-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"></path></svg>{{ p.replyLabel }}</span>
+<span style="margin-left: auto; font-size: 13px; color: #B3B0C7">Next: {{ p.next }}</span>
+</div>
+</div>
+</article>
+</sc-if>
+</sc-for>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 28px 0 8px; color: #B3B0C7; font-size: 15px">
+<svg viewBox="0 0 100 100" width="28" height="28" aria-hidden="true"><polygon points="50.0,3.9 57.6,21.7 73.9,8.6 70.4,29.6 90.9,26.4 79.3,42.2 94.8,50.0 80.0,58.0 88.7,72.3 71.7,71.7 72.4,88.8 57.5,78.0 50.0,96.6 41.6,81.5 27.4,89.1 29.1,70.9 8.7,73.8 17.9,58.6 2.6,50.0 20.6,42.1 7.2,25.3 29.7,29.7 25.6,7.7 42.2,21.1" fill="none" stroke="#3A3F6E" stroke-width="5" stroke-linejoin="round"></polygon></svg>
+You're caught up.
+</div>
+</section>
+<aside aria-labelledby="your-rooms" style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px; padding-top: 54px">
+<div style="padding: 22px; border-radius: 22px; background: #181B36; display: flex; flex-direction: column; gap: 6px">
+<h2 id="your-rooms" style="margin: 0 0 8px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px">Your rooms</h2>
+<sc-for list="{{ rooms }}" as="r" hint-placeholder-count="4">
+<sc-if value="{{ r.linked }}" hint-placeholder-val="{{ false }}">
+<a href="WebRoom.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 10px 8px; margin: 0 -8px; border-radius: 14px; color: #F5F0E6; text-decoration: none">
+<span style="{{ r.dotStyle }}"></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 700; font-size: 15px">{{ r.title }}</span><span style="font-size: 13px; color: #B3B0C7">{{ r.next }}</span></span>
+<span style="{{ r.newStyle }}">{{ r.newLabel }}</span>
+</a>
+</sc-if>
+<sc-if value="{{ r.unlinked }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; align-items: center; gap: 12px; padding: 10px 0">
+<span style="{{ r.dotStyle }}"></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 700; font-size: 15px">{{ r.title }}</span><span style="font-size: 13px; color: #B3B0C7">{{ r.next }}</span></span>
+<span style="{{ r.newStyle }}">{{ r.newLabel }}</span>
+</div>
+</sc-if>
+</sc-for>
+</div>
+<div style="padding: 22px; border-radius: 22px; background: #121530; display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 15px; line-height: 1.45; color: #B3B0C7">Every sun you light opens a new room.</span>
+<a href="WebDiscover.dc.html" style="align-self: flex-start; height: 44px; padding: 0 18px; border-radius: 22px; border: 1.5px solid #3A3F6E; color: #F5F0E6; font-weight: 700; font-size: 14px; text-decoration: none; display: flex; align-items: center">Find a new place</a>
+</div>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = this.state || {};
+const glowed = s.glowed || {};
+const colors = { M: '#C9A7FF', J: '#9BE3B8', N: '#7FB2FF', L: '#FF8F6B', A: '#FFD873' };
+const avatar = (i) => 'width: 40px; height: 40px; flex: none; border-radius: 50%; background: ' + colors[i] + '; color: #1A1410; display: flex; align-items: center; justify-content: center; font-family: \'Bricolage Grotesque\', sans-serif; font-weight: 800; font-size: 17px;';
+const chip = 'display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 3px 9px; border-radius: 10px; background: #22264A; color: #B3B0C7;';
+const dot = (c) => 'width: 8px; height: 8px; border-radius: 50%; background: ' + c + ';';
+const art = { words: '#FF8F6B', music: '#7FB2FF', comedy: '#9BE3B8' };
+const raw = [
+{ id: 'q1', kind: 'post', name: 'Maya', room: 'Cliterati Open Mic', linked: true, form: 'words', standing: '7 planets', time: '2h', text: 'Who closed the night last Thursday? The piece about her grandmother\'s kitchen. I need her name.', replies: 2, next: 'Thu · 7:30 PM' },
+{ id: 'w1', kind: 'welcome', text: 'Welcome Kofi and Sam. First night at Wednesday Jazz Jam.', room: 'Wednesday Jazz Jam', time: 'Wednesday' },
+{ id: 'l1', kind: 'post', name: 'Leo', room: 'Wednesday Jazz Jam', form: 'music', standing: '4 planets', time: '5h', text: 'Anyone catch the name of the tune the trio opened with? Sounded like Monk, slowed way down.', replies: 3, next: 'Wed · 9 PM' },
+{ id: 'n1', kind: 'post', name: 'Nia', room: 'Cliterati Open Mic', linked: true, form: 'words', standing: '9 planets', time: '1d', text: 'Draft of something I\'m reading this week. Be gentle.', work: 'my grandmother salted the rice like a promise\nshe never said out loud.\nthe pot knew. the steam knew.\nnow I know.', replies: 2, next: 'Thu · 7:30 PM' },
+{ id: 'a1', kind: 'post', name: 'Ama', room: 'Friday Jazz', form: 'music', standing: '3 planets', time: '2d', text: 'Between sets, walk up to the second floor. The new gallery is quiet and nobody\'s there.', replies: 1, next: 'Fri · 6 PM' }
+];
+const posts = raw.map((p) => {
+const g = !!glowed[p.id];
+const base = {
+isWelcome: p.kind === 'welcome', isPost: p.kind === 'post', text: p.text, room: p.room, time: p.time,
+glowed: g, glowFill: g ? '#FFC23A' : 'none', glowLabel: g ? 'Glowed' : 'Glow',
+glowStyle: 'height: 36px; padding: 0 14px; border-radius: 18px; border: 1.5px solid ' + (g ? '#FFC23A' : '#3A3F6E') + '; background: ' + (g ? '#2A211B' : 'transparent') + '; color: ' + (g ? '#FFD873' : '#F5F0E6') + '; font: 500 13px \'DM Sans\', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 6px;',
+glow: () => this.setState({ glowed: Object.assign({}, glowed, { [p.id]: !g }) })
+};
+if (p.kind === 'welcome') return base;
+return Object.assign(base, {
+name: p.name, initial: p.name[0], avatarStyle: avatar(p.name[0]), standing: p.standing,
+chipStyle: chip, dotStyle: dot(art[p.form]), linked: !!p.linked, unlinked: !p.linked,
+hasWork: !!p.work, work: p.work || '', replyLabel: p.replies === 1 ? '1 reply' : p.replies + ' replies', next: p.next
+});
+});
+const rooms = [
+{ title: 'Community Jam', next: 'Tue, Oct 13 · 8 PM', form: 'comedy', fresh: 0 },
+{ title: 'Wednesday Jazz Jam', next: 'Wed, Oct 14 · 9 PM', form: 'music', fresh: 3 },
+{ title: 'Cliterati Open Mic', next: 'Thu, Oct 15 · 7:30 PM', form: 'words', fresh: 2, linked: true },
+{ title: 'Friday Jazz', next: 'Fri, Oct 16 · 6 PM', form: 'music', fresh: 1 }
+].map((r) => ({
+title: r.title, next: r.next, linked: !!r.linked, unlinked: !r.linked,
+dotStyle: 'width: 12px; height: 12px; flex: none; border-radius: 50%; background: ' + art[r.form] + ';',
+newLabel: r.fresh ? r.fresh + ' new' : '',
+newStyle: r.fresh ? 'font-size: 12px; font-weight: 700; color: #1A1410; background: #FFC23A; padding: 3px 8px; border-radius: 10px;' : 'display: none;'
+}));
+return { posts, rooms };
+}
+}
+</script>
+</body>
+</html>
