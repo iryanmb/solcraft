@@ -199,6 +199,7 @@ export type MyCheckin = {
   kind: "recurring" | "one_time";
   venueId: string;
   planetNumber: number;
+  step: number; // this check-in's place on the Sun Road
   moon: { word: string; note: string | null; photoPath: string | null } | null;
 };
 
@@ -215,6 +216,7 @@ export async function getMyCheckins(): Promise<MyCheckin[]> {
     kind: row.kind === "one_time" ? "one_time" : "recurring",
     venueId: row.venue_id!,
     planetNumber: row.planet_number!,
+    step: row.step!,
     moon: row.moon_word ? { word: row.moon_word, note: row.moon_note, photoPath: row.moon_photo_path } : null,
   }));
 }
@@ -271,4 +273,46 @@ export async function saveMoonPhoto(checkinId: string, photo: Blob): Promise<str
 export async function getMoonPhotoUrl(path: string): Promise<string | null> {
   const { data } = await supabase.storage.from(MOON_BUCKET).createSignedUrl(path, 3600);
   return data?.signedUrl ?? null;
+}
+
+// Several private photos at once (the Moons tab), as links that expire after an hour.
+export async function getMoonPhotoUrls(paths: string[]): Promise<Record<string, string>> {
+  if (paths.length === 0) return {};
+  const { data } = await supabase.storage.from(MOON_BUCKET).createSignedUrls(paths, 3600);
+  const urls: Record<string, string> = {};
+  for (const item of data ?? []) if (item.path && item.signedUrl) urls[item.path] = item.signedUrl;
+  return urls;
+}
+
+// ---- Sun Road -------------------------------------------------------------------
+
+export type Badge = {
+  name: string;
+  step: number;
+  goal: number;
+  progress: number;
+  reached: boolean;
+  challengeDone: boolean;
+  earnedAt: Date | null;
+  earnedCheckinId: string | null;
+};
+export type SunRoad = { nights: number; badges: Badge[] };
+
+// Steps and badges, worked out by the database from your check-ins (my_sun_road()).
+export async function getSunRoad(): Promise<SunRoad> {
+  const { data, error } = await supabase.rpc("my_sun_road");
+  if (error) throw friendly(error, "Couldn't load your Sun Road. Try again.");
+  return {
+    nights: data[0]?.nights ?? 0,
+    badges: data.map((row) => ({
+      name: row.badge,
+      step: row.step,
+      goal: row.goal,
+      progress: row.progress,
+      reached: row.reached,
+      challengeDone: row.challenge_done,
+      earnedAt: row.earned_at ? new Date(row.earned_at) : null,
+      earnedCheckinId: row.earned_checkin_id,
+    })),
+  };
 }

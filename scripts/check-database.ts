@@ -51,6 +51,7 @@ const attempts = [
   ["create a check-in", supabase.from("checkins").insert({ session_id: crypto.randomUUID(), method: "location" }).select()],
   ["check in without signing in", supabase.rpc("check_in", { p_session_id: crypto.randomUUID(), p_pretend_place: true, p_pretend_time: true })],
   ["delete check-ins without signing in", supabase.rpc("dev_delete_my_checkins")],
+  ["read a Sun Road without signing in", supabase.rpc("my_sun_road")],
 ] as const;
 for (const [label, attempt] of attempts) {
   const { data, error } = await attempt;

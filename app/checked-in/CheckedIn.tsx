@@ -8,10 +8,10 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import SunMark from "@/components/SunMark";
 import { artFormColor, ordinal } from "@/lib/gatherings";
-import { getMyCheckins, getVenueName, type MyCheckin } from "@/lib/store";
+import { getMyCheckins, getSunRoad, getVenueName, type MyCheckin } from "@/lib/store";
 import { useAccount } from "@/lib/useAccount";
 
-type Moment = { checkin: MyCheckin; venueName: string; sunCount: number };
+type Moment = { checkin: MyCheckin; venueName: string; sunCount: number; badges: string[] };
 
 export default function CheckedIn() {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function CheckedIn() {
     }
     if (!account || !checkinId) return;
     let current = true;
-    getMyCheckins().then(async (all) => {
+    Promise.all([getMyCheckins(), getSunRoad()]).then(async ([all, road]) => {
       const checkin = all.find((c) => c.id === checkinId);
       if (!checkin) {
         if (current) router.replace("/sky");
@@ -34,7 +34,9 @@ export default function CheckedIn() {
       }
       const sunCount = all.filter((c) => c.planetNumber === 1 && c.kind === "recurring").length;
       const venueName = await getVenueName(checkin.venueId);
-      if (current) setMoment({ checkin, venueName, sunCount });
+      // Badges this very check-in earned (the database decides; see my_sun_road()).
+      const badges = road.badges.filter((b) => b.earnedCheckinId === checkin.id).map((b) => b.name);
+      if (current) setMoment({ checkin, venueName, sunCount, badges });
     });
     return () => {
       current = false;
@@ -43,7 +45,7 @@ export default function CheckedIn() {
 
   if (!moment) return <div className="moment" aria-busy="true" />;
 
-  const { checkin, venueName, sunCount } = moment;
+  const { checkin, venueName, sunCount, badges } = moment;
   const isSun = checkin.planetNumber === 1;
 
   return (
@@ -74,12 +76,15 @@ export default function CheckedIn() {
             </>
           )}
         </p>
-        {/* xxx: the Sun Road step and badge pills arrive in checkpoint 5. */}
-        {isSun && (
-          <div className="moment-pills">
-            <span className="moment-pill">Sun {sunCount}</span>
-          </div>
-        )}
+        <div className="moment-pills">
+          {isSun && <span className="moment-pill">Sun {sunCount}</span>}
+          <span className="moment-pill">Night {checkin.step}</span>
+          {badges.map((name) => (
+            <span key={name} className="moment-pill">
+              Badge: {name}
+            </span>
+          ))}
+        </div>
       </div>
       <div className="moment-foot">
         <p className="moment-text">Phone away. Enjoy the room.</p>

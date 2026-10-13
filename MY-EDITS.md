@@ -28,6 +28,12 @@ Tick a box when it's done (`[ ]` → `[x]`). Line numbers can drift; search for 
 - [ ] **Leave a moon.** Tick "Show the moon now", open Discover, pick a word, add a line and a photo. Then in **Storage → moon-photos** find your folder (named after your user id). *Learn:* private files live in your own folder.
 - [ ] **Change the moon's morning hour.** In `lib/config.ts`, set `MOON_HOUR` to `9`. *Learn:* this one setting lives in the app because only the app decides when to offer the moon. Put it back to `6`.
 
+### Checkpoint 5: Your Sky, Planet, Sun Road
+- [ ] **Build your sky.** With the dev switches on, check in to 3–4 different gatherings and twice to one of them. Open **Your Sky**: tap a sun, then one of its nights to open the planet screen. *Learn:* the whole drawing is worked out from your check-ins each time.
+- [ ] **Find a constellation.** Check in to two gatherings with the same art form (Wednesday Jazz Jam and Friday Jazz are both Jazz) and look for the arc of stars between them. *Learn:* constellations are derived, not saved.
+- [ ] **Walk the Sun Road.** Open **Sun Road**, read the two tips, then tap each badge to see its challenge. Press **?** to see the tips again. *Learn:* badges need both the step and the challenge.
+- [ ] **Move a sun.** In `components/SkyMap.tsx`, change the first entry in `SPOTS` from `[115, 165]` to `[115, 120]`. Your first sun moves up. Put it back. *Learn:* suns sit at fixed spots, in the order you found them.
+
 ## Also on my list
 - [ ] Move the files in `~/Desktop/documents-git-rescue/` (3 photos, BreakThroughTech projects, resume) somewhere permanent, then delete that folder.
 - [ ] Before anyone else signs in: buy a domain, verify it in Resend, and change the SMTP sender in Supabase from `onboarding@resend.dev` (DECISIONS.md, "No domain yet").

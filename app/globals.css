@@ -1249,6 +1249,617 @@ a:hover {
 }
 
 /* ==========================================================
+   Your Sky (05)
+   ========================================================== */
+.sky-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: 20px;
+}
+
+.sky-head .tabs {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+@media (min-width: 900px) {
+  .sky-head {
+    grid-template-columns: auto auto 1fr;
+  }
+
+  .sky-head .tabs {
+    grid-column: auto;
+    grid-row: auto;
+    width: auto;
+  }
+
+  .sky-head .sun-count {
+    justify-self: end;
+  }
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 24px;
+  background: var(--color-surface);
+}
+
+.tab-button {
+  min-height: 40px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--color-muted);
+  font: 500 15px var(--font-body);
+  cursor: pointer;
+}
+
+.tab-button.on {
+  background: var(--color-sun);
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+.sun-count {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-min);
+  padding: 6px 18px 6px 12px;
+  border-radius: 24px;
+  background: var(--color-surface);
+  color: var(--color-sun);
+  font: 700 22px var(--font-body);
+  text-decoration: none;
+}
+
+.sun-count:hover {
+  color: var(--color-sun-light);
+}
+
+.sky-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 1100px) {
+  .sky-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.sky-card {
+  padding: 12px;
+  border-radius: 26px;
+  background: #121530; /* a shade between bg and surface, as in the mockup */
+}
+
+.sky-map {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.sky-label {
+  fill: var(--color-muted);
+  font: 500 12.5px var(--font-body);
+}
+
+.sky-sun {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.sky-sun:focus-visible {
+  outline: none;
+}
+
+.sky-sun:focus-visible circle[fill="transparent"] {
+  stroke: var(--color-sun-light);
+  stroke-width: 2;
+}
+
+.sky-empty {
+  margin: 0 0 12px;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.sky-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 22px;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.sky-panel-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kicker {
+  margin: 0;
+  color: var(--color-sun-light);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.planet-list,
+.back-list,
+.moon-chips {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.planet-row {
+  display: flex;
+  justify-content: space-between;
+  min-height: var(--touch-min);
+  align-items: center;
+  padding: 0 14px;
+  border: 1.5px solid transparent;
+  border-radius: 12px;
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.planet-row.no-moon,
+.moon-chip.no-moon {
+  border: 1.5px dashed var(--color-border);
+  background: transparent;
+  color: var(--color-muted);
+}
+
+.back-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 14px;
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  font: 15px var(--font-body);
+  text-align: left;
+  cursor: pointer;
+}
+
+.back-row span {
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+/* Moons tab: a list on phones, a grid on wide screens */
+.moon-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 900px) {
+  .moon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+.moon-card {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  padding: 18px;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.moon-card:hover {
+  color: var(--color-text);
+  background: var(--color-surface-2);
+}
+
+.moon-card-photo,
+.moon-card-dot {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: var(--color-surface-2) center / cover no-repeat;
+}
+
+.moon-card-dot {
+  background: radial-gradient(circle, var(--color-moon) 0 13px, #121530 14px);
+}
+
+.moon-card-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.moon-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.moon-card-top strong {
+  font-size: 17px;
+}
+
+.moon-card-note {
+  margin-top: 4px;
+  font-size: 15px;
+}
+
+/* ==========================================================
+   Planet detail (06)
+   ========================================================== */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--touch-min);
+  color: var(--color-sun);
+  font-size: 17px;
+  text-decoration: none;
+}
+
+.planet-art {
+  display: block;
+  width: min(100%, 300px);
+  margin: 8px auto 20px;
+}
+
+.planet-page .page-title {
+  margin-bottom: 4px;
+}
+
+.planet-moon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding: 22px;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.planet-moon-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  color: var(--color-muted);
+}
+
+.moon-dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--color-moon);
+  vertical-align: -2px;
+}
+
+.word-pill {
+  padding: 6px 14px;
+  border-radius: var(--radius-chip);
+  background: var(--color-moon);
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+.planet-moon-note {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.planet-moon-photo {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.moon-chips {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.moon-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1.5px solid transparent;
+  border-radius: 20px;
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.moon-chip.current {
+  background: var(--color-moon);
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+.next-session {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: var(--space-6);
+  padding: 20px 22px;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.next-session strong {
+  font-size: 18px;
+}
+
+/* ==========================================================
+   Sun Road (07)
+   ========================================================== */
+.road-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: 20px;
+}
+
+.help-button {
+  flex: none;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border: 1.5px solid var(--color-border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-muted);
+  font: 700 18px var(--font-body);
+  cursor: pointer;
+}
+
+.road-nights {
+  margin: 0 0 0 auto;
+  color: var(--color-muted);
+}
+
+.road-nights strong {
+  color: var(--color-sun);
+  font: 800 36px var(--font-display);
+  vertical-align: -4px;
+}
+
+.road-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 1100px) {
+  .road-card {
+    max-height: min(calc(100dvh - 160px), 700px);
+  }
+
+  .road-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    align-items: start;
+  }
+}
+
+.road-card {
+  max-height: min(48dvh, 640px); /* phones: leave room for the badge card below */
+  overflow-y: auto;
+  border-radius: 26px;
+  background: #121530;
+}
+
+.road {
+  position: relative;
+}
+
+.road-line {
+  position: absolute;
+  inset: 0;
+}
+
+.road-badge {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-bg);
+  color: var(--color-disabled-text);
+  cursor: pointer;
+}
+
+.road-badge.next {
+  border: 2.5px solid var(--color-sun);
+  color: var(--color-sun);
+}
+
+.road-badge.earned {
+  border: none;
+  background: var(--color-sun);
+  color: var(--color-ink);
+}
+
+.road-badge.selected,
+.road-badge.ringed,
+.road-you.ringed {
+  box-shadow: 0 0 0 4px #121530, 0 0 0 6px var(--color-text);
+}
+
+.road-label {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.road-label strong {
+  color: var(--color-placeholder);
+  font: 700 17px var(--font-display);
+}
+
+.road-label.earned strong {
+  color: var(--color-text);
+}
+
+.road-label.next strong {
+  color: var(--color-sun-light);
+}
+
+.road-label span {
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.road-you {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 10px rgba(255, 194, 58, 0.7));
+}
+
+.badge-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: 24px;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.badge-card-top {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.medal {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  color: var(--color-disabled-text);
+}
+
+.medal.next {
+  border: 2.5px solid var(--color-sun);
+  color: var(--color-sun);
+}
+
+.medal.earned {
+  border: none;
+  background: var(--color-sun);
+  color: var(--color-ink);
+}
+
+.badge-status {
+  display: block;
+  margin-top: 2px;
+  color: var(--color-sun-light);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.badge-status.done {
+  color: var(--color-muted);
+}
+
+.challenge-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 56px;
+  padding: 0 18px;
+  border-radius: 18px;
+  background: var(--color-surface-2);
+}
+
+.challenge-progress {
+  flex: none;
+  color: var(--color-sun-light);
+  font-weight: 700;
+}
+
+.tip-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.tip-buttons > span {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.tip-next {
+  width: auto;
+  padding: 0 26px;
+}
+
+.muted-button {
+  min-height: var(--touch-min);
+  color: var(--color-muted);
+  font-weight: 500;
+}
+
+/* ==========================================================
    Plain text pages (Terms, Privacy) and placeholders
    ========================================================== */
 .page {

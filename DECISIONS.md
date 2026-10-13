@@ -205,3 +205,18 @@ Short log of choices that shape the project. Newest at the bottom.
 - **Choice:** First visit: "A new sun." + "Your first time at [gathering], [venue]. It's in your sky now." + "Sun N". Later visits: "Planet N." + "Your Nth night at [gathering]. It's orbiting your sun now." Sun Road and badge pills come in checkpoint 5.
 - **Reason:** No mockup for a planet moment; this matches the sun moment and the planet screen's "your 4th night here".
 - **Tradeoff:** Copy to review with real users.
+
+## 2026-10-13: Sun Road worked out by the database
+- **Choice:** `my_sun_road()` returns the five badges with step, goal, progress, reached, challenge done, and the check-in (and date) that earned each; `my_checkins.step` is each check-in's place on the road. Both order nights by session start. Badge wording and icons live in `lib/badges.tsx`.
+- **Reason:** CLAUDE.md: computed from check-ins, never stored. One definition serves the app now and the host's weekly SQL email later.
+- **Tradeoff:** Testers' pretend check-ins on future sessions shuffle the order; real check-ins happen in date order, so a new one is always the latest step.
+
+## 2026-10-13: Your Sky layout
+- **Choice:** Suns take 12 fixed spots in the order you found them; the birth constellation keeps its own spot. One ring per night (up to 4, fewer when the sky is crowded), planets in the art form's color, a small moon beside planets with a moon, a raised arc with three stars between consecutive suns of the same art form. Tap a sun to dim the rest and list its nights; otherwise the panel shows "Back this week" (each sun's next session this week), on phones too.
+- **Reason:** A sky that never reshuffles; the return visit is what the pilot measures.
+- **Tradeoff:** Past 12 suns, extra suns aren't drawn yet (`xxx` if the pilot ever gets there).
+
+## 2026-10-13: Mockup differences in checkpoint 5
+- **Choice:** The Sun Road keeps the bottom nav (no "← Your Sky" link); "Back this week" shows on phones; "Tap a sun to see its planets" is left out (no floating helper text); the planet screen has no "Saved artist" and no Plan it button yet (checkpoint 6).
+- **Reason:** CLAUDE.md wins over `design/`.
+- **Tradeoff:** Small differences from the mockups.

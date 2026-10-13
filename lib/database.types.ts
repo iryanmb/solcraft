@@ -316,6 +316,7 @@ export type Database = {
           planet_number: number | null
           session_id: string | null
           starts_at: string | null
+          step: number | null
           title: string | null
           venue_id: string | null
         }
@@ -412,6 +413,20 @@ export type Database = {
       }
       checkin_opens_at: { Args: { starts_at: string }; Returns: string }
       dev_delete_my_checkins: { Args: never; Returns: number }
+      my_sun_road: {
+        Args: never
+        Returns: {
+          badge: string
+          challenge_done: boolean
+          earned_at: string
+          earned_checkin_id: string
+          goal: number
+          nights: number
+          progress: number
+          reached: boolean
+          step: number
+        }[]
+      }
       sun_sign_for: { Args: { birthday: string }; Returns: string }
     }
     Enums: {

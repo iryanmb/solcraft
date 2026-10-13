@@ -74,7 +74,7 @@ Solcraft helps people find recurring cultural gatherings in Atlanta (poetry nigh
 - `sessions` (id, gathering_id, starts_at, ends_at nullable, status: 'scheduled' | 'cancelled', UNIQUE(gathering_id, starts_at))
 - `checkins` (id, user_id, session_id, method: 'location' | 'qr', created_at, UNIQUE(user_id, session_id))
 - `moons` (id, checkin_id UNIQUE, word, note nullable, photo_path nullable, created_at). Owner-only via RLS. Photos in a private Storage bucket (`moon-photos`, one folder per user), shrunk and re-saved before upload so their hidden location data (EXIF GPS) is dropped.
-- Suns, planets, comets, constellations, road steps and badges are computed from `checkins` (SQL views or functions), never stored as counters.
+- Suns, planets, comets, constellations, road steps and badges are computed from `checkins` (SQL views or functions), never stored as counters: the `my_checkins` view numbers planets and road steps (by session start), `my_sun_road()` works out the badges.
 
 ## Gatherings data
 - `data/gatherings.csv` = 28 verified Atlanta gatherings (exported from my Google Sheet). Columns: Gathering, Art form, Host, Venue, Address, Recurrence, Start, End, Cost, Age, How you take part, Why it fits Solcraft, Source, Last verified.
