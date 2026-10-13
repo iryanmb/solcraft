@@ -23,7 +23,7 @@ const body = DM_Sans({
 export const metadata: Metadata = {
   title: "Solcraft",
   description:
-    "Discover shared cultural and creative experiences in your city, show up, and keep coming back.",
+    "Find recurring cultural gatherings in Atlanta, show up, and keep coming back.",
 };
 
 export const viewport: Viewport = {

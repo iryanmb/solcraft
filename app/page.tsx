@@ -27,8 +27,8 @@ export default function HomePage() {
         <p className="eyebrow">Welcome to Solcraft</p>
         <h1>Hello, sun</h1>
         <p className="lede">
-          Discover shared cultural and creative experiences in your city, show up, and keep
-          coming back.
+          Find the rooms you&apos;ll want to come back to. Poetry, jazz, comedy and more, across
+          Atlanta.
         </p>
       </section>
 
